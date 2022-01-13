@@ -1,15 +1,15 @@
 <div class="login-container">
   <h1>Login</h1>
-  <form>
+  <form [formGroup]="loginForm">
     <label class="input-field mt1">
       <span>username or mail</span>
-      <input type="text" placeholder="username or mail" spellcheck="false">
+      <input formControlName="user" type="text" placeholder="username or mail" spellcheck="false">
     </label>
     <label class="input-field mt1">
       <span>password</span>
-      <input type="password" placeholder="password" spellcheck="false">
+      <input formControlName="password" type="password" placeholder="password" spellcheck="false">
     </label>
-    <button class="mt1" type="submit">login</button>
+    <button [disabled]="!loginForm.valid" class="mt1" type="submit">login</button>
   </form>
   <div class="login-footer mt05">
     <a href="#">register</a>
