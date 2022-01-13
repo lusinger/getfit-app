@@ -10,12 +10,18 @@ describe('checkWhitespace()', () => {
     expect(validator(formField)).toBeNull();
   });
 
-  it('should return error "WHITESPACE_NOT_ALLOWED" if whitespaces is detected at the beggining and end of field value', () => {
+  it('should return error "WHITESPACE_NOT_ALLOWED" if whitespaces is detected at the beggining', () => {
     formField.setValue(' testValue');
     expect(validator(formField)).toEqual(new Error('WHITESPACE_NOT_ALLOWED'));
+  });
+
+  it('should return error "WHITESPACE_NOT_ALLOWED" if whitespace is detected at the end', () => {
     formField.setValue('testValue ');
     expect(validator(formField)).toEqual(new Error('WHITESPACE_NOT_ALLOWED'));
-    formField.setValue(' testValue ');
-    expect(validator(formField)).toEqual(new Error('WHITESPACE_NOT_ALLOWED'));
   });
+
+  it('should return error "EMPTY_STRING_NOT_ALLOWED" if string is ""', () => {
+    formField.reset();
+    expect(validator(formField)).toEqual(new Error('EMPTY_STRING_NOT_ALLOWED'));
+  })
 });
