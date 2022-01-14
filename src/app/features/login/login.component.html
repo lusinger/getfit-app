@@ -1,6 +1,6 @@
 <div class="login-container">
   <h1>Login</h1>
-  <form [formGroup]="loginForm">
+  <form [formGroup]="loginForm" (ngSubmit)="onLoginSubmit()">
     <label class="input-field mt1">
       <span>username or mail</span>
       <input formControlName="user" type="text" placeholder="username or mail" spellcheck="false">
