@@ -4,11 +4,13 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { TypewriterDirective } from './directives/typewriter.directive';
+import { RegisterComponent } from './features/register/register.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     TypewriterDirective,
+    RegisterComponent,
   ],
   imports: [
     BrowserModule,
