@@ -5,11 +5,13 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './features/login/login.component';
+import { TypewriterDirective } from './directives/typewriter.directive';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
+    TypewriterDirective,
   ],
   imports: [
     BrowserModule,
