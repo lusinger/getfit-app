@@ -1,5 +1,5 @@
 <div class="login-container">
-  <h1>Login</h1>
+  <h1 getfitTypewriter initialText={{formTitle}} targetText="login" (textChanged)="onTextChanged($event)">{{formTitle}}</h1>
   <form [formGroup]="loginForm" (ngSubmit)="onLoginSubmit()">
     <label class="input-field mt1">
       <span>username or mail</span>

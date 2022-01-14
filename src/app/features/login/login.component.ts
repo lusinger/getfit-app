@@ -1,6 +1,5 @@
 //TODO: Create and add service containing login method to reach server
 //TODO: Redirect to UserPanel if login is successfull
-//TODO: Create and add Directive that typewrites title of form
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
@@ -19,6 +18,8 @@ export class LoginComponent implements OnInit {
     password: new FormControl('', [Validators.required, Validators.minLength(8)]),
   });
 
+  formTitle: string = 'getfit';
+
   constructor(private auth: AuthService) { }
 
   ngOnInit(): void {
@@ -31,5 +32,9 @@ export class LoginComponent implements OnInit {
       },
       complete: () => this.loginForm.reset()
     });
+  };
+
+  onTextChanged($event: string): void{
+    this.formTitle = $event;
   }
 }
