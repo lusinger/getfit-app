@@ -1,0 +1,15 @@
+<div class="reset-container">
+  <h1 getfitTypewriter initialText={{formTitle}} targetText="reset" class="reset-title light" (textChanged)="onTextChanged($event)">{{formTitle}}</h1>
+  <form class="reset-form">
+    <label class="input-field light mt1">
+      <input type="email" placeholder="email">
+      <span>email</span>
+    </label>
+    <p class="error-message mt1">{{errorMessage}}</p>
+    <button class="light mt1" type="submit">reset</button>
+  </form>
+  <div class="reset-footer mt05">
+    <a class="light" href="#">login</a>
+    <a class="light" href="#">register</a>
+  </div>
+</div>

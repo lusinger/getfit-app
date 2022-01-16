@@ -9,6 +9,7 @@ import { AppComponent } from './app.component';
 import { TypewriterDirective } from './directives/typewriter.directive';
 import { RegisterComponent } from './features/register/register.component';
 import { ScrollUpComponent } from './features/scroll-up/scroll-up.component';
+import { ResetComponent } from './features/reset/reset.component';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { ScrollUpComponent } from './features/scroll-up/scroll-up.component';
     TypewriterDirective,
     RegisterComponent,
     ScrollUpComponent,
+    ResetComponent,
   ],
   imports: [
     BrowserModule,
