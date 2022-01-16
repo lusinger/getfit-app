@@ -3,6 +3,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular
 import { Observable, throwError, catchError, retry } from 'rxjs';
 
 import { LoginRequest } from '../interfaces/login-request';
+import { RegisterRequest } from '../interfaces/register-request';
 import { AuthResponse } from '../interfaces/auth-response';
 
 import { environment } from 'src/environments/environment';
@@ -43,6 +44,14 @@ export class AuthService {
       observe: 'body',
       responseType: 'json',
     }).pipe(catchError(this.handleLoginErrors));
+  }
+
+  register(registerData: RegisterRequest): Observable<AuthResponse>{
+    return this.http.post<AuthResponse>(`${environment.serverUrl}/register`, registerData, {
+      headers: this.defaultHeader,
+      observe: 'body',
+      responseType: 'json'
+    });
   }
 }
  
