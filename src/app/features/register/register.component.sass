@@ -1,0 +1,67 @@
+@import '../../../sass/_variables'
+
+:host
+  display: flex
+  flex-flow: row
+  justify-content: center
+  flex-grow: 1
+  width: 100%
+  height: 100%
+
+.register-container
+  width: 100%
+  height: auto
+  display: flex
+  flex-flow: column
+  .register-title
+    min-height: $rem*4
+  .register-form
+    .radio-group
+      display: flex
+      flex-flow: row
+      width: 100%
+      height: auto
+    .select-container
+      position: relative
+      witdh: 100%
+      height: 40px
+      background: $accent
+      padding: 0 $rem*0.5
+      display: flex
+      .select-header
+        display: flex
+        flex-flow: row
+        justify-content: space-between
+        align-items: center
+        height: 40px
+        width: 100%
+        .toggler
+          font-size: $rem*1.5
+      .select-options
+        position: absolute
+        width: 100%
+        height: auto
+        top: 40px
+        left: 0
+        .option
+          cursor: pointer
+          padding: 0 $rem*0.5
+          width: 100%
+          height: 40px
+          display: flex
+          justify-content: space-between
+          align-items: center
+          background: $accent
+          border-bottom: 1px solid $darkest-medium
+    .error-message
+      color: $accent
+      font-style: italic
+  .register-footer
+    display: flex
+    flex-flow: row
+    width: inherit
+    .radio-field
+
+@media (min-width: $query-small)
+  .register-container
+    max-width: 600px
