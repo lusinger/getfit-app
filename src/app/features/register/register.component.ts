@@ -31,9 +31,24 @@ export class RegisterComponent implements OnInit {
   formTitle: string = 'getfit';
   errorMessage: string = '';
 
+  optionsShown: boolean = false;
+  selectedActivity: {key: string, value: number} = {
+    key: 'sedentary',
+    value: 1.2,
+  };
+
+  activityRatings: {[key: string]: number} = {
+    'sedentary': 1.2,
+    'lightly active': 1.375,
+    'moderatly active': 1.55,
+    'very active': 1.725,
+    'extra active': 1.9,
+  };
+
   constructor(private auth: AuthService) { }
 
   ngOnInit(): void {
+    this.registerForm.get('activityRate')?.setValue(1.2);
   }
 
   onTextChanged($event: string): void{
@@ -52,5 +67,15 @@ export class RegisterComponent implements OnInit {
         }
       },
     });
+  }
+
+  changeActivity(option: any): void{
+    this.selectedActivity = option
+    this.registerForm.get('activityRate')?.setValue(option.value);
+    this.optionsShown = false;
+  }
+
+  toggleOptions(): void{
+    this.optionsShown = !this.optionsShown;
   }
 }

@@ -42,6 +42,18 @@
       <span>change per week</span>
       <input formControlName="changePerWeek" type="number" placeholder="change per week" spellcheck="false">
     </label>
+    <div class="select-container mt1" [ngStyle]="optionsShown ? {'height': '240px'} : {'height': '40px'}">
+      <div class="select-header" (click)="toggleOptions()">
+        <p>{{selectedActivity.key}}</p>
+        <p class="toggler">{{optionsShown ? '-' : '+'}}</p>
+      </div>
+      <div class="select-options" *ngIf="optionsShown">
+        <div *ngFor="let option of activityRatings | keyvalue" class="option" (click)="changeActivity(option)">
+          <p>{{option.key}}</p>
+          <p>{{option.value}}</p>
+        </div>
+      </div>
+    </div>
     <div class="radio-group mt1">
       <label class="radio-field light">
         <input formControlName="gender" type="radio" name="gender" value="male">
@@ -52,10 +64,6 @@
         <span>female</span>
       </label>
     </div>
-    <label class="input-field light mt1">
-      <span>activity rate</span>
-      <input formControlName="activityRate" type="number" placeholder="activity rate" spellcheck="false">
-    </label>
     <p class="error-message mt1">{{errorMessage}}</p>
     <button [disabled]="!registerForm.valid" class="light mt1" type="submit">register</button>
   </form>
