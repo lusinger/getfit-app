@@ -1,7 +1,7 @@
-//TODO: Create and add service containing login method to reach server
 //TODO: Redirect to UserPanel if login is successfull
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 import { AuthService } from 'src/app/services/auth.service';
 
@@ -20,7 +20,10 @@ export class LoginComponent implements OnInit {
 
   formTitle: string = 'getfit';
 
-  constructor(private auth: AuthService) { }
+  constructor(
+    private auth: AuthService,
+    private router: Router,
+  ) { }
 
   ngOnInit(): void {
   }
@@ -36,5 +39,9 @@ export class LoginComponent implements OnInit {
 
   onTextChanged($event: string): void{
     this.formTitle = $event;
+  }
+
+  navigateTo(location: string): void{
+    this.router.navigate([location]);
   }
 }
