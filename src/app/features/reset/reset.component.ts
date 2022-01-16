@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 import { checkPassword } from 'src/app/validators/check-password';
 
@@ -21,7 +22,7 @@ export class ResetComponent implements OnInit {
   formTitle: string = 'getfit';
   errorMessage: string = '';
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
   }
@@ -36,5 +37,9 @@ export class ResetComponent implements OnInit {
 
   onPasswordSubmit(): void{
     this.passwordForm.reset();
+  }
+
+  navigateTo(location: string): void{
+    this.router.navigate([location]);
   }
 }
