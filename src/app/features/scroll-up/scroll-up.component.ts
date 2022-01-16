@@ -20,21 +20,26 @@ import { trigger, style, animate, transition } from '@angular/animations';
 })
 export class ScrollUpComponent implements OnInit {
   showScrollUp: boolean = false;
+  windowHeight: number = 0;
 
   constructor() { }
 
   ngOnInit(): void {
     document.addEventListener('scroll', (event) => {
-      const height = window.innerHeight + window.outerHeight;
-      if(Math.floor((100 / height) * window.scrollY) > 40){
+      if(Math.floor((100 / this.windowHeight) * window.scrollY) > 35){
         this.showScrollUp = true;
       }else{
         this.showScrollUp = false;
       }
     });
+    document.addEventListener('resize', this.calculateViewSize);
   }
 
   onClick(): void{
     window.scrollTo(0, 0);
   }
+
+  calculateViewSize(): void{
+    this.windowHeight = window.innerHeight + window.outerHeight;
+  } 
 }

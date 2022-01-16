@@ -30,8 +30,35 @@
   animation: none
   h3
     color: $lightest
+
 .scroll-up-container.light
+  z-index: 99
+  cursor: pointer
+  tap-highlight-color: transparent
+  -webkit-tap-highlight-color: transparent
+  position: fixed
+  width: 15px
+  height: 15px
+  display: flex
+  justify-content: center
+  align-items: center
+  border-radius: 50%
   background: $accent
+  bottom: 48px
+  right: 48px
+  transition: all 0.5s ease-in-out
+  transform: scale(1)
+  animation: pulse 2s infinite
+  h3
+    color: transparent
+    user-select: none
+    transition: all 0.25s ease-in-out 0.25s
+.scroll-up-container:hover
+  width: 75px
+  height: 75px
+  bottom: $rem
+  right: $rem
+  animation: none
   h3
     color: $darkest
 
