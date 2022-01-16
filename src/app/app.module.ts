@@ -9,6 +9,7 @@ import { AppComponent } from './app.component';
 import { TypewriterDirective } from './directives/typewriter.directive';
 import { RegisterComponent } from './features/register/register.component';
 import { ScrollUpComponent } from './features/scroll-up/scroll-up.component';
+import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { ScrollUpComponent } from './features/scroll-up/scroll-up.component';
     ReactiveFormsModule,
     FormsModule,
     BrowserAnimationsModule,
+    AppRoutingModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
