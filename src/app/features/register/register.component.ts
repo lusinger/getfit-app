@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
+import { checkPassword } from 'src/app/validators/check-password';
+
 @Component({
   selector: 'getfit-register',
   templateUrl: './register.component.html',
@@ -9,9 +11,9 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 export class RegisterComponent implements OnInit {
   registerForm = new FormGroup({
     userName: new FormControl('', [Validators.required, ]),
-    mail: new FormControl('', [Validators.required, ]),
-    password: new FormControl('', [Validators.required, ]),
-    retype: new FormControl('', [Validators.required, ]),
+    mail: new FormControl('', [Validators.required, Validators.email]),
+    password: new FormControl('', [Validators.required, Validators.minLength(8)]),
+    retype: new FormControl('', [Validators.required, Validators.minLength(8)]),
     fullName: new FormControl('', [Validators.required, ]),
     age: new FormControl('', [Validators.required, ]),
     height: new FormControl('', [Validators.required, ]),
@@ -19,7 +21,7 @@ export class RegisterComponent implements OnInit {
     targetWeight: new FormControl('', [Validators.required, ]),
     changePerWeek: new FormControl('', [Validators.required, ]),
     gender: new FormControl('', [Validators.required, ]),
-  });
+  }, [checkPassword('password', 'retype')]);
 
   formTitle: string = 'getfit';
 
@@ -33,6 +35,6 @@ export class RegisterComponent implements OnInit {
   }
 
   onRegisterSubmit(): void{
-    
+    this.registerForm.reset();
   }
 }
