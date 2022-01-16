@@ -52,6 +52,11 @@
         <span>female</span>
       </label>
     </div>
+    <label class="input-field light mt1">
+      <span>activity rate</span>
+      <input formControlName="activityRate" type="number" placeholder="activity rate" spellcheck="false">
+    </label>
+    <p class="error-message mt1">{{errorMessage}}</p>
     <button [disabled]="!registerForm.valid" class="light mt1" type="submit">register</button>
   </form>
   <div class="register-footer mt05">

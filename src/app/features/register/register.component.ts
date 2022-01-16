@@ -3,6 +3,10 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 import { checkPassword } from 'src/app/validators/check-password';
 
+import { AuthService } from 'src/app/services/auth.service';
+import { AuthResponse } from 'src/app/interfaces/auth-response';
+import { RegisterRequest } from 'src/app/interfaces/register-request';
+
 @Component({
   selector: 'getfit-register',
   templateUrl: './register.component.html',
@@ -21,11 +25,13 @@ export class RegisterComponent implements OnInit {
     targetWeight: new FormControl('', [Validators.required, ]),
     changePerWeek: new FormControl('', [Validators.required, ]),
     gender: new FormControl('', [Validators.required, ]),
+    activityRate: new FormControl('', [Validators.required]),
   }, [checkPassword('password', 'retype')]);
 
   formTitle: string = 'getfit';
+  errorMessage: string = '';
 
-  constructor() { }
+  constructor(private auth: AuthService) { }
 
   ngOnInit(): void {
   }
@@ -35,6 +41,16 @@ export class RegisterComponent implements OnInit {
   }
 
   onRegisterSubmit(): void{
-    this.registerForm.reset();
+    this.errorMessage = '';
+    this.auth.register(this.registerForm.value).subscribe({
+      next: (response) => {
+        if(response.statusCode === 201){
+          this.registerForm.reset();
+        }
+        if(response.statusCode === 409){
+          this.errorMessage = response.message;
+        }
+      },
+    });
   }
 }
