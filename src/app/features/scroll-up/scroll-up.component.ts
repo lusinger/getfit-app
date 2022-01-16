@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { trigger, style, animate, transition } from '@angular/animations';
 
 @Component({
@@ -19,6 +19,8 @@ import { trigger, style, animate, transition } from '@angular/animations';
   ]
 })
 export class ScrollUpComponent implements OnInit {
+  @Input() styleClass: '' | 'light' = '';
+
   showScrollUp: boolean = false;
   windowHeight: number = 0;
 
