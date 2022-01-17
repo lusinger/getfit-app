@@ -31,14 +31,13 @@ export class LoginComponent implements OnInit {
   onLoginSubmit(): void{
     this.auth.login(this.loginForm.value).subscribe({
       next: (response) => {
-        console.log(response);
-        this.auth.toggleLogin();
+        if(response.statusCode === 200){
+          this.auth.toggleLogin();
+          this.loginForm.reset();
+          this.router.navigate(['userpanel'], {});
+        }
       },error: (err) => {throw err},
       complete: () => {
-        this.loginForm.reset();
-        this.router.navigate(['userpanel'], {
-          
-        });
       }
     });
   };
