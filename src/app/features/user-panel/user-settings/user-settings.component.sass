@@ -1,0 +1,58 @@
+@import '../../../../sass/_variables'
+  
+.ml05
+  margin-left: $rem*0.5
+.mr05
+  margin-right: $rem*0.5
+.mt2
+  margin-top: $rem*2
+
+.user-settings-wrapper
+  min-width: 100vw
+  min-height: 100vh
+  background: $darkest
+  position: absolute
+  display: flex
+  flex-flow: row
+  justify-content: center
+  top: 0
+  left: 0
+  padding: $rem*2 $rem
+  .user-settings-container
+    width: 100%
+    display: flex
+    flex-flow: column
+    .user-settings-header
+    .user-settings-content
+      flex-grow: 1
+      form
+        .input-field-group
+          display: flex
+          flex-flow: row
+          justify-content: space-between
+          margin-right: $rem*0.5
+        .form-footer
+          display: flex
+          width: 100%
+          height: auto
+          p
+            color: $accent
+            cursor: pointer
+    .user-settings-footer
+      border-bottom: 2px solid $lightest-medium
+      display: flex
+      justify-content: center
+      align-items: center
+      .toggler
+        margin: $rem*1 $rem*0.5 $rem*0.5 $rem*0.5
+        .toggler-line
+          stroke: $lightest-medium
+          stroke-opacity: 1
+          transition: all 0.35s ease-in-out
+      .toggler:hover
+        .toggler-line
+          stroke: $accent
+
+@media (min-width: $query-small)
+  .user-settings-container
+    max-width: 600px

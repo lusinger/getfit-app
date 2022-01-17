@@ -11,6 +11,8 @@ import {User} from '../../interfaces/user';
 export class UserPanelComponent implements OnInit {
   userData: User | null = null;
 
+  settingsState: 'open' | 'closed' = 'closed';
+
   constructor(private auth: AuthService) { }
 
   ngOnInit(): void {
@@ -21,5 +23,13 @@ export class UserPanelComponent implements OnInit {
         this.userData = response.payload;
       },
     });
+  }
+
+  openSettings(): void{
+    this.settingsState = 'open';
+  }
+
+  closeSettings($event: 'open' | 'closed'): void{
+    this.settingsState = $event;
   }
 }
