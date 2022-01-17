@@ -11,6 +11,7 @@ import { TypewriterDirective } from './directives/typewriter.directive';
 import { RegisterComponent } from './features/register/register.component';
 import { ScrollUpComponent } from './features/scroll-up/scroll-up.component';
 import { AppRoutingModule } from './app-routing.module';
+import { UserPanelComponent } from './features/user-panel/user-panel.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { AppRoutingModule } from './app-routing.module';
     TypewriterDirective,
     RegisterComponent,
     ScrollUpComponent,
+    UserPanelComponent,
   ],
   imports: [
     BrowserModule,
