@@ -20,21 +20,6 @@ export class AuthService {
 
   constructor(private http: HttpClient,) { }
 
-  private handleLoginErrors(error: HttpErrorResponse){
-    switch(error.status){
-      case 0:
-        console.log('client or network error');
-        break;
-      case 200:
-        console.log('successful login');
-        break;
-      case 401:
-        console.log('login not authorized');
-        break;
-    }
-    return throwError(() => new Error('error occured'));
-  }
-
   login(loginData: LoginRequest): Observable<AuthResponse>{
     const params = new HttpParams()
       .set('user', loginData.user)
@@ -45,7 +30,17 @@ export class AuthService {
       params: params,
       observe: 'body',
       responseType: 'json',
-    }).pipe(catchError(this.handleLoginErrors));
+      withCredentials: true,
+    });
+  }
+
+  loadUser(): Observable<AuthResponse>{
+    return this.http.get<AuthResponse>(`${environment.serverUrl}/loaduser`, {
+      headers: this.defaultHeader,
+      observe: 'body',
+      responseType: 'json',
+      withCredentials: true,
+    });
   }
 
   register(registerData: RegisterRequest): Observable<AuthResponse>{
