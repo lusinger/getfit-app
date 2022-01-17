@@ -32,8 +32,14 @@ export class LoginComponent implements OnInit {
     this.auth.login(this.loginForm.value).subscribe({
       next: (response) => {
         console.log(response);
-      },
-      complete: () => this.loginForm.reset()
+        this.auth.toggleLogin();
+      },error: (err) => {throw err},
+      complete: () => {
+        this.loginForm.reset();
+        this.router.navigate(['userpanel'], {
+          
+        });
+      }
     });
   };
 

@@ -16,6 +16,8 @@ export class AuthService {
     'Content-Type': 'application/json',
   });
 
+  isLoggedIn: boolean = false;
+
   constructor(private http: HttpClient,) { }
 
   private handleLoginErrors(error: HttpErrorResponse){
@@ -52,6 +54,10 @@ export class AuthService {
       observe: 'body',
       responseType: 'json'
     });
+  }
+
+  toggleLogin(): void{
+    this.isLoggedIn = !this.isLoggedIn;
   }
 }
  
