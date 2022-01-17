@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'getfit-tracking-section',
@@ -6,10 +6,26 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./tracking-section.component.sass']
 })
 export class TrackingSectionComponent implements OnInit {
+  @Output() openSearchOverlay = new EventEmitter();
+
+  items: any[] = [1, 2, 3];
 
   constructor() { }
 
   ngOnInit(): void {
   }
 
+  onItemRemoved($event: number): void{
+    this.items = this.items.filter(item => {
+      if(this.items.indexOf(item) === $event){
+        return false;
+      }else{
+        return true;
+      }
+    })
+  }
+
+  onOpenSearchOverlay(): void{
+    this.openSearchOverlay.emit();
+  }
 }

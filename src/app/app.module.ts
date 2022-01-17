@@ -13,6 +13,8 @@ import { ScrollUpComponent } from './features/scroll-up/scroll-up.component';
 import { AppRoutingModule } from './app-routing.module';
 import { UserPanelComponent } from './features/user-panel/user-panel.component';
 import { TrackingSectionComponent } from './features/user-panel/tracking-section/tracking-section.component';
+import { SectionItemComponent } from './features/user-panel/tracking-section/section-item/section-item.component';
+import { AddItemComponent } from './features/user-panel/tracking-section/add-item/add-item.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +25,8 @@ import { TrackingSectionComponent } from './features/user-panel/tracking-section
     ScrollUpComponent,
     UserPanelComponent,
     TrackingSectionComponent,
+    SectionItemComponent,
+    AddItemComponent,
   ],
   imports: [
     BrowserModule,
