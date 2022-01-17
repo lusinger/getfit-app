@@ -12,6 +12,7 @@ import { RegisterComponent } from './features/register/register.component';
 import { ScrollUpComponent } from './features/scroll-up/scroll-up.component';
 import { AppRoutingModule } from './app-routing.module';
 import { UserPanelComponent } from './features/user-panel/user-panel.component';
+import { SearchOverlayComponent } from './features/user-panel/search-overlay/search-overlay.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { UserPanelComponent } from './features/user-panel/user-panel.component';
     RegisterComponent,
     ScrollUpComponent,
     UserPanelComponent,
+    SearchOverlayComponent,
   ],
   imports: [
     BrowserModule,
