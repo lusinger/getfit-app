@@ -32,4 +32,8 @@ export class UserPanelComponent implements OnInit {
   closeSettings($event: 'open' | 'closed'): void{
     this.settingsState = $event;
   }
+  
+  onOpenSearchOverlay(): void{
+    
+  }
 }

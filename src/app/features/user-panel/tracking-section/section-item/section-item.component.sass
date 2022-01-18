@@ -1,0 +1,48 @@
+@import '../../../../../sass/_variables'
+
+:host
+  width: 100%
+  height: auto
+  .section-item-container
+    width: 100%
+    height: 40px
+    display: flex
+    align-items: center
+    .item-content
+      position: relative
+      display: flex
+      justify-content: space-between
+      align-items: center
+      width: 100%
+      padding-right: $rem*0.5
+    .item-control
+      display: flex
+      justify-content: space-between
+      align-items: center
+      width: 40px
+      .edit-button
+        cursor: pointer
+        .edit-button-path
+          fill: $darkest-medium
+          fill-opacity: 1
+          transition: all 0.35s ease-in-out
+      .edit-button:hover
+        .edit-button-path
+          fill: $accent
+      p
+        color: $darkest-medium
+        user-select: none
+        cursor: pointer
+        transition: all 0.35s ease-in-out
+      p:hover
+        color: $accent
+    .item-content::after
+      content: ''
+      position: absolute
+      width: 0%
+      height: 2px
+      background: $darkest-medium
+      transition: all 0.35s ease-in-out
+  .section-item-container.remove
+    .item-content::after
+      width: 100%
