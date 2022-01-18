@@ -82,6 +82,6 @@ export class RegisterComponent implements OnInit {
   }
 
   navigateTo(route: string): void{
-    this.router.navigate([location]);
+    this.router.navigate([route]);
   }
 }
