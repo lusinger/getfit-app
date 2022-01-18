@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 
 import { checkPassword } from 'src/app/validators/check-password';
 
@@ -22,7 +23,7 @@ export class ResetComponent implements OnInit {
   formTitle: string = 'getfit';
   errorMessage: string = '';
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private auth: AuthService) { }
 
   ngOnInit(): void {
   }
@@ -32,6 +33,11 @@ export class ResetComponent implements OnInit {
   }
 
   onMailSubmit(): void{
+    this.auth.resetPassword(this.resetForm.value.mail).subscribe({
+      next: (response) => {
+        console.log(response);
+      }
+    });
     this.resetForm.reset();
   }
 
