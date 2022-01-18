@@ -1,6 +1,6 @@
 <div class="reset-container">
   <h1 getfitTypewriter initialText={{formTitle}} targetText="reset" class="reset-title light" (textChanged)="onTextChanged($event)">{{formTitle}}</h1>
-  <form *ngIf="false" [formGroup]="resetForm" class="reset-form" (ngSubmit)="onMailSubmit()">
+  <form *ngIf="true" [formGroup]="resetForm" class="reset-form" (ngSubmit)="onMailSubmit()">
     <label class="input-field light mt1">
       <input formControlName="mail" type="email" placeholder="email">
       <span>email</span>
@@ -8,7 +8,7 @@
     <p class="error-message mt1">{{errorMessage}}</p>
     <button [disabled]="!resetForm.valid" class="light mt1" type="submit">reset</button>
   </form>
-  <form *ngIf="true" [formGroup]="passwordForm" class="password-form" (ngSubmit)="onPasswordSubmit()">
+  <form *ngIf="false" [formGroup]="passwordForm" class="password-form" (ngSubmit)="onPasswordSubmit()">
     <label class="input-field light mt1">
       <input formControlName="password" type="password" placeholder="new password">
       <span>new password</span>
