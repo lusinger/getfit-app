@@ -16,22 +16,9 @@ export class AuthService {
     'Content-Type': 'application/json',
   });
 
-  constructor(private http: HttpClient,) { }
+  isLoggedIn: boolean = false;
 
-  private handleLoginErrors(error: HttpErrorResponse){
-    switch(error.status){
-      case 0:
-        console.log('client or network error');
-        break;
-      case 200:
-        console.log('successful login');
-        break;
-      case 401:
-        console.log('login not authorized');
-        break;
-    }
-    return throwError(() => new Error('error occured'));
-  }
+  constructor(private http: HttpClient,) { }
 
   login(loginData: LoginRequest): Observable<AuthResponse>{
     const params = new HttpParams()
@@ -43,7 +30,17 @@ export class AuthService {
       params: params,
       observe: 'body',
       responseType: 'json',
-    }).pipe(catchError(this.handleLoginErrors));
+      withCredentials: true,
+    });
+  }
+
+  loadUser(): Observable<AuthResponse>{
+    return this.http.get<AuthResponse>(`${environment.serverUrl}/loaduser`, {
+      headers: this.defaultHeader,
+      observe: 'body',
+      responseType: 'json',
+      withCredentials: true,
+    });
   }
 
   register(registerData: RegisterRequest): Observable<AuthResponse>{
@@ -52,6 +49,23 @@ export class AuthService {
       observe: 'body',
       responseType: 'json'
     });
+  }
+
+  resetPassword(mail: string): Observable<AuthResponse>{
+    const resetParams = new HttpParams()
+      .set('mail', mail);
+
+    return this.http.get<AuthResponse>(`${environment.serverUrl}/resetpassword`, {
+      headers: this.defaultHeader,
+      params: resetParams,
+      observe: 'body',
+      responseType: 'json',
+      withCredentials: false,
+    });
+  }
+
+  toggleLogin(): void{
+    this.isLoggedIn = !this.isLoggedIn;
   }
 }
  

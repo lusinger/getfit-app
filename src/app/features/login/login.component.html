@@ -1,0 +1,18 @@
+<div class="login-container">
+  <h1 class="light" getfitTypewriter initialText={{formTitle}} targetText="login" (textChanged)="onTextChanged($event)">{{formTitle}}</h1>
+  <form [formGroup]="loginForm" (ngSubmit)="onLoginSubmit()">
+    <label class="input-field light mt1">
+      <span>username or mail</span>
+      <input formControlName="user" type="text" placeholder="username or mail" spellcheck="false">
+    </label>
+    <label class="input-field light mt1">
+      <span>password</span>
+      <input formControlName="password" type="password" placeholder="password" spellcheck="false">
+    </label>
+    <button [disabled]="!loginForm.valid" class="light mt1" type="submit">login</button>
+  </form>
+  <div class="login-footer mt05">
+    <a class="light" (click)="navigateTo('register')">register</a>
+    <a class="light" (click)="navigateTo('reset')">forgott password</a>
+  </div>
+</div>
