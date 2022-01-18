@@ -19,6 +19,8 @@ export class LoginComponent implements OnInit {
 
   formTitle: string = 'getfit';
 
+  errorMessage: string = '';
+
   constructor(
     private auth: AuthService,
     private router: Router,
@@ -30,10 +32,16 @@ export class LoginComponent implements OnInit {
   onLoginSubmit(): void{
     this.auth.login(this.loginForm.value).subscribe({
       next: (response) => {
-        if(response.statusCode === 200){
-          this.auth.toggleLogin();
-          this.loginForm.reset();
-          this.router.navigate(['userpanel'], {});
+        console.log(response);
+        switch(response.statusCode){
+          case 200:
+            this.auth.toggleLogin();
+            this.loginForm.reset();
+            this.router.navigate(['userpanel']);
+            break;
+          case 404:
+            this.errorMessage = response.message;
+            break;
         }
       },error: (err) => {throw err},
       complete: () => {
