@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 
 import { checkPassword } from 'src/app/validators/check-password';
@@ -23,9 +23,28 @@ export class ResetComponent implements OnInit {
   formTitle: string = 'getfit';
   errorMessage: string = '';
 
-  constructor(private router: Router, private auth: AuthService) { }
+  showResetForm: boolean = false;
+
+  constructor(private router: Router, private auth: AuthService, private active: ActivatedRoute) { }
 
   ngOnInit(): void {
+    setTimeout(() => {
+      let query: any;
+      this.active.queryParams.subscribe({
+        next: (param) => {
+          console.log(param['access']);
+          query = param['access'];
+        },
+      });
+      this.auth.resetPwRequest({access: query}).subscribe({
+        next: (response) => {
+          console.log(response)
+          if(response.payload){
+            this.showResetForm = response.payload.allowReset;
+          }
+        }
+      });
+    }, 100);
   }
 
   onTextChanged($event: string): void{
@@ -33,19 +52,26 @@ export class ResetComponent implements OnInit {
   }
 
   onMailSubmit(): void{
-    this.auth.resetPassword(this.resetForm.value.mail).subscribe({
+    this.auth.resetPwRequest({mail: this.resetForm.value.mail}).subscribe({
       next: (response) => {
-        console.log(response);
+        console.log(response)
+        if(response.payload){
+          this.showResetForm = response.payload.allowReset;
+        }
       }
     });
     this.resetForm.reset();
   }
 
   onPasswordSubmit(): void{
-    this.passwordForm.reset();
+    this.auth.resetPassword({newPassword: this.passwordForm.value.password}).subscribe({
+      next: (response) => {
+
+      }
+    });
   }
 
   navigateTo(location: string): void{
-    this.router.navigate([location]);
+    this.router.navigateByUrl(location);
   }
 }
