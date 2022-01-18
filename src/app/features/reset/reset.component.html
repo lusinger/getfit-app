@@ -1,0 +1,27 @@
+<div class="reset-container">
+  <h1 getfitTypewriter initialText={{formTitle}} targetText="reset" class="reset-title light" (textChanged)="onTextChanged($event)">{{formTitle}}</h1>
+  <form *ngIf="!showResetForm" [formGroup]="resetForm" class="reset-form" (ngSubmit)="onMailSubmit()">
+    <label class="input-field light mt1">
+      <input formControlName="mail" type="email" placeholder="email">
+      <span>email</span>
+    </label>
+    <p class="error-message mt1">{{errorMessage}}</p>
+    <button [disabled]="!resetForm.valid" class="light mt1" type="submit">reset</button>
+  </form>
+  <form *ngIf="showResetForm" [formGroup]="passwordForm" class="password-form" (ngSubmit)="onPasswordSubmit()">
+    <label class="input-field light mt1">
+      <input formControlName="password" type="password" placeholder="new password">
+      <span>new password</span>
+    </label>
+    <label class="input-field light mt1">
+      <input formControlName="retype" type="password" placeholder="retype new password">
+      <span>retype new password</span>
+    </label>
+    <p class="error-message mt1">{{errorMessage}}</p>
+    <button [disabled]="!passwordForm.valid" class="light mt1" type="submit">reset</button>
+  </form>
+  <div class="reset-footer mt05">
+    <a class="light" (click)="navigateTo('login')">login</a>
+    <a class="light" (click)="navigateTo('register')">register</a>
+  </div>
+</div>
