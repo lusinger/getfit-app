@@ -37,7 +37,7 @@ export class LoginComponent implements OnInit {
           case 200:
             this.auth.toggleLogin();
             this.loginForm.reset();
-            this.router.navigate(['userpanel']);
+            this.navigateTo('userpanel');
             break;
           case 404:
             this.errorMessage = response.message;
