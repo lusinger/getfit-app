@@ -13,6 +13,7 @@ import { ScrollUpComponent } from './features/scroll-up/scroll-up.component';
 import { AppRoutingModule } from './app-routing.module';
 import { UserPanelComponent } from './features/user-panel/user-panel.component';
 import { SearchOverlayComponent } from './features/user-panel/search-overlay/search-overlay.component';
+import { UserSettingsComponent } from './features/user-panel/user-settings/user-settings.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { SearchOverlayComponent } from './features/user-panel/search-overlay/sea
     ScrollUpComponent,
     UserPanelComponent,
     SearchOverlayComponent,
+    UserSettingsComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,87 @@
+<div class="user-settings-wrapper" *ngIf="settingsState === 'open'" @inOut>
+  <div class="user-settings-container">
+    <div class="user-settings-header">
+      <h1 class="light">User Settings</h1>
+    </div>
+    <div class="user-settings-content">
+      <form [formGroup]="settingsForm">
+        <label class="input-field light mt1">
+          <span>username</span>
+          <input formControlName="userName" type="text" placeholder="username" spellcheck="false">
+        </label>
+        <label class="input-field light mt1">
+          <span>email</span>
+          <input formControlName="mail" type="email" placeholder="email" spellcheck="false">
+        </label>
+        <label class="input-field light mt1">
+          <span>oldPassword</span>
+          <input formControlName="oldPassword" type="password" placeholder="old password" spellcheck="false">
+        </label>
+        <label class="input-field light mt1">
+          <span>password</span>
+          <input formControlName="password" type="password" placeholder="new password" spellcheck="false">
+        </label>
+        <label class="input-field light mt1">
+          <span>retype</span>
+          <input formControlName="retype" type="password" placeholder="retype new password" spellcheck="false">
+        </label>
+        <label class="input-field light mt2">
+          <span>fullname</span>
+          <input formControlName="fullName" type="text" placeholder="fullname" spellcheck="false">
+        </label>
+        <div class="input-field-group mt1">
+          <label class="input-field light mr05">
+            <span>age</span>
+            <input formControlName="age" type="number" placeholder="age" spellcheck="false">
+          </label>
+          <label class="input-field light ml05">
+            <span>height</span>
+            <input formControlName="height" type="number" placeholder="height" spellcheck="false">
+          </label>
+        </div>
+        <div class="input-field-group mt1">
+          <label class="input-field light mr05">
+            <span>current weight</span>
+            <input formControlName="currentWeight" type="number" placeholder="current weight" spellcheck="false">
+          </label>
+          <label class="input-field light ml05">
+            <span>target weight</span>
+            <input formControlName="targetWeight" type="number" placeholder="target weight" spellcheck="false">
+          </label>
+        </div>
+        <div class="select-container mt1">
+          <div class="select-header">
+            <p>key</p>
+            <p class="toggler"></p>
+          </div>
+          <div class="select-options">
+            <div>
+              <p>key</p>
+              <p>value</p>
+            </div>
+          </div>
+        </div>
+        <div class="radio-group mt1">
+          <label class="radio-field light">
+            <input formControlName="gender" type="radio" name="gender" value="male">
+            <span>male</span>
+          </label>
+          <label class="radio-field light">
+            <input formControlName="gender" type="radio" name="gender" value="female">
+            <span>female</span>
+          </label>
+        </div>
+        <button class="light mt1" type="submit">update</button>
+        <div class="form-footer mt1">
+          <p>logout</p>
+        </div>
+      </form>
+    </div>
+    <div class="user-settings-footer">
+      <svg class="toggler" width="28" height="28" viewBox="0 0 28 28" (click)="closeSettings()">
+        <line class="toggler-line" x1="1.29289" y1="26.7487" x2="26.7487" y2="1.29286" stroke="#112031" stroke-opacity="0.5" stroke-width="2"/>
+        <line class="toggler-line" x1="26.7488" y1="27.1629" x2="1.29292" y2="1.70707" stroke="#112031" stroke-opacity="0.5" stroke-width="2"/>
+      </svg> 
+    </div>
+  </div>
+</div>
