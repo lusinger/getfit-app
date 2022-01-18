@@ -1,0 +1,135 @@
+@import '../../../../sass/_variables'
+
+.search-overlay-wrapper
+  display: flex
+  justify-content: center
+  width: 100%
+  height: 100%
+  position: absolute
+  flex-grow: 1
+  top: 0
+  left: 0
+  background: $lightest
+  padding: $rem*2 $rem
+  .search-overlay-container
+    width: 100%
+    height: 100%
+    display: flex
+    flex-flow: column
+    .search-overlay-header
+      .title-line-1
+        display: block
+        display: flex
+        align-items: center
+        span
+          padding: 0 0.5ch
+          display: inline-block
+          min-width: auto
+          max-width: 7.5ch
+          font-size: inherit
+          color: $dark-medium
+          text-overflow: ellipsis
+          white-space: nowrap
+          overflow: hidden
+          font-style: italic
+      .title-line-2
+        color: $dark-medium
+        font-style: italic
+      /** h3 
+        p
+          display: block
+          width: 9ch
+          font-size: inherit
+          color: $dark-medium
+          font-style: italic
+          text-overflow: ellipsis
+          white-space: nowrap
+          overflow: hidden
+        span
+          font-size: inherit
+          color: $dark-medium
+          font-style: italic **/
+    .search-overlay-content
+      flex-grow: 1
+      form
+        .search-result-container
+          width: 100%
+          height: auto
+          background: white
+          box-shadow: $shadow
+          padding: $rem*0.5
+          .search-result
+            width: 100%
+            height: 40px
+            display: flex
+            justify-content: space-between
+            align-items: center
+            border-bottom: 1px solid $darkest-medium
+            .result-name
+            .result-type
+              color: $darkest-medium
+              font-style: italic
+      .added-item-container
+        display: flex
+        flex-flow: column
+        width: 100%
+        height: auto
+        background: white
+        padding: $rem*0.5
+        box-shadow: $shadow
+        list-style-type: disc
+        list-style-position: inside
+        .added-item
+          display: flex
+          flex-flow: row
+          justify-content: space-between
+          align-items: center
+          width: 100%
+          height: 40px
+          .result-name
+            position: relative
+            width: 100%
+          .result-name:after
+            content: ''
+            top: 10px
+            left: 0
+            position: absolute
+            width: 0%
+            height: 1px
+            background: $darkest-medium
+            transition: all 0.35s ease-in-out
+          .result-control
+            cursor: pointer
+            user-select: none
+            color: $darkest-medium
+            font-style: italic
+            transition: all 0.35s ease-in-out
+          .result-control:hover
+            color: $accent
+        .added-item::before
+          content: ''
+          margin-right: $rem
+          width: 6px
+          height: 6px
+          border-radius: 50%
+          background: $darkest
+        .added-item.remove
+          .result-name:after
+            width: 100%
+    .search-overlay-footer
+      display: flex
+      justify-content: center
+      border-bottom: 2px solid $darkest-medium
+      .toggler
+        cursor: pointer
+        margin: $rem $rem*0.5 $rem*0.5 $rem*0.5
+        .toggler-line
+          stroke: $darkest-medium
+          transition: all 0.35s ease-in-out
+      .toggler:hover
+        .toggler-line
+          stroke: $accent
+
+@media (min-width: $query-small)
+  .search-overlay-container
+    max-width: 600px
