@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 import { checkPassword } from 'src/app/validators/check-password';
 
 import { AuthService } from 'src/app/services/auth.service';
-import { AuthResponse } from 'src/app/interfaces/auth-response';
-import { RegisterRequest } from 'src/app/interfaces/register-request';
 
 @Component({
   selector: 'getfit-register',
@@ -45,7 +44,9 @@ export class RegisterComponent implements OnInit {
     'extra active': 1.9,
   };
 
-  constructor(private auth: AuthService) { }
+  constructor(
+    private auth: AuthService,
+    private router: Router) { }
 
   ngOnInit(): void {
     this.registerForm.get('activityRate')?.setValue(1.2);
@@ -61,6 +62,7 @@ export class RegisterComponent implements OnInit {
       next: (response) => {
         if(response.statusCode === 201){
           this.registerForm.reset();
+          this.navigateTo('login');
         }
         if(response.statusCode === 409){
           this.errorMessage = response.message;
@@ -77,5 +79,9 @@ export class RegisterComponent implements OnInit {
 
   toggleOptions(): void{
     this.optionsShown = !this.optionsShown;
+  }
+
+  navigateTo(route: string): void{
+    this.router.navigate([route]);
   }
 }

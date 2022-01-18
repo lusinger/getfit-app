@@ -68,6 +68,6 @@
     <button [disabled]="!registerForm.valid" class="light mt1" type="submit">register</button>
   </form>
   <div class="register-footer mt05">
-    <a class="light" href="#">login</a>
+    <a class="light" (click)="navigateTo('login')">login</a>
   </div>
 </div>

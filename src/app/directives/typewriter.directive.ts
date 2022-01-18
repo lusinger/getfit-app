@@ -28,7 +28,7 @@ export class TypewriterDirective implements OnInit {
       }else{
         this.timeouts = [];
       }
-    }, Math.floor(Math.random() * 100) + 250));
+    }, Math.floor(Math.random() * 50) + 150));
   }
   deleteText(currentText: string, length: number): void{
     this.timeouts.push(setTimeout(() => {
@@ -40,6 +40,6 @@ export class TypewriterDirective implements OnInit {
         this.timeouts = [];
         this.writeText('', 0);
       }
-    }, Math.floor(Math.random() * 100) + 250));
+    }, Math.floor(Math.random() * 50) + 150));
   }
 }
