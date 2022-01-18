@@ -18,7 +18,6 @@ export class UserPanelComponent implements OnInit {
   constructor(private auth: AuthService) { }
 
   ngOnInit(): void {
-    console.log('hello');
     this.auth.loadUser().subscribe({
       next: (response) => {
         console.log(response);
@@ -36,6 +35,7 @@ export class UserPanelComponent implements OnInit {
   }
   
   onOpenSearchOverlay(): void{
-    
+    this.settingsState = 'closed';
+    this.searchState = 'open';
   }
 }
