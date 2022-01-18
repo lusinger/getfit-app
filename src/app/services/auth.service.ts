@@ -51,6 +51,19 @@ export class AuthService {
     });
   }
 
+  resetPassword(mail: string): Observable<AuthResponse>{
+    const resetParams = new HttpParams()
+      .set('mail', mail);
+
+    return this.http.get<AuthResponse>(`${environment.serverUrl}/resetpassword`, {
+      headers: this.defaultHeader,
+      params: resetParams,
+      observe: 'body',
+      responseType: 'json',
+      withCredentials: false,
+    });
+  }
+
   toggleLogin(): void{
     this.isLoggedIn = !this.isLoggedIn;
   }
