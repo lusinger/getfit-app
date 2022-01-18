@@ -12,6 +12,12 @@ import { RegisterComponent } from './features/register/register.component';
 import { ScrollUpComponent } from './features/scroll-up/scroll-up.component';
 import { ResetComponent } from './features/reset/reset.component';
 import { AppRoutingModule } from './app-routing.module';
+import { UserPanelComponent } from './features/user-panel/user-panel.component';
+import { SearchOverlayComponent } from './features/user-panel/search-overlay/search-overlay.component';
+import { UserSettingsComponent } from './features/user-panel/user-settings/user-settings.component';
+import { TrackingSectionComponent } from './features/user-panel/tracking-section/tracking-section.component';
+import { SectionItemComponent } from './features/user-panel/tracking-section/section-item/section-item.component';
+import { AddItemComponent } from './features/user-panel/tracking-section/add-item/add-item.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +26,12 @@ import { AppRoutingModule } from './app-routing.module';
     TypewriterDirective,
     RegisterComponent,
     ScrollUpComponent,
+    UserPanelComponent,
+    SearchOverlayComponent,
+    UserSettingsComponent,
+    TrackingSectionComponent,
+    SectionItemComponent,
+    AddItemComponent,
     ResetComponent,
   ],
   imports: [

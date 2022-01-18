@@ -1,0 +1,55 @@
+<div class="search-overlay-wrapper">
+  <div class="search-overlay-container">
+    <div class="search-overlay-header">
+      <h3 class="title-line-1">Add<span>{{searchValue}}</span>to</h3>
+      <h3 class="title-line-2">Section Title</h3>
+      <h3 class="title-line-3">Section</h3>
+    </div>
+    <div class="search-overlay-content">
+      <form [formGroup]="searchForm">
+        <label class="checkbox-field mt1">
+          <input type="checkbox">
+          <span>recipe</span>
+        </label>
+        <label class="input-field mt1">
+          <span>add food item</span>
+          <input (input)="onInputChange($event)" formControlName="search" type="text" placeholder="add food item" spellcheck="false">
+        </label>
+        <div class="search-result-container">
+          <div class="search-result">
+            <p class="result-name">item name</p>
+            <p class="result-type">recipe</p>
+          </div>
+          <div class="search-result">
+            <p class="result-name">item name</p>
+            <p class="result-type">recipe</p>
+          </div>
+          <div class="search-result">
+            <p class="result-name">item name</p>
+            <p class="result-type">recipe</p>
+          </div>
+        </div>
+      </form>
+      <ul class="added-item-container mt1">
+        <li class="added-item remove">
+          <p class="result-name">100g item name</p>
+          <p class="result-control">X</p>
+        </li>
+        <li class="added-item">
+          <p class="result-name">100g item name</p>
+          <p class="result-control">X</p>
+        </li>
+        <li class="added-item">
+          <p class="result-name">100g item name</p>
+          <p class="result-control">X</p>
+        </li>
+      </ul>
+    </div>
+    <div class="search-overlay-footer">
+      <svg class="toggler" width="28" height="28" viewBox="0 0 28 28">
+        <line class="toggler-line" x1="1.29289" y1="26.7487" x2="26.7487" y2="1.29286" stroke="#112031" stroke-opacity="1" stroke-width="3"/>
+        <line class="toggler-line" x1="26.7488" y1="27.1629" x2="1.29292" y2="1.70707" stroke="#112031" stroke-opacity="1" stroke-width="3"/>
+      </svg>  
+    </div>
+  </div>
+</div>

@@ -1,0 +1,10 @@
+<div class="user-panel-container">
+  <h1 (click)="openSettings()">Welcome back {{userData?.username}}</h1>
+  <h1>User Panel</h1>
+  <getfit-tracking-section (openSearchOverlay)="onOpenSearchOverlay()"></getfit-tracking-section>
+  <getfit-tracking-section (openSearchOverlay)="onOpenSearchOverlay()"></getfit-tracking-section>
+  <getfit-tracking-section (openSearchOverlay)="onOpenSearchOverlay()"></getfit-tracking-section>
+  <getfit-tracking-section (openSearchOverlay)="onOpenSearchOverlay()"></getfit-tracking-section>
+</div>
+<getfit-search-overlay></getfit-search-overlay>
+<getfit-user-settings [settingsState]="settingsState" (onSettingClose)="closeSettings($event)"></getfit-user-settings>
