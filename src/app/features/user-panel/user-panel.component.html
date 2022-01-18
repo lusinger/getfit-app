@@ -6,5 +6,5 @@
   <getfit-tracking-section (openSearchOverlay)="onOpenSearchOverlay()"></getfit-tracking-section>
   <getfit-tracking-section (openSearchOverlay)="onOpenSearchOverlay()"></getfit-tracking-section>
 </div>
-<getfit-search-overlay></getfit-search-overlay>
-<getfit-user-settings [settingsState]="settingsState" (onSettingClose)="closeSettings($event)"></getfit-user-settings>
+<getfit-search-overlay *ngIf="false"></getfit-search-overlay>
+<getfit-user-settings *ngIf="false" [settingsState]="settingsState" (onSettingClose)="closeSettings($event)"></getfit-user-settings>
