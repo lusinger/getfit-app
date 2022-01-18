@@ -9,6 +9,7 @@
       <span>password</span>
       <input formControlName="password" type="password" placeholder="password" spellcheck="false">
     </label>
+    <p class="error-message mt1">{{errorMessage}}</p>
     <button [disabled]="!loginForm.valid" class="light mt1" type="submit">login</button>
   </form>
   <div class="login-footer mt05">

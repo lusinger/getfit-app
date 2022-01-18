@@ -10,6 +10,7 @@ import { LoginComponent } from './features/login/login.component';
 import { TypewriterDirective } from './directives/typewriter.directive';
 import { RegisterComponent } from './features/register/register.component';
 import { ScrollUpComponent } from './features/scroll-up/scroll-up.component';
+import { ResetComponent } from './features/reset/reset.component';
 import { AppRoutingModule } from './app-routing.module';
 import { UserPanelComponent } from './features/user-panel/user-panel.component';
 import { SearchOverlayComponent } from './features/user-panel/search-overlay/search-overlay.component';
@@ -31,6 +32,7 @@ import { AddItemComponent } from './features/user-panel/tracking-section/add-ite
     TrackingSectionComponent,
     SectionItemComponent,
     AddItemComponent,
+    ResetComponent,
   ],
   imports: [
     BrowserModule,
