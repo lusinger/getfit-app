@@ -36,6 +36,7 @@ export class UserPanelComponent implements OnInit {
   }
   
   onOpenSearchOverlay(): void{
-    
+    this.settingsState = 'closed';
+    this.searchState = 'open';
   }
 }
