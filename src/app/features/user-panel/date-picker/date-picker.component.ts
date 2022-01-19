@@ -20,6 +20,9 @@ import { trigger, transition, style, animate } from '@angular/animations';
 })
 export class DatePickerComponent implements OnInit {
   @Input() overlayState: 'open' | 'closed' = 'closed';
+  @Input() currentDate: Date = new Date();
+
+  selectedDate: Date = new Date(this.currentDate);
 
   days: string[] = ['Mo', 'Th', 'Tu', 'We', 'Fr', 'Sa', 'Su'];
   fields: number[] = [1, 2, 3, 4, 5, 6, 7, 1, 2, 3, 4, 5, 6, 7, 1, 31, 3, 4, 5, 6, 7, 1, 2, 3, 4, 5, 6, 7, 1, 2, 3, 4, 5, 6, 7, 1, 2, 3, 4, 5, 6, 7, 1, 2, 3, 4, 5, 6, 7,]
@@ -32,6 +35,34 @@ export class DatePickerComponent implements OnInit {
         window.scrollTo(0, 0);
       }
     });
+  }
+
+  generateCalendar(): void{
+
+  }
+
+  getPrevDate(date: Date): Date{
+    const prevDate = new Date(date);
+    prevDate.setDate(prevDate.getDate() - 1);
+    return prevDate;
+  }
+
+  getNextDate(date: Date): Date{
+    const nextDate = new Date(date);
+    nextDate.setDate(nextDate.getDate() + 1);
+    return nextDate;
+  }
+
+  getPrevMonth(date: Date): Date{
+    const prevMonth = new Date(date);
+    prevMonth.setMonth(prevMonth.getMonth() - 1);
+    return prevMonth;
+  }
+
+  getNextMonth(date: Date): Date{
+    const nextMonth = new Date(date);
+    nextMonth.setMonth(nextMonth.getMonth() + 1);
+    return nextMonth;
   }
 
   toggleOverlay(): void{

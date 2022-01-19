@@ -1,14 +1,14 @@
 <div class="date-picker-wrapper">
-  <h4 class="toggler">{{"\<"}}</h4>
-  <h4 (click)="toggleOverlay()" class="toggler-title">date title</h4>
-  <h4 class="toggler">{{"\>"}}</h4>
+  <h4 (click)="selectedDate = getPrevDate(selectedDate)" class="toggler">{{"\<"}}</h4>
+  <h4 (click)="toggleOverlay()" class="toggler-title">{{selectedDate.toDateString() === currentDate.toDateString() ? 'today' : selectedDate.toDateString()}}</h4>
+  <h4 (click)="selectedDate = getNextDate(selectedDate)" class="toggler">{{"\>"}}</h4>
 </div>
 <div @toggleOverlay *ngIf="overlayState === 'open'" class="date-picker-overlay">
   <div class="date-picker-wrapper">
     <div class="date-picker-header">
-      <h4 class="toggler">{{"\<"}}</h4>
-      <h4 (click)="toggleOverlay()" class="toggler-title">date title</h4>
-      <h4 class="toggler">{{"\>"}}</h4>
+      <h4 (click)="selectedDate = getPrevMonth(selectedDate)" class="toggler">{{"\<"}}</h4>
+      <h4 (click)="toggleOverlay()" class="toggler-title">{{selectedDate.toDateString() === currentDate.toDateString() ? 'today' : selectedDate.toDateString()}}</h4>
+      <h4 (click)="selectedDate = getNextMonth(selectedDate)" class="toggler">{{"\>"}}</h4>
     </div>
     <div class="date-picker-calendar">
       <div class="calendar-header">
