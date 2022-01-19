@@ -25,14 +25,11 @@ export class DataService {
     });
   };
 
-  getItems = (start?: number, end?: number): Observable<Item[]> => {
+  getItems = (search?: string, start?: number, end?: number): Observable<Item[]> => {
     const params = new HttpParams();
-    if(start && !end){
-      params.set('start', start);
-    }else if(start && end){
-      params.set('start', start);
-      params.set('end', end);
-    }
+    end ? params.set('end', end) : null;
+    start ? params.set('start', start) : null;
+    search ? params.set('search', search) : null;
 
     return this.http.get<Item[]>(`${environment.serverUrl}/items`, {
       headers: this.defaultHeader,
