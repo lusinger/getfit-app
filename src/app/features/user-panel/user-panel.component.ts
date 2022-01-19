@@ -11,12 +11,13 @@ import {User} from '../../interfaces/user';
 export class UserPanelComponent implements OnInit {
   userData: User | null = null;
 
+  selectedDate: Date = new Date();
   settingsState: 'open' | 'closed' = 'closed';
+  searchState: 'open' | 'closed' = 'closed';
 
   constructor(private auth: AuthService) { }
 
   ngOnInit(): void {
-    console.log('hello');
     this.auth.loadUser().subscribe({
       next: (response) => {
         console.log(response);
@@ -34,6 +35,7 @@ export class UserPanelComponent implements OnInit {
   }
   
   onOpenSearchOverlay(): void{
-    
+    this.settingsState = 'closed';
+    this.searchState = 'open';
   }
 }

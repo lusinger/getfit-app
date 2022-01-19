@@ -6,7 +6,7 @@
       <h3 class="title-line-3">Section</h3>
     </div>
     <div class="search-overlay-content">
-      <form [formGroup]="searchForm">
+      <form [formGroup]="searchForm" *ngIf="addState === 'search'">
         <label class="checkbox-field mt1">
           <input type="checkbox">
           <span>recipe</span>
@@ -15,33 +15,32 @@
           <span>add food item</span>
           <input (input)="onInputChange($event)" formControlName="search" type="text" placeholder="add food item" spellcheck="false">
         </label>
-        <div class="search-result-container">
-          <div class="search-result">
-            <p class="result-name">item name</p>
-            <p class="result-type">recipe</p>
-          </div>
-          <div class="search-result">
-            <p class="result-name">item name</p>
-            <p class="result-type">recipe</p>
-          </div>
-          <div class="search-result">
-            <p class="result-name">item name</p>
+        <div *ngIf="searchResults !== 'empty' && searchValue !== ''" class="search-result-container">
+          <div *ngFor="let item of searchResults;" class="search-result" (click)="addDetails(item)">
+            <p class="result-name">{{item.itemname}}</p>
             <p class="result-type">recipe</p>
           </div>
         </div>
       </form>
-      <ul class="added-item-container mt1">
-        <li class="added-item remove">
-          <p class="result-name">100g item name</p>
-          <p class="result-control">X</p>
-        </li>
-        <li class="added-item">
-          <p class="result-name">100g item name</p>
-          <p class="result-control">X</p>
-        </li>
-        <li class="added-item">
-          <p class="result-name">100g item name</p>
-          <p class="result-control">X</p>
+      <form [formGroup]="detailForm" *ngIf="addState === 'details'" (ngSubmit)="addItem()">
+        <div class="input-field-container mt1">
+          <label class="input-field">
+            <span>amount</span>
+            <input formControlName="amount" type="number" placeholder="amount" spellcheck="false">
+          </label>
+          <label class="input-field">
+            <span>unit</span>
+            <input formControlName="unit" type="text" placeholder="unit" spellcheck="false">
+          </label>
+        </div>
+        <button class="mt1" type="submit">add item</button>
+      </form>
+      <ul *ngIf="addedItems !== []" class="added-item-container mt1">
+        <li @addedItem *ngFor="let item of addedItems" class="added-item">
+          <div class="result-content">
+            <p class="result-name">{{item.amount}}{{item.unit}} {{item.itemname}}</p>
+          </div>
+          <p class="result-control" (click)="removeItem(item)">X</p>
         </li>
       </ul>
     </div>
