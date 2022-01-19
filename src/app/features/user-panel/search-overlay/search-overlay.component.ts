@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Item } from 'src/app/interfaces/item';
 
 @Component({
   selector: 'getfit-search-overlay',
@@ -12,6 +13,7 @@ export class SearchOverlayComponent implements OnInit {
   });
 
   searchValue: string | ' ' = ' ';
+  searchResults: Item[] = [];
 
   constructor() { }
 
