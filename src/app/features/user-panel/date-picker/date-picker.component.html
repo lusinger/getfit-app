@@ -1,13 +1,13 @@
 <div class="date-picker-wrapper">
   <h4 class="toggler">{{"\<"}}</h4>
-  <h4 class="toggler-title">date title</h4>
+  <h4 (click)="toggleOverlay()" class="toggler-title">date title</h4>
   <h4 class="toggler">{{"\>"}}</h4>
 </div>
-<div class="date-picker-overlay">
+<div @toggleOverlay *ngIf="overlayState === 'open'" class="date-picker-overlay">
   <div class="date-picker-wrapper">
     <div class="date-picker-header">
       <h4 class="toggler">{{"\<"}}</h4>
-      <h4 class="toggler-title">date title</h4>
+      <h4 (click)="toggleOverlay()" class="toggler-title">date title</h4>
       <h4 class="toggler">{{"\>"}}</h4>
     </div>
     <div class="date-picker-calendar">
@@ -23,7 +23,7 @@
       </div>
     </div>
     <div class="date-picker-footer">
-      <svg class="close-toggler" width="28" height="28" viewBox="0 0 28 28">
+      <svg (click)="toggleOverlay()" class="close-toggler" width="28" height="28" viewBox="0 0 28 28">
         <line x1="1.29289" y1="26.7487" x2="26.7487" y2="1.29289" stroke="#D4ECDD" stroke-width="3"/>
         <line x1="26.7487" y1="27.1629" x2="1.29289" y2="1.7071" stroke="#D4ECDD" stroke-width="3"/>
       </svg>
