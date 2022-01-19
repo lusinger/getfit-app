@@ -5,8 +5,28 @@
 </div>
 <div class="date-picker-overlay">
   <div class="date-picker-wrapper">
-    <h4 class="toggler">{{"\<"}}</h4>
-    <h4 class="toggler-title">date title</h4>
-    <h4 class="toggler">{{"\>"}}</h4>
+    <div class="date-picker-header">
+      <h4 class="toggler">{{"\<"}}</h4>
+      <h4 class="toggler-title">date title</h4>
+      <h4 class="toggler">{{"\>"}}</h4>
+    </div>
+    <div class="date-picker-calendar">
+      <div class="calendar-header">
+        <div *ngFor="let day of days" class="header-field">
+          <p>{{day}}</p>
+        </div>
+      </div>
+      <div class="calendar-body">
+        <div *ngFor="let field of fields" class="calendar-field inactive">
+          <p class="light">{{field}}</p>
+        </div>
+      </div>
+    </div>
+    <div class="date-picker-footer">
+      <svg class="close-toggler" width="28" height="28" viewBox="0 0 28 28">
+        <line x1="1.29289" y1="26.7487" x2="26.7487" y2="1.29289" stroke="#D4ECDD" stroke-width="3"/>
+        <line x1="26.7487" y1="27.1629" x2="1.29289" y2="1.7071" stroke="#D4ECDD" stroke-width="3"/>
+      </svg>
+    </div>
   </div>
 </div>

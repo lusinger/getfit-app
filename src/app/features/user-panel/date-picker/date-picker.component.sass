@@ -29,21 +29,119 @@
     display: flex
     flex-flow: row
     justify-content: center
+    z-index: 99
     .date-picker-wrapper
       width: 100%
-      height: 80px
+      height: auto
       display: flex
-      justify-content: space-between
+      flex-flow: column
       align-items: center
-      border-bottom: 2px solid $lightest-medium
-      margin-bottom: $rem
-      .toggler, .toggler-title
-        color: $lightest
-        user-select: none
-        cursor: pointer
-        transition: all 0.35s ease-in-out
-      .toggler:hover, .toggler-title:hover
-        color: $accent
+      .date-picker-header
+        width: 100%
+        display: flex
+        flex-flow: row
+        padding: $rem*0.5 0
+        justify-content: space-between
+        border-bottom: 2px solid $lightest-medium
+        margin-bottom: $rem
+        .toggler, .toggler-title
+          color: $lightest
+          user-select: none
+          cursor: pointer
+          transition: all 0.35s ease-in-out
+        .toggler:hover, .toggler-title:hover
+          color: $accent
+    
+      .date-picker-calendar
+        width: 100%
+        height: auto
+        flex-grow: 1
+        display: flex
+        flex-flow: column
+        align-items: center
+        .calendar-header
+          width: fit-content
+          height: auto
+          display: grid
+          grid-template-columns: repeat(7, 1fr)
+          grid-template-rows: repeat(1, 1fr)
+          grid-gap: 5px
+          .header-field
+            width: $rem*2
+            height: $rem*2
+            display: flex
+            justify-content: center
+            align-items: center
+            p
+              color: $lightest
+              user-select: none
+        .calendar-body
+          width: fit-content
+          height: fit-content
+          display: grid
+          grid-template-columns: repeat(7, 1fr)
+          grid-template-rows: repeat(6, 1fr)
+          grid-gap: 5px
+          .calendar-field
+            position: relative
+            user-select: none
+            cursor: pointer
+            width: $rem*2
+            height: $rem*2
+            padding: 3px
+            border: 1px solid $lightest
+            transition: all 0.35s ease-in-out
+            p
+              color: $lightest
+          .calendar-field::after
+            content: ''
+            position: absolute
+            width: 8px
+            height: 8px
+            bottom: 4px
+            right: 4px
+            border-radius: 50%
+            background: transparent
+            transform: scale(0)
+            transition: all 0.35s ease-in-out
+          .calendar-field:hover
+            border-bottom-right-radius: 8px
+          .calendar-field:hover::after
+            background: $lightest
+            transform: scale(1)
+
+          .calendar-field.active
+            border: 1px solid $accent
+            border-bottom-right-radius: 8px
+            p
+              color: $accent
+          .calendar-field.active::after
+            transform: scale(1)
+            background: $accent
+
+          .calendar-field.inactive
+            border: 1px solid $lightest-medium
+            p
+              color: $lightest-medium
+          .calendar-field.inactive:hover::after
+            background: $lightest-medium
+
+      
+      .date-picker-footer
+        width: 100%
+        display: flex
+        flex-flow: row
+        justify-content: center
+        align-items: center
+        border-bottom: 2px solid $lightest-medium
+        .close-toggler
+          margin: $rem $rem*0.5 $rem*0.5 $rem*0.5
+          line
+            stroke: $lightest-medium
+            transition: all 0.35s ease-in-out
+        .close-toggler:hover
+          line
+            stroke: $accent
 
 @media (min-width: $query-small)
   .date-picker-overlay
