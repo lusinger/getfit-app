@@ -1,0 +1,51 @@
+@import '../../../../sass/_variables'
+
+:host
+  width: 100%
+  height: auto
+  .date-picker-wrapper
+    width: 100%
+    height: 80px
+    display: flex
+    justify-content: space-between
+    align-items: center
+    border-bottom: 2px solid $darkest-medium
+    margin-bottom: $rem
+    .toggler, .toggler-title
+      user-select: none
+      cursor: pointer
+      transition: all 0.35s ease-in-out
+    .toggler:hover, .toggler-title:hover
+      color: $accent
+
+  .date-picker-overlay
+    position: absolute
+    background: $darkest
+    top: 0
+    left: 0
+    min-width: 100vw
+    min-height: 100vh
+    padding: $rem*2 $rem
+    display: flex
+    flex-flow: row
+    justify-content: center
+    .date-picker-wrapper
+      width: 100%
+      height: 80px
+      display: flex
+      justify-content: space-between
+      align-items: center
+      border-bottom: 2px solid $lightest-medium
+      margin-bottom: $rem
+      .toggler, .toggler-title
+        color: $lightest
+        user-select: none
+        cursor: pointer
+        transition: all 0.35s ease-in-out
+      .toggler:hover, .toggler-title:hover
+        color: $accent
+
+@media (min-width: $query-small)
+  .date-picker-overlay
+    .date-picker-wrapper
+      max-width: 600px
