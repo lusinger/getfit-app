@@ -33,11 +33,11 @@ export class DatePickerComponent implements OnInit {
 
   ngOnInit(): void {
     this.dates = this.generateCalendar(this.selectedDate);
-    addEventListener('scroll', () => {
+    /* addEventListener('scroll', () => {
       if(this.overlayState === 'open'){
         window.scrollTo(0, 0);
       }
-    });
+    }); */
   }
 
   generateCalendar(date: Date): Date[]{
