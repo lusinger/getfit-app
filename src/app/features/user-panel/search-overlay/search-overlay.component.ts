@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, HostListener } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { Item } from 'src/app/interfaces/item';
@@ -20,6 +20,16 @@ import { DataService } from 'src/app/services/data.service';
         style({opacity: 1, transform: 'translateX(0)'}),
         animate(300, style({opacity: 0, transform: 'translateX(-100%)'})),
       ]),
+    ]),
+    trigger('toggleOverlay', [
+      transition(':enter', [
+        style({transform: 'translateY(-100vh)'}),
+        animate(300, style({transform: 'translateY(0vh)'})),
+      ]),
+      transition(':leave', [
+        style({transform: 'translateY(0vh)'}),
+        animate(300, style({transform: 'translateY(-100vh)'})),
+      ]),
     ])
   ]
 })
@@ -31,7 +41,11 @@ export class SearchOverlayComponent implements OnInit {
   detailForm = new FormGroup({
     amount: new FormControl('', [Validators.required]),
     unit: new FormControl('', [Validators.required]),
-  })
+  });
+
+  @Output() closeOverlay = new EventEmitter<'open' | 'closed'>();
+
+  @Input() overlayState: 'open' | 'closed' = 'closed';
 
   addState: 'search' | 'details' = 'search';
 
@@ -78,5 +92,17 @@ export class SearchOverlayComponent implements OnInit {
     this.addedItems = this.addedItems.filter(entry => {
       return entry.createdon.toISOString() === item.createdon.toISOString() ? false : true; 
     })
+  }
+
+  closeSearch(): void{
+    this.overlayState = 'closed';
+    this.closeOverlay.emit('closed');
+  }
+
+  @HostListener('window:scroll')
+  lockScrolling(): void{
+    if(this.overlayState === 'open'){
+      window.scrollTo(0, 0);
+    }
   }
 }
