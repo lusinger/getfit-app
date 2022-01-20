@@ -24,6 +24,8 @@ import { AuthService } from 'src/app/services/auth.service';
 export class UserSettingsComponent implements OnInit {
   settingsState: 'open' | 'closed' = 'closed';
 
+  subStates: ('open' | 'closed')[] = ['closed', 'closed'];
+
   constructor(
     private auth: AuthService,
     private router: Router) { }
@@ -46,6 +48,27 @@ export class UserSettingsComponent implements OnInit {
         this.router.navigate(['login']);
       }
     });
+  }
+
+  toggleSection(index: number): void{
+    console.log(this.subStates);
+    if(this.subStates[index] === 'closed'){
+      this.subStates.forEach((value, i) => {
+        if(i === index){
+          this.subStates[index] = 'open';
+        }else{
+          this.subStates[i] = 'closed';
+        }
+      });
+    }else{
+      this.subStates.forEach((value, i) => {
+        if(i === index){
+          this.subStates[index] = 'closed';
+        }else{
+          this.subStates[i] = 'open';
+        }
+      });
+    }
   }
 
   @HostListener('window:scroll', ['$event'])

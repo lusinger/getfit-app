@@ -49,8 +49,26 @@
     .settings-form
       width: 100%
       flex-grow: 1
+      form
+        .section-title
+          display: flex
+          justify-content: space-between
+          width: 100%
+          height: auto
+          cursor: pointer
+        .section-body
+          transform: scaleY(1)
+          height: fit-content
+        .section-body.hide
+          transform: scaleY(0)
+          height: 0px
       p
         cursor: pointer
+    .user-image
+      width: $rem*6
+      height: $rem*6
+      border-radius: 50%
+      border: 2px solid $accent
     .settings-footer
       display: flex
       justify-content: center
