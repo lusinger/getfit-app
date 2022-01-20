@@ -8,45 +8,56 @@
       </svg>
     </div>
   </div>
-  <div @toggleSettings *ngIf="settingsState === 'open'" class="settings-container">
+  <div (scroll)="lockScroll($event)" @toggleSettings *ngIf="settingsState === 'open'" class="settings-container">
     <div class="settings-form">
+      <img class="user-image" src="assets/user.jpeg">
       <form>
-        <h3 class="accent">Account Settings</h3>
-        <label class="input-field light mt1">
-          <span>username</span>
-          <input type="text" placeholder="username" spellcheck="false">
-        </label>
-        <label class="input-field light mt1">
-          <span>mail</span>
-          <input type="email" placeholder="mail" spellcheck="false">
-        </label>
-        <label class="input-field light mt1">
-          <span>old password</span>
-          <input type="password" placeholder="old password" spellcheck="false">
-        </label>
-        <label class="input-field light mt1">
-          <span>new password</span>
-          <input type="password" placeholder="new password" spellcheck="false">
-        </label>
-        <label class="input-field light mt1">
-          <span>retype password</span>
-          <input type="password" placeholder="retype password" spellcheck="false">
-        </label>
-        <h3 class="accent">Private Details</h3>
-        <label class="input-field light mt1">
-          <span>fullname</span>
-          <input type="text" placeholder="fullname" spellcheck="false">
-        </label>
-        <label class="input-field light mt1">
-          <span>age</span>
-          <input type="number" placeholder="age" spellcheck="false">
-        </label>
-        <label class="input-field light mt1">
-          <span>height</span>
-          <input type="number" placeholder="height" spellcheck="false">
-        </label>
+        <div (click)="toggleSection(0)" class="section-title mt1">
+          <h4 class="accent">Account Settings</h4>
+          <h4 class="accent">{{subStates[0] === 'open' ? '-' : '+'}}</h4>
+        </div>
+        <section class="section-body" [ngClass]="subStates[0] === 'open' ? '' : 'hide'">
+          <label class="input-field light mt1">
+            <span>username</span>
+            <input type="text" placeholder="username" spellcheck="false">
+          </label>
+          <label class="input-field light mt1">
+            <span>mail</span>
+            <input type="email" placeholder="mail" spellcheck="false">
+          </label>
+          <label class="input-field light mt1">
+            <span>old password</span>
+            <input type="password" placeholder="old password" spellcheck="false">
+          </label>
+          <label class="input-field light mt1">
+            <span>new password</span>
+            <input type="password" placeholder="new password" spellcheck="false">
+          </label>
+          <label class="input-field light mt1">
+            <span>retype password</span>
+            <input type="password" placeholder="retype password" spellcheck="false">
+          </label>
+        </section>
+        <div (click)="toggleSection(1)" class="section-title mt1">
+          <h4 class="accent">Private Details</h4>
+          <h4 class="accent">{{subStates[1] === 'open' ? '-' : '+'}}</h4>
+        </div>
+        <section class="section-body" [ngClass]="subStates[1] === 'open' ? '' : 'hide'">
+          <label class="input-field light mt1">
+            <span>fullname</span>
+            <input type="text" placeholder="fullname" spellcheck="false">
+          </label>
+          <label class="input-field light mt1">
+            <span>age</span>
+            <input type="number" placeholder="age" spellcheck="false">
+          </label>
+          <label class="input-field light mt1">
+            <span>height</span>
+            <input type="number" placeholder="height" spellcheck="false">
+          </label>
+        </section>
         <button class="light mt1" type="submit">Update</button>
-        <p class="accent mt05">logout</p>
+        <p (click)="logout()" class="accent mt1">logout</p>
       </form>
     </div>
     <div class="settings-footer">
