@@ -25,8 +25,15 @@
         width: 62px
         height: 62px
         border-radius: 50%
+        border: 2px solid $lightest-medium
       .settings-toggler
         cursor: pointer
+        path
+          fill: $lightest-medium
+          transition: all 0.35s ease-in-out
+      .settings-toggler:hover
+        path
+          fill: $accent
   .settings-container
     z-index: 99
     position: absolute
@@ -42,6 +49,26 @@
     .settings-form
       width: 100%
       flex-grow: 1
+      form
+        .section-title
+          display: flex
+          justify-content: space-between
+          width: 100%
+          height: auto
+          cursor: pointer
+        .section-body
+          transform: scaleY(1)
+          height: fit-content
+        .section-body.hide
+          transform: scaleY(0)
+          height: 0px
+      p
+        cursor: pointer
+    .user-image
+      width: $rem*6
+      height: $rem*6
+      border-radius: 50%
+      border: 2px solid $accent
     .settings-footer
       display: flex
       justify-content: center
@@ -52,7 +79,7 @@
         margin: $rem $rem*0.5 $rem*0.5 $rem*0.5
         cursor: pointer
         line
-          stroke: $lightest
+          stroke: $lightest-medium
           transition: all 0.35s ease-in-out 
       .settings-toggler:hover
         line
