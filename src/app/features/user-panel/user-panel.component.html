@@ -1,10 +1,8 @@
+<getfit-user-settings></getfit-user-settings>
 <div class="user-panel-container">
-  <h1 (click)="openSettings()">Welcome back {{userData?.username}}</h1>
-  <h1>User Panel</h1>
   <getfit-tracking-section [section]="'Breakfast'" (openSearchOverlay)="onOpenSearchOverlay()"></getfit-tracking-section>
   <getfit-tracking-section [section]="'Lunch'" (openSearchOverlay)="onOpenSearchOverlay()"></getfit-tracking-section>
   <getfit-tracking-section [section]="'Dinner'" (openSearchOverlay)="onOpenSearchOverlay()"></getfit-tracking-section>
   <getfit-tracking-section *ngIf="settingsState === 'closed'" [section]="'Snacks'" (openSearchOverlay)="onOpenSearchOverlay()"></getfit-tracking-section>
 </div>
 <getfit-search-overlay *ngIf="searchState === 'open'"></getfit-search-overlay>
-<getfit-user-settings></getfit-user-settings>
