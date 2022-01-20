@@ -31,6 +31,11 @@ export class UserSettingsComponent implements OnInit {
     private router: Router) { }
 
   ngOnInit(): void {
+    addEventListener('scroll', () => {
+      if(this.settingsState === 'open'){
+        window.scrollTo(0, 0);
+      }
+    });
   }
 
   toggleSettings(): void{
