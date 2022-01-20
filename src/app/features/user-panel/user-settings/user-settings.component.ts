@@ -1,5 +1,8 @@
 import { Component, OnInit} from '@angular/core';
 import { trigger, transition, animate, style } from '@angular/animations';
+import { Router } from '@angular/router';
+
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'getfit-user-settings',
@@ -21,7 +24,9 @@ import { trigger, transition, animate, style } from '@angular/animations';
 export class UserSettingsComponent implements OnInit {
   settingsState: 'open' | 'closed' = 'closed';
 
-  constructor() { }
+  constructor(
+    private auth: AuthService,
+    private router: Router) { }
 
   ngOnInit(): void {
     addEventListener('scroll', () => {
@@ -37,5 +42,14 @@ export class UserSettingsComponent implements OnInit {
     }else{
       this.settingsState = 'open';
     }
+  }
+
+  logout(): void{
+    this.auth.logout().subscribe({
+      next: response => {
+        this.auth.toggleLogin();
+        this.router.navigate(['login']);
+      }
+    });
   }
 }
