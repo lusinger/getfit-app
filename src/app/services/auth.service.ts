@@ -81,6 +81,15 @@ export class AuthService {
     });
   }
 
+  logout(): Observable<AuthResponse>{
+    return this.http.get<AuthResponse>(`${environment.serverUrl}/logout`, {
+      headers: this.defaultHeader,
+      observe: 'body',
+      responseType: 'json',
+      withCredentials: true,
+    });
+  }
+
   toggleLogin(): void{
     this.isLoggedIn = !this.isLoggedIn;
   }
