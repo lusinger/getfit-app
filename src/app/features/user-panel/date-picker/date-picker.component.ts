@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { trigger, transition, style, animate } from '@angular/animations';
 
 @Component({
@@ -22,14 +22,17 @@ export class DatePickerComponent implements OnInit {
   @Input() overlayState: 'open' | 'closed' = 'closed';
   @Input() currentDate: Date = new Date();
 
+  @Output() selectedDateChanged = new EventEmitter<Date>();
+
   selectedDate: Date = new Date(this.currentDate);
 
   days: string[] = ['Mo', 'Th', 'Tu', 'We', 'Fr', 'Sa', 'Su'];
-  fields: number[] = [1, 2, 3, 4, 5, 6, 7, 1, 2, 3, 4, 5, 6, 7, 1, 31, 3, 4, 5, 6, 7, 1, 2, 3, 4, 5, 6, 7, 1, 2, 3, 4, 5, 6, 7, 1, 2, 3, 4, 5, 6, 7, 1, 2, 3, 4, 5, 6, 7,]
+  dates: Date[] = [];
 
   constructor() { }
 
   ngOnInit(): void {
+    this.dates = this.generateCalendar(this.selectedDate);
     addEventListener('scroll', () => {
       if(this.overlayState === 'open'){
         window.scrollTo(0, 0);
@@ -37,8 +40,32 @@ export class DatePickerComponent implements OnInit {
     });
   }
 
-  generateCalendar(): void{
-
+  generateCalendar(date: Date): Date[]{
+    const dates: Date[] = [];
+    dates.push(date);
+    if(date.getDate() !== 0){
+      for(let index = 1; index < date.getDate(); index++){
+        dates.unshift(this.getPrevDate(dates[0]));
+      }
+      const firstDay = dates[0].getDay();
+      if(dates[0].getDay() !== 1){
+        for(let index = 1; index < firstDay; index++){
+          dates.unshift(this.getPrevDate(dates[0]));
+        }
+      }
+    }else{
+      const firstDay = dates[0].getDay();
+      if(dates[0].getDay() !== 1){
+        for(let index = 1; index < firstDay; index++){
+          dates.unshift(this.getPrevDate(dates[0]));
+        }
+      }
+    }
+    const length = dates.length;
+    for(let index = 1; index <= 42 - length; index++){
+      dates.push(this.getNextDate(dates[dates.length - 1]));
+    }
+    return dates;
   }
 
   getPrevDate(date: Date): Date{
@@ -63,6 +90,34 @@ export class DatePickerComponent implements OnInit {
     const nextMonth = new Date(date);
     nextMonth.setMonth(nextMonth.getMonth() + 1);
     return nextMonth;
+  }
+
+  selectPrevDate(date: Date): void{
+    this.selectDate(this.getPrevDate(date));
+  }
+
+  selectNextDate(date: Date): void{
+    this.selectDate(this.getNextDate(date));
+  }
+
+  selectPrevMonth(date: Date): void{
+    this.selectDate(this.getPrevMonth(date));
+  }
+
+  selectNextMonth(date: Date): void{
+    this.selectDate(this.getNextMonth(date));
+  }
+
+
+  selectDate(date: Date): void{
+    if(date.getMonth() !== this.selectedDate.getMonth()){
+      this.selectedDate = date;
+      this.dates = [];
+      this.dates = this.generateCalendar(this.selectedDate);
+    }else{
+      this.selectedDate = date;
+    }
+    this.selectedDateChanged.emit(date);
   }
 
   toggleOverlay(): void{
