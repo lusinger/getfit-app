@@ -1,58 +1,68 @@
 @import '../../../../sass/_variables'
   
-.ml05
-  margin-left: $rem*0.5
-.mr05
-  margin-right: $rem*0.5
-.mt2
-  margin-top: $rem*2
-
-.user-settings-wrapper
-  min-width: 100vw
-  min-height: 100vh
-  background: $darkest
-  position: absolute
-  display: flex
-  flex-flow: row
-  justify-content: center
-  top: 0
-  left: 0
-  padding: $rem*2 $rem
-  .user-settings-container
+.settings-wrapper
+  position: relative
+  width: 100vw
+  height: auto
+  .settings-header
+    position: sticky
+    top: 0
+    background: $darkest
+    display: flex
+    justify-content: center
     width: 100%
+    height: 80px
+    margin-bottom: $rem
+    .header-content
+      display: flex
+      width: 100%
+      height: auto
+      flex-flow: row
+      justify-content: space-between
+      align-items: center
+      padding: $rem*0.5
+      .user-image
+        width: 62px
+        height: 62px
+        border-radius: 50%
+      .settings-toggler
+        cursor: pointer
+  .settings-container
+    z-index: 99
+    position: absolute
     display: flex
     flex-flow: column
-    .user-settings-header
-    .user-settings-content
+    align-items: center
+    top: 0
+    left: 0
+    background: $darkest
+    min-width: 100vw
+    min-height: 100vh
+    padding: $rem*2 $rem
+    .settings-form
+      width: 100%
       flex-grow: 1
-      form
-        .input-field-group
-          display: flex
-          flex-flow: row
-          justify-content: space-between
-          margin-right: $rem*0.5
-        .form-footer
-          display: flex
-          width: 100%
-          height: auto
-          p
-            color: $accent
-            cursor: pointer
-    .user-settings-footer
-      border-bottom: 2px solid $lightest-medium 
+    .settings-footer
       display: flex
       justify-content: center
       align-items: center
-      .toggler
-        margin: $rem*1 $rem*0.5 $rem*0.5 $rem*0.5
-        .toggler-line
-          stroke: $lightest-medium
-          stroke-opacity: 1
-          transition: all 0.35s ease-in-out
-      .toggler:hover
-        .toggler-line
+      width: 100%
+      border-bottom: 2px solid $lightest-medium
+      .settings-toggler
+        margin: $rem $rem*0.5 $rem*0.5 $rem*0.5
+        cursor: pointer
+        line
+          stroke: $lightest
+          transition: all 0.35s ease-in-out 
+      .settings-toggler:hover
+        line
           stroke: $accent
 
 @media (min-width: $query-small)
-  .user-settings-container
+  .header-content
     max-width: 600px
+  .settings-container
+    .settings-form
+      max-width: 600px
+    .settings-footer
+      max-width: 600px
