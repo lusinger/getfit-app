@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
+import { trigger, transition, style, animate } from '@angular/animations';
 
 import {User} from '../../interfaces/user';
 
@@ -37,5 +38,13 @@ export class UserPanelComponent implements OnInit {
   onOpenSearchOverlay(): void{
     this.settingsState = 'closed';
     this.searchState = 'open';
+  }
+
+  toggleOverlay($event: 'open' | 'closed'): void{
+    if(this.searchState === 'open'){
+      this.searchState = 'closed';
+    }else{
+      this.searchState = 'open';
+    }
   }
 }

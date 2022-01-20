@@ -1,4 +1,4 @@
-<div class="search-overlay-wrapper">
+<div *ngIf="overlayState === 'open'" class="search-overlay-wrapper" @toggleOverlay>
   <div class="search-overlay-container">
     <div class="search-overlay-header">
       <h3 class="title-line-1">Add<span>{{searchValue}}</span>to</h3>
@@ -45,7 +45,7 @@
       </ul>
     </div>
     <div class="search-overlay-footer">
-      <svg class="toggler" width="28" height="28" viewBox="0 0 28 28">
+      <svg (click)="closeSearch()" class="toggler" width="28" height="28" viewBox="0 0 28 28">
         <line class="toggler-line" x1="1.29289" y1="26.7487" x2="26.7487" y2="1.29286" stroke="#112031" stroke-opacity="1" stroke-width="3"/>
         <line class="toggler-line" x1="26.7488" y1="27.1629" x2="1.29292" y2="1.70707" stroke="#112031" stroke-opacity="1" stroke-width="3"/>
       </svg>  
