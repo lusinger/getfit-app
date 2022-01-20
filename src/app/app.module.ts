@@ -18,6 +18,7 @@ import { UserSettingsComponent } from './features/user-panel/user-settings/user-
 import { TrackingSectionComponent } from './features/user-panel/tracking-section/tracking-section.component';
 import { SectionItemComponent } from './features/user-panel/tracking-section/section-item/section-item.component';
 import { AddItemComponent } from './features/user-panel/tracking-section/add-item/add-item.component';
+import { DatePickerComponent } from './features/user-panel/date-picker/date-picker.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { AddItemComponent } from './features/user-panel/tracking-section/add-ite
     SectionItemComponent,
     AddItemComponent,
     ResetComponent,
+    DatePickerComponent,
   ],
   imports: [
     BrowserModule,
