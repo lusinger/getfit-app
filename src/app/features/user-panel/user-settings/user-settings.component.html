@@ -8,7 +8,7 @@
       </svg>
     </div>
   </div>
-  <div @toggleSettings *ngIf="settingsState === 'open'" class="settings-container">
+  <div (scroll)="lockScroll($event)" @toggleSettings *ngIf="settingsState === 'open'" class="settings-container">
     <div class="settings-form">
       <form>
         <h3 class="accent">Account Settings</h3>

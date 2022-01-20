@@ -1,4 +1,4 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, HostListener, OnInit} from '@angular/core';
 import { trigger, transition, animate, style } from '@angular/animations';
 import { Router } from '@angular/router';
 
@@ -29,11 +29,6 @@ export class UserSettingsComponent implements OnInit {
     private router: Router) { }
 
   ngOnInit(): void {
-    addEventListener('scroll', () => {
-      if(this.settingsState === 'open'){
-        window.scrollTo(0, 0);
-      }
-    });
   }
 
   toggleSettings(): void{
@@ -51,5 +46,12 @@ export class UserSettingsComponent implements OnInit {
         this.router.navigate(['login']);
       }
     });
+  }
+
+  @HostListener('window:scroll', ['$event'])
+  lockScroll(event: any): void{
+    if(this.settingsState === 'open'){
+      window.scrollTo(0, 0);
+    }
   }
 }

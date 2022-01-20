@@ -25,8 +25,15 @@
         width: 62px
         height: 62px
         border-radius: 50%
+        border: 2px solid $lightest-medium
       .settings-toggler
         cursor: pointer
+        path
+          fill: $lightest-medium
+          transition: all 0.35s ease-in-out
+      .settings-toggler:hover
+        path
+          fill: $accent
   .settings-container
     z-index: 99
     position: absolute
@@ -54,7 +61,7 @@
         margin: $rem $rem*0.5 $rem*0.5 $rem*0.5
         cursor: pointer
         line
-          stroke: $lightest
+          stroke: $lightest-medium
           transition: all 0.35s ease-in-out 
       .settings-toggler:hover
         line
