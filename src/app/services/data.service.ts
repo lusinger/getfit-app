@@ -67,10 +67,13 @@ export class DataService {
   } 
   
   getEntries = (date: Date): Observable<AuthResponse> => {
+    const year = date.getFullYear();
+    const month = date.getMonth();
+    const day = date.getDate();
     const params = new HttpParams()
-      .set('year', date.getFullYear())
-      .set('month', date.getMonth())
-      .set('date', date.getDate() + 1);
+      .set('year', year)
+      .set('month', month)
+      .set('date', day);
 
     return this.http.get<AuthResponse>(`${environment.serverUrl}/entries`, {
       headers: this.defaultHeader,
@@ -79,5 +82,18 @@ export class DataService {
       responseType: 'json',
       withCredentials: true,
     });
+  }
+
+  deleteEntry = (id: number): Observable<AuthResponse> => {
+    const params = new HttpParams()
+      .set('id', id);
+
+    return this.http.delete<AuthResponse>(`${environment.serverUrl}/delete/entry`, {
+      headers: this.defaultHeader,
+      params: params,
+      observe: 'body',
+      responseType: 'json',
+      withCredentials: true,
+    })
   }
 }
