@@ -1,6 +1,6 @@
 <getfit-user-settings></getfit-user-settings>
 <div class="user-panel-container">
-  <getfit-date-picker (selectedDateChanged)="undefined"></getfit-date-picker>
+  <getfit-date-picker (selectedDateChanged)="onSelectedDateChanged($event)"></getfit-date-picker>
   <getfit-tracking-section [section]="'Breakfast'" (openSearchOverlay)="onOpenSearchOverlay()"></getfit-tracking-section>
   <getfit-tracking-section [section]="'Lunch'" (openSearchOverlay)="onOpenSearchOverlay()"></getfit-tracking-section>
   <getfit-tracking-section [section]="'Dinner'" (openSearchOverlay)="onOpenSearchOverlay()"></getfit-tracking-section>

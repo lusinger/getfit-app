@@ -38,4 +38,8 @@ export class UserPanelComponent implements OnInit {
     this.settingsState = 'closed';
     this.searchState = 'open';
   }
+
+  onSelectedDateChanged($event: Date): void{
+    this.selectedDate = $event;
+  }
 }
