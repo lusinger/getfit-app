@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, retry, throwError, catchError } from 'rxjs';
 import { Item } from '../interfaces/item';
 import { environment } from 'src/environments/environment';
+import { AuthResponse } from '../interfaces/auth-response';
 
 @Injectable({
   providedIn: 'root'
@@ -51,4 +52,32 @@ export class DataService {
       withCredentials: true,
     });
   };
+
+  getEntry = (id: number): Observable<AuthResponse> => {
+    const params = new HttpParams()
+      .set('id', id);
+
+    return this.http.get<AuthResponse>(`${environment.serverUrl}/entry.${id}`, {
+      headers: this.defaultHeader,
+      params: params,
+      observe: 'body',
+      responseType: 'json',
+      withCredentials: true,
+    });
+  } 
+  
+  getEntries = (date: Date): Observable<AuthResponse> => {
+    const params = new HttpParams()
+      .set('year', date.getFullYear())
+      .set('month', date.getMonth())
+      .set('date', date.getDate() + 1);
+
+    return this.http.get<AuthResponse>(`${environment.serverUrl}/entries`, {
+      headers: this.defaultHeader,
+      params: params,
+      observe: 'body',
+      responseType: 'json',
+      withCredentials: true,
+    });
+  }
 }
