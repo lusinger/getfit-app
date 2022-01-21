@@ -1,8 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { trigger, transition, style, animate } from '@angular/animations';
+import { DataService } from 'src/app/services/data.service';
 
 import {User} from '../../interfaces/user';
+
+interface EntryData{
+  breakfast: any[];
+  lunch: any[];
+  dinner: any[];
+  snack: any[];
+}
 
 @Component({
   selector: 'getfit-user-panel',
@@ -11,12 +19,20 @@ import {User} from '../../interfaces/user';
 })
 export class UserPanelComponent implements OnInit {
   userData: User | null = null;
+  entryData: EntryData = {
+    breakfast: [], 
+    lunch: [], 
+    dinner: [], 
+    snack: []
+  };
 
   selectedDate: Date = new Date();
   settingsState: 'open' | 'closed' = 'closed';
   searchState: 'open' | 'closed' = 'closed';
 
-  constructor(private auth: AuthService) { }
+  constructor(
+    private auth: AuthService,
+    private data: DataService) { }
 
   ngOnInit(): void {
     this.auth.loadUser().subscribe({
@@ -24,6 +40,19 @@ export class UserPanelComponent implements OnInit {
         console.log(response);
         this.userData = response.payload;
       },
+    });
+    this.data.getEntries(this.selectedDate).subscribe({
+      next: (response) => {
+        this.entryData = {breakfast: [], lunch: [], dinner: [], snack: []};
+        this.entryData.breakfast = response.payload?.breakfast;
+        this.entryData.lunch = response.payload?.lunch;
+        this.entryData.dinner = response.payload?.dinner;
+        this.entryData.snack = response.payload?.snack;
+        console.log(this.entryData);
+      },
+      error: (error) => {
+        console.log(error);
+      }
     });
   }
 
@@ -46,5 +75,19 @@ export class UserPanelComponent implements OnInit {
     }else{
       this.searchState = 'open';
     }
+  }
+  
+  onSelectedDateChanged($event: Date): void{
+    this.selectedDate = $event;
+    this.data.getEntries(this.selectedDate).subscribe({
+      next: (response) => {
+        this.entryData = {breakfast: [], lunch: [], dinner: [], snack: []};
+        this.entryData.breakfast = response.payload.breakfast;
+        this.entryData.lunch = response.payload.lunch;
+        this.entryData.dinner = response.payload.dinner;
+        this.entryData.snack = response.payload.snack;
+        console.log(this.entryData);
+      }
+    });
   }
 }

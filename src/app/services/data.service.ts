@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, retry, throwError, catchError } from 'rxjs';
 import { Item } from '../interfaces/item';
 import { environment } from 'src/environments/environment';
+import { AuthResponse } from '../interfaces/auth-response';
 
 @Injectable({
   providedIn: 'root'
@@ -51,4 +52,48 @@ export class DataService {
       withCredentials: true,
     });
   };
+
+  getEntry = (id: number): Observable<AuthResponse> => {
+    const params = new HttpParams()
+      .set('id', id);
+
+    return this.http.get<AuthResponse>(`${environment.serverUrl}/entry.${id}`, {
+      headers: this.defaultHeader,
+      params: params,
+      observe: 'body',
+      responseType: 'json',
+      withCredentials: true,
+    });
+  } 
+  
+  getEntries = (date: Date): Observable<AuthResponse> => {
+    const year = date.getFullYear();
+    const month = date.getMonth();
+    const day = date.getDate();
+    const params = new HttpParams()
+      .set('year', year)
+      .set('month', month)
+      .set('date', day);
+
+    return this.http.get<AuthResponse>(`${environment.serverUrl}/entries`, {
+      headers: this.defaultHeader,
+      params: params,
+      observe: 'body',
+      responseType: 'json',
+      withCredentials: true,
+    });
+  }
+
+  deleteEntry = (id: number): Observable<AuthResponse> => {
+    const params = new HttpParams()
+      .set('id', id);
+
+    return this.http.delete<AuthResponse>(`${environment.serverUrl}/delete/entry`, {
+      headers: this.defaultHeader,
+      params: params,
+      observe: 'body',
+      responseType: 'json',
+      withCredentials: true,
+    })
+  }
 }

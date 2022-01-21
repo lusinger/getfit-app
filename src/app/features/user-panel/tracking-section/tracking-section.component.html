@@ -6,6 +6,6 @@
       <line class="toggler-line" x1="10.7071" y1="0.707107" x2="0.707107" y2="10.7071" stroke="#112031" stroke-opacity="0.5" stroke-width="2"/>
     </svg> 
   </div>
-  <getfit-section-item *ngFor="let item of items; let i = index" (itemRemoved)="onItemRemoved(i)"></getfit-section-item>
+  <getfit-section-item *ngFor="let entry of entries; let i = index" [itemData]="entry" (itemRemoved)="onItemRemoved($event)"></getfit-section-item>
   <getfit-add-item (openSearchOverlay)="onOpenSearchOverlay()"></getfit-add-item>
 </div>

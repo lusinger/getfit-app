@@ -1,9 +1,9 @@
 <getfit-user-settings></getfit-user-settings>
 <div class="user-panel-container">
-  <getfit-date-picker></getfit-date-picker>
-  <getfit-tracking-section [section]="'Breakfast'" (openSearchOverlay)="onOpenSearchOverlay()"></getfit-tracking-section>
-  <getfit-tracking-section [section]="'Lunch'" (openSearchOverlay)="onOpenSearchOverlay()"></getfit-tracking-section>
-  <getfit-tracking-section [section]="'Dinner'" (openSearchOverlay)="onOpenSearchOverlay()"></getfit-tracking-section>
-  <getfit-tracking-section *ngIf="settingsState === 'closed'" [section]="'Snacks'" (openSearchOverlay)="onOpenSearchOverlay()"></getfit-tracking-section>
+  <getfit-date-picker (selectedDateChanged)="onSelectedDateChanged($event)"></getfit-date-picker>
+  <getfit-tracking-section [entries]="entryData.breakfast" [section]="'Breakfast'" (openSearchOverlay)="onOpenSearchOverlay()"></getfit-tracking-section>
+  <getfit-tracking-section [entries]="entryData.lunch" [section]="'Lunch'" (openSearchOverlay)="onOpenSearchOverlay()"></getfit-tracking-section>
+  <getfit-tracking-section [entries]="entryData.dinner" [section]="'Dinner'" (openSearchOverlay)="onOpenSearchOverlay()"></getfit-tracking-section>
+  <getfit-tracking-section [entries]="entryData.snack" *ngIf="settingsState === 'closed'" [section]="'Snacks'" (openSearchOverlay)="onOpenSearchOverlay()"></getfit-tracking-section>
 </div>
 <getfit-search-overlay [overlayState]="searchState" (closeOverlay)="toggleOverlay($event)"></getfit-search-overlay>

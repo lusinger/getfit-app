@@ -1,7 +1,7 @@
 <div class="section-item-container" [ngClass]="remove ? 'remove' : ''">
   <div class="item-content">
-    <p>itemname</p>
-    <p>10 kcal</p>
+    <p>{{itemData.amount}}{{itemData.unit}} {{itemData.itemname}}</p>
+    <p>{{calculateCalories() | number: '1.0-0'}} kcal</p>
   </div>
   <div class="item-control">
     <svg class="edit-button" width="15" height="15" viewBox="0 0 15 15">
