@@ -5,6 +5,8 @@ import { Item } from '../interfaces/item';
 import { environment } from 'src/environments/environment';
 import { AuthResponse } from '../interfaces/auth-response';
 
+import { Entry } from '../interfaces/entry';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -53,11 +55,11 @@ export class DataService {
     });
   };
 
-  getEntry = (id: number): Observable<AuthResponse> => {
+  getEntry = (id: number): Observable<Entry> => {
     const params = new HttpParams()
       .set('id', id);
 
-    return this.http.get<AuthResponse>(`${environment.serverUrl}/entry.${id}`, {
+    return this.http.get<Entry>(`${environment.serverUrl}/entry.${id}`, {
       headers: this.defaultHeader,
       params: params,
       observe: 'body',
@@ -66,7 +68,7 @@ export class DataService {
     });
   } 
   
-  getEntries = (date: Date): Observable<AuthResponse> => {
+  getEntries = (date: Date): Observable<Entry[]> => {
     const year = date.getFullYear();
     const month = date.getMonth();
     const day = date.getDate();
@@ -75,7 +77,7 @@ export class DataService {
       .set('month', month)
       .set('date', day);
 
-    return this.http.get<AuthResponse>(`${environment.serverUrl}/entries`, {
+    return this.http.get<Entry[]>(`${environment.serverUrl}/entries`, {
       headers: this.defaultHeader,
       params: params,
       observe: 'body',
