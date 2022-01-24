@@ -46,7 +46,6 @@ export class SearchOverlayComponent implements OnInit {
   });
 
   @Output() closeOverlay = new EventEmitter<'open' | 'closed'>();
-  @Output() addToSection = new EventEmitter<Entry[]>();
   @Input() overlaySection: Sections | null = null;
   @Input() overlayState: 'open' | 'closed' = 'closed';
 
@@ -130,7 +129,6 @@ export class SearchOverlayComponent implements OnInit {
   }
 
   onAddToSection(): void{
-    this.addToSection.emit(this.addedItems);
   }
 
   getItemName(entry: Entry): string | null{
