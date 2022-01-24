@@ -32,11 +32,10 @@ export class ResetComponent implements OnInit {
       let query: any;
       this.active.queryParams.subscribe({
         next: (param) => {
-          console.log(param['access']);
           query = param['access'];
         },
       });
-      this.auth.resetPwRequest({access: query}).subscribe({
+      this.auth.resetPassword({access: query}).subscribe({
         next: (response) => {
           console.log(response)
           if(response.payload){
@@ -52,7 +51,7 @@ export class ResetComponent implements OnInit {
   }
 
   onMailSubmit(): void{
-    this.auth.resetPwRequest({mail: this.resetForm.value.mail}).subscribe({
+    this.auth.resetPassword({mail: this.resetForm.value.mail}).subscribe({
       next: (response) => {
         console.log(response)
         if(response.payload){
@@ -66,7 +65,15 @@ export class ResetComponent implements OnInit {
   onPasswordSubmit(): void{
     this.auth.resetPassword({newPassword: this.passwordForm.value.password}).subscribe({
       next: (response) => {
-
+        switch(response.statusCode){
+          case 200:
+            this.passwordForm.reset();
+            this.navigateTo('login'); 
+            break;
+          case 409:
+            this.errorMessage = response.message;
+            break;
+        }
       }
     });
   }
