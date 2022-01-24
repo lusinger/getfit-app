@@ -1,19 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
-import { trigger, transition, style, animate } from '@angular/animations';
 import { DataService } from 'src/app/services/data.service';
 
-import {User} from '../../interfaces/user';
-import { Sections } from 'src/app/types/sections';
-
 import {Entry} from '../../interfaces/entry';
-
-interface EntryData{
-  breakfast: Entry[];
-  lunch: Entry[];
-  dinner: Entry[];
-  snack: Entry[];
-}
+import { Sections } from 'src/app/types/sections';
+import { SectionEntries } from 'src/app/classes/section-entries';
 
 @Component({
   selector: 'getfit-user-panel',
@@ -21,13 +12,7 @@ interface EntryData{
   styleUrls: ['./user-panel.component.sass']
 })
 export class UserPanelComponent implements OnInit {
-  userData: User | null = null;
-  entryData: EntryData = {
-    breakfast: [], 
-    lunch: [], 
-    dinner: [], 
-    snack: []
-  };
+  entries = new SectionEntries([], [], [], []);
 
   selectedDate: Date = new Date();
   selectedSection: Sections | null = null;
@@ -46,33 +31,7 @@ export class UserPanelComponent implements OnInit {
         console.log(this.auth.user);
       },
     });
-    this.data.getEntries(this.selectedDate).subscribe({
-      next: (response) => {
-        if(response.length > 0){
-          this.entryData = {breakfast: [], lunch: [], dinner: [], snack: []};
-          console.log(response);
-          response.forEach((entry) => {
-            switch(entry.section){
-              case 'breakfast':
-                this.entryData.breakfast.push(entry);
-                break;
-              case 'lunch':
-                this.entryData.lunch.push(entry);
-                break;
-              case 'dinner':
-                this.entryData.dinner.push(entry);
-                break;
-              case 'snack':
-                this.entryData.snack.push(entry);
-                break;
-            }
-          });
-        }
-      },
-      error: (error) => {
-        console.log(error);
-      }
-    });
+    this.fetchEntries(this.selectedDate);
   }
 
   openSettings(): void{
@@ -97,27 +56,22 @@ export class UserPanelComponent implements OnInit {
     }
   }
   
-  onSelectedDateChanged($event: Date): void{
+  onDateChanged($event: Date): void{
     this.selectedDate = $event;
-    this.data.getEntries(this.selectedDate).subscribe({
-      next: (response) => {
-        this.entryData = {breakfast: [], lunch: [], dinner: [], snack: []};
-        response.forEach((entry) => {
-          switch(entry.section){
-            case 'breakfast':
-              this.entryData.breakfast.push(entry);
-              break;
-            case 'lunch':
-              this.entryData.lunch.push(entry);
-              break;
-            case 'dinner':
-              this.entryData.dinner.push(entry);
-              break;
-            case 'snack':
-              this.entryData.snack.push(entry);
-              break;
-          }
-        });
+    this.fetchEntries(this.selectedDate);
+  }
+
+  fetchEntries(date: Date): void{
+    this.entries.clearData();
+    this.data.getEntries(date).subscribe({
+      next: (response: Entry[]) => {
+        this.entries.addData(response);
+      },
+      error: (error) => {
+
+      },
+      complete: () => {
+
       }
     });
   }
