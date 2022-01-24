@@ -17,6 +17,7 @@
   margin-top: $rem*0.5
 
 a
+  cursor: pointer
   text-decoration: none
   color: $darkest
   transition: all 0.25s ease-in-out
@@ -26,6 +27,9 @@ a:focus
   color: $accent
 a.light
   color: $lightest
+a.light::selection
+  color: $darkest
+  background: $lightest
 a.light:hover
   color: $accent
 a.light:focus
@@ -44,6 +48,14 @@ h1.light, h2.light, h3.light, h4.light
   color: $lightest
 h1.accent, h2.accent, h3.accent, h4.accent
   color: $accent
+
+h1::selection, h2::selection, h3::selection, h4::selection
+  color: $lightest
+  background: $darkest
+h1.light::selection, h2.light::selection, h3.light::selection, h4.light::selection
+  color: $darkest
+  background: $lightest
+
 
 h1
   font-size: $rem*3
@@ -106,6 +118,9 @@ h4
 .input-field.light
   input
     color: $lightest
+  input::selection
+    color: $darkest
+    background: $lightest
   input::placeholder
     color: $lightest-medium
 .input-field.light::before
@@ -166,6 +181,9 @@ h4
     background: $accent
   span
     color: $lightest-medium
+  span::selection
+    color: $darkest
+    background: $lightest
   input[type="radio"]:checked + span
     color: $accent
 
@@ -227,6 +245,7 @@ button
   width: 100%
   height: 40px
   transition: all 0.5s ease-in-out
+  user-select: none
 button:focus
   outline: none
   background: $lightest-medium
@@ -240,7 +259,7 @@ button:disabled
   color: $darkest
 
 button.light
-  background: $lightest-medium
+  background: $accent
   color: $darkest
 button.light:focus
   background: $accent
