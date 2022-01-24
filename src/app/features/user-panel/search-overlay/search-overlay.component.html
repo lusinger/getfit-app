@@ -38,7 +38,7 @@
       <ul *ngIf="addedItems !== []" class="added-item-container mt1">
         <li @addedItem *ngFor="let item of addedItems" class="added-item">
           <div class="result-content">
-            <p class="result-name">{{item.amount}}{{item.unit}} {{item.itemname}}</p>
+            <p class="result-name">{{item.amount}}{{item.unit}} {{item.content.id}}</p>
           </div>
           <p class="result-control" (click)="removeItem(item)">X</p>
         </li>

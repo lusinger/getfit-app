@@ -6,8 +6,8 @@ import { Sections } from "../types/sections";
 export interface Entry {
   id?: number;
   createdon: Date;
-  userid: number;
-  entryid: number;
+  userid?: number;
+  entryid?: number;
   amount: number;
   unit: Units;
   isrecipe: boolean;

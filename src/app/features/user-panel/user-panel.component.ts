@@ -44,11 +44,22 @@ export class UserPanelComponent implements OnInit {
     this.data.getEntries(this.selectedDate).subscribe({
       next: (response) => {
         this.entryData = {breakfast: [], lunch: [], dinner: [], snack: []};
-        this.entryData.breakfast = response.payload?.breakfast;
-        this.entryData.lunch = response.payload?.lunch;
-        this.entryData.dinner = response.payload?.dinner;
-        this.entryData.snack = response.payload?.snack;
-        console.log(this.entryData);
+        response.forEach((entry) => {
+          switch(entry.section){
+            case 'breakfast':
+              this.entryData.breakfast.push(entry);
+              break;
+            case 'lunch':
+              this.entryData.lunch.push(entry);
+              break;
+            case 'dinner':
+              this.entryData.dinner.push(entry);
+              break;
+            case 'snack':
+              this.entryData.snack.push(entry);
+              break;
+          }
+        });
       },
       error: (error) => {
         console.log(error);
@@ -82,11 +93,22 @@ export class UserPanelComponent implements OnInit {
     this.data.getEntries(this.selectedDate).subscribe({
       next: (response) => {
         this.entryData = {breakfast: [], lunch: [], dinner: [], snack: []};
-        this.entryData.breakfast = response.payload.breakfast;
-        this.entryData.lunch = response.payload.lunch;
-        this.entryData.dinner = response.payload.dinner;
-        this.entryData.snack = response.payload.snack;
-        console.log(this.entryData);
+        response.forEach((entry) => {
+          switch(entry.section){
+            case 'breakfast':
+              this.entryData.breakfast.push(entry);
+              break;
+            case 'lunch':
+              this.entryData.lunch.push(entry);
+              break;
+            case 'dinner':
+              this.entryData.dinner.push(entry);
+              break;
+            case 'snack':
+              this.entryData.snack.push(entry);
+              break;
+          }
+        });
       }
     });
   }

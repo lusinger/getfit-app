@@ -5,6 +5,7 @@ import { Item } from 'src/app/interfaces/item';
 import { Entry } from 'src/app/interfaces/entry';
 
 import { DataService } from 'src/app/services/data.service';
+import { Units } from 'src/app/types/units';
 
 @Component({
   selector: 'getfit-search-overlay',
@@ -53,7 +54,7 @@ export class SearchOverlayComponent implements OnInit {
   searchResults: Item[] | 'empty' = 'empty';
   addedItems: Entry[] = [];
   selectedItem: Item | null = null;
-  units: 'ml' | 'g' | 'El' | 'Pers' = 'g';
+  units: Units = 'g';
 
   constructor(
     private data: DataService,
@@ -83,7 +84,7 @@ export class SearchOverlayComponent implements OnInit {
 
   addItem(): void{
     if(this.selectedItem){
-      const newEntry: Entry = {createdon: new Date(), itemname: this.selectedItem.itemname, amount: 100, unit: 'EL'};
+      const newEntry: Entry = {createdon: new Date(), amount: 100, unit: 'EL', isrecipe: false, section: 'breakfast', content: this.selectedItem};
       this.addedItems.push(newEntry);
     }
   }
