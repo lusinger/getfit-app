@@ -7,6 +7,7 @@ import { RegisterRequest } from '../interfaces/register-request';
 import { AuthResponse } from '../interfaces/auth-response';
 
 import { environment } from 'src/environments/environment';
+import { User } from '../interfaces/user';
 
 interface PWReset{
   newPassword: string;
@@ -21,6 +22,7 @@ export class AuthService {
   });
 
   isLoggedIn: boolean = false;
+  user: User | null = null;
 
   constructor(private http: HttpClient,) { }
 
@@ -92,6 +94,10 @@ export class AuthService {
 
   toggleLogin(): void{
     this.isLoggedIn = !this.isLoggedIn;
+  }
+
+  setUser(user: User): void{
+    this.user = user;
   }
 }
  

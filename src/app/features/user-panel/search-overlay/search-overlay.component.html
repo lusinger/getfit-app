@@ -55,7 +55,7 @@
           <p class="result-control" (click)="removeItem(entry)">X</p>
         </li>
       </ul>
-      <button *ngIf="addedItems.length > 0" class="mt1" type="submit" (submit)="onAddToSection()">add to section</button>
+      <button *ngIf="addedItems.length > 0" class="mt1" type="button" (click)="onAddToSection()">add to section</button>
     </div>
     <div class="search-overlay-footer">
       <svg (click)="closeSearch()" class="toggler" width="28" height="28" viewBox="0 0 28 28">

@@ -27,13 +27,13 @@ export class SectionItemComponent implements OnInit {
     let calories = 0;
     switch(this.itemData.unit){
       case 'g':
-        calories = this.itemData.amount * this.itemData.perg;
+        calories = this.itemData.amount * this.itemData.content.perg;
         break;
       case 'ml':
-        calories = this.itemData.amount * this.itemData.perml;
+        calories = this.itemData.amount * this.itemData.content.perml;
         break;
       case 'EL':
-        calories = this.itemData.amount * this.itemData.perel;
+        calories = this.itemData.amount * this.itemData.content.perel;
         break;
       default:
         calories = 0;

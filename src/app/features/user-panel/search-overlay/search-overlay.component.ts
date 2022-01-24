@@ -7,6 +7,7 @@ import { Entry } from 'src/app/interfaces/entry';
 import { DataService } from 'src/app/services/data.service';
 import { Units } from 'src/app/types/units';
 import { Sections } from 'src/app/types/sections';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'getfit-search-overlay',
@@ -63,6 +64,7 @@ export class SearchOverlayComponent implements OnInit {
 
   constructor(
     private data: DataService,
+    private auth: AuthService,
   ) { }
 
   ngOnInit(): void {
@@ -88,8 +90,8 @@ export class SearchOverlayComponent implements OnInit {
   }
 
   addEntry(): void{
-    if(this.selectedItem && this.overlaySection){
-      const newEntry: Entry = {createdon: new Date(), amount: this.detailForm.value.amount, unit: this.selectedUnit, entryid: this.selectedItem.id, isrecipe: false, section: this.overlaySection};
+    if(this.selectedItem && this.overlaySection && this.auth.user){
+      const newEntry: Entry = {createdon: new Date(), userid: this.auth.user.id, amount: this.detailForm.value.amount, unit: this.selectedUnit, entryid: this.selectedItem.id, isrecipe: false, section: this.overlaySection};
       this.addedItems.push(newEntry);
       this.cachedResults.push(this.selectedItem);
       this.searchValue = '';
@@ -109,6 +111,11 @@ export class SearchOverlayComponent implements OnInit {
 
   closeSearch(): void{
     this.overlayState = 'closed';
+    this.searchValue = ' ';
+    this.searchResults = 'empty';
+    this.cachedResults = [];
+    this.selectedItem = null;
+    this.addedItems = [];
     this.closeOverlay.emit('closed');
   }
 
@@ -129,6 +136,12 @@ export class SearchOverlayComponent implements OnInit {
   }
 
   onAddToSection(): void{
+    this.data.addEntries(this.addedItems).subscribe({
+      next: (response) => {
+        console.log(response);
+        this.closeSearch();
+      }
+    })
   }
 
   getItemName(entry: Entry): string | null{
