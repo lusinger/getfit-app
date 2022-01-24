@@ -20,6 +20,7 @@ import { SectionItemComponent } from './features/user-panel/tracking-section/sec
 import { AddItemComponent } from './features/user-panel/tracking-section/add-item/add-item.component';
 import { DatePickerComponent } from './features/user-panel/date-picker/date-picker.component';
 import { ScrollLockDirective } from './directives/scroll-lock.directive';
+import { EntryContentPipe } from './pipes/entry-content.pipe';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { ScrollLockDirective } from './directives/scroll-lock.directive';
     ResetComponent,
     DatePickerComponent,
     ScrollLockDirective,
+    EntryContentPipe,
   ],
   imports: [
     BrowserModule,

@@ -2,7 +2,7 @@
   <div class="search-overlay-container">
     <div class="search-overlay-header">
       <h3 class="title-line-1">Add<span>{{searchValue}}</span>to</h3>
-      <h3 class="title-line-2">Section Title</h3>
+      <h3 class="title-line-2">{{overlaySection}}</h3>
       <h3 class="title-line-3">Section</h3>
     </div>
     <div class="search-overlay-content">
@@ -22,27 +22,40 @@
           </div>
         </div>
       </form>
-      <form [formGroup]="detailForm" *ngIf="addState === 'details'" (ngSubmit)="addItem()">
+      <form class="detail-form" [formGroup]="detailForm" *ngIf="addState === 'details'" (ngSubmit)="addEntry()">
         <div class="input-field-container mt1">
           <label class="input-field">
             <span>amount</span>
             <input formControlName="amount" type="number" placeholder="amount" spellcheck="false">
           </label>
-          <label class="input-field">
-            <span>unit</span>
-            <input formControlName="unit" type="text" placeholder="unit" spellcheck="false">
-          </label>
-        </div>
-        <button class="mt1" type="submit">add item</button>
-      </form>
-      <ul *ngIf="addedItems !== []" class="added-item-container mt1">
-        <li @addedItem *ngFor="let item of addedItems" class="added-item">
-          <div class="result-content">
-            <p class="result-name">{{item.amount}}{{item.unit}} {{item.itemname}}</p>
+          <div class="select-container mt1" [ngStyle]="optionsShown ? {'height': '200px'} : {'height': '40px'}">
+            <div class="select-header" (click)="toggleOptions()">
+              <p>{{selectedUnit}}</p>
+              <p class="toggler">{{optionsShown ? '-' : '+'}}</p>
+            </div>
+            <div class="select-options" *ngIf="optionsShown">
+              <div *ngFor="let option of units; let i = index" class="option" (click)="selectUnit(option)">
+                <p>{{option}}</p>
+              </div>
+            </div>
           </div>
-          <p class="result-control" (click)="removeItem(item)">X</p>
+        </div>
+      </form>
+      <ul *ngIf="addedItems.length > 0" class="added-item-container mt1">
+        <li @addedItem *ngFor="let entry of addedItems" class="added-item">
+          <div class="result-content">
+            <div class="result-data">
+              <p class="result-name">{{entry.amount}}{{entry.unit}} {{getItemName(entry)}}</p>
+              <p>{{
+                (entry.unit === 'g' ? getItem(entry).perg * entry.amount : 
+                (entry.unit === 'ml' ? getItem(entry).perml * entry.amount : 
+                (entry.unit === 'EL' ? getItem(entry).perel * entry.amount : '0'))) | number: '1.0-0'}} kcal</p>
+            </div>
+          </div>
+          <p class="result-control" (click)="removeItem(entry)">X</p>
         </li>
       </ul>
+      <button *ngIf="addedItems.length > 0" class="mt1" type="submit" (submit)="onAddToSection()">add to section</button>
     </div>
     <div class="search-overlay-footer">
       <svg (click)="closeSearch()" class="toggler" width="28" height="28" viewBox="0 0 28 28">

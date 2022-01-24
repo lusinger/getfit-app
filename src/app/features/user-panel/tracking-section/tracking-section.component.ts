@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { DataService } from 'src/app/services/data.service';
+import { Sections } from 'src/app/types/sections';
 
 @Component({
   selector: 'getfit-tracking-section',
@@ -7,10 +8,10 @@ import { DataService } from 'src/app/services/data.service';
   styleUrls: ['./tracking-section.component.sass']
 })
 export class TrackingSectionComponent implements OnInit {
-  @Input() section: string = 'default';
+  @Input() section: Sections | null = null;
   @Input() entries: any[] = [];
 
-  @Output() openSearchOverlay = new EventEmitter();
+  @Output() openSearchOverlay = new EventEmitter<Sections | null>();
 
   constructor(private data: DataService) { }
 
@@ -33,6 +34,6 @@ export class TrackingSectionComponent implements OnInit {
   }
 
   onOpenSearchOverlay(): void{
-    this.openSearchOverlay.emit();
+    this.openSearchOverlay.emit(this.section);
   }
 }
