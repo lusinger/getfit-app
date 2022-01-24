@@ -86,6 +86,15 @@ export class DataService {
     });
   }
 
+  addEntries = (entries: Entry[]): Observable<AuthResponse> => {
+    return this.http.post<AuthResponse>(`${environment.serverUrl}/create/entries`, entries, {
+      headers: this.defaultHeader,
+      observe: 'body',
+      responseType: 'json',
+      withCredentials: true,
+    });
+  }
+
   deleteEntry = (id: number): Observable<AuthResponse> => {
     const params = new HttpParams()
       .set('id', id);
