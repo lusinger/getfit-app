@@ -41,7 +41,7 @@ export class AuthService {
   }
 
   loadUser(): Observable<AuthResponse>{
-    return this.http.get<AuthResponse>(`${environment.serverUrl}/loaduser`, {
+    return this.http.get<AuthResponse>(`${environment.serverUrl}/user`, {
       headers: this.defaultHeader,
       observe: 'body',
       responseType: 'json',
