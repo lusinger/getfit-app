@@ -4,6 +4,7 @@ import { trigger, transition, style, animate } from '@angular/animations';
 import { DataService } from 'src/app/services/data.service';
 
 import {User} from '../../interfaces/user';
+import { Sections } from 'src/app/types/sections';
 
 interface EntryData{
   breakfast: any[];
@@ -27,6 +28,7 @@ export class UserPanelComponent implements OnInit {
   };
 
   selectedDate: Date = new Date();
+  selectedSection: Sections | null = null;
   settingsState: 'open' | 'closed' = 'closed';
   searchState: 'open' | 'closed' = 'closed';
 
@@ -75,8 +77,9 @@ export class UserPanelComponent implements OnInit {
     this.settingsState = $event;
   }
   
-  onOpenSearchOverlay(): void{
+  onOpenSearchOverlay($event: Sections | null): void{
     this.settingsState = 'closed';
+    this.selectedSection = $event;
     this.searchState = 'open';
   }
 
@@ -112,4 +115,6 @@ export class UserPanelComponent implements OnInit {
       }
     });
   }
+
+  
 }

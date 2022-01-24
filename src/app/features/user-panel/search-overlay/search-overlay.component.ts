@@ -6,6 +6,7 @@ import { Entry } from 'src/app/interfaces/entry';
 
 import { DataService } from 'src/app/services/data.service';
 import { Units } from 'src/app/types/units';
+import { Sections } from 'src/app/types/sections';
 
 @Component({
   selector: 'getfit-search-overlay',
@@ -41,20 +42,25 @@ export class SearchOverlayComponent implements OnInit {
 
   detailForm = new FormGroup({
     amount: new FormControl('', [Validators.required]),
-    unit: new FormControl('', [Validators.required]),
+    unit: new FormControl('g', [Validators.required]),
   });
 
   @Output() closeOverlay = new EventEmitter<'open' | 'closed'>();
-
+  @Output() addToSection = new EventEmitter<Entry[]>();
+  @Input() overlaySection: Sections | null = null;
   @Input() overlayState: 'open' | 'closed' = 'closed';
 
   addState: 'search' | 'details' = 'search';
 
   searchValue: string | ' ' = ' ';
   searchResults: Item[] | 'empty' = 'empty';
-  addedItems: Entry[] = [];
+  cachedResults: Item[] = [];
   selectedItem: Item | null = null;
-  units: Units = 'g';
+  addedItems: Entry[] = [];
+  units: Units[] = ['g', 'ml', 'EL', 'Pers'];
+  selectedUnit: Units = 'g';
+
+  optionsShown: boolean = false;
 
   constructor(
     private data: DataService,
@@ -82,10 +88,17 @@ export class SearchOverlayComponent implements OnInit {
     this.addState = 'details';
   }
 
-  addItem(): void{
-    if(this.selectedItem){
-      const newEntry: Entry = {createdon: new Date(), amount: 100, unit: 'EL', isrecipe: false, section: 'breakfast', content: this.selectedItem};
+  addEntry(): void{
+    if(this.selectedItem && this.overlaySection){
+      const newEntry: Entry = {createdon: new Date(), amount: this.detailForm.value.amount, unit: this.selectedUnit, entryid: this.selectedItem.id, isrecipe: false, section: this.overlaySection};
       this.addedItems.push(newEntry);
+      this.cachedResults.push(this.selectedItem);
+      this.searchValue = '';
+      this.searchForm.reset();
+      this.addState = 'search';
+      console.log(this.selectedItem);
+      console.log(this.cachedResults);
+      console.log(this.addedItems);
     }
   }
 
@@ -104,6 +117,50 @@ export class SearchOverlayComponent implements OnInit {
   lockScrolling(): void{
     if(this.overlayState === 'open'){
       window.scrollTo(0, 0);
+    }
+  }
+
+  toggleOptions(): void{
+    this.optionsShown = !this.optionsShown;
+  }
+
+  selectUnit(unit: Units): void{
+    this.selectedUnit = unit;
+    this.optionsShown = false;
+  }
+
+  onAddToSection(): void{
+    this.addToSection.emit(this.addedItems);
+  }
+
+  getItemName(entry: Entry): string | null{
+    if(this.cachedResults){
+      const itemValue = this.cachedResults.filter((item) => {
+        if(item.id === entry.entryid){
+          return true;
+        }else{
+          return false;
+        }
+      });
+      return itemValue[0].itemname;
+    }else{
+      return null;
+    }
+  }
+
+  getItem(entry: Entry): Item{
+    if(this.cachedResults){
+      const itemValue = this.cachedResults.filter((item) => {
+        if(item.id === entry.entryid){
+          return true;
+        }else{
+          return false;
+        }
+      });
+      return itemValue[0];
+    }else{
+      const defaultItem: Item = {itemname: 'default', protein: 0, fat: 0, carb: 0, perel: 0, perg: 0, perml: 0};
+      return defaultItem;
     }
   }
 }

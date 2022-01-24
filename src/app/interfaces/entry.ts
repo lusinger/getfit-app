@@ -12,5 +12,5 @@ export interface Entry {
   unit: Units;
   isrecipe: boolean;
   section: Sections;
-  content: Item | Recipe;
+  content?: Item | Recipe;
 }
