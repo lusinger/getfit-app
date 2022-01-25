@@ -1,8 +1,10 @@
 import { Component, HostListener, OnInit} from '@angular/core';
 import { trigger, transition, animate, style } from '@angular/animations';
 import { Router } from '@angular/router';
+import { FormBuilder } from '@angular/forms';
 
 import { AuthService } from 'src/app/services/auth.service';
+import { User } from 'src/app/interfaces/user';
 
 @Component({
   selector: 'getfit-user-settings',
@@ -22,20 +24,33 @@ import { AuthService } from 'src/app/services/auth.service';
   ]
 })
 export class UserSettingsComponent implements OnInit {
+  settingsForm = this.fb.group({
+    userName: [''],
+    mail:  [''],
+    oldPassword: [''],
+    newPassword: [''],
+    retype: [''],
+    fullName: [''],
+    age: [''],
+    height: [''],
+    currentWeight: [''],
+    targetWeight: [''],
+    changePerWeek: [''],
+    activityRating: [''],
+    gender: [''],
+  });
+
   settingsState: 'open' | 'closed' = 'closed';
 
   subStates: ('open' | 'closed')[] = ['closed', 'closed'];
+  userData: User | null = null;
 
   constructor(
     private auth: AuthService,
-    private router: Router) { }
+    private router: Router,
+    private fb: FormBuilder) { }
 
   ngOnInit(): void {
-    addEventListener('scroll', () => {
-      if(this.settingsState === 'open'){
-        window.scrollTo(0, 0);
-      }
-    });
   }
 
   toggleSettings(): void{
@@ -44,6 +59,7 @@ export class UserSettingsComponent implements OnInit {
     }else{
       this.settingsState = 'open';
     }
+    this.userData = this.auth.getUser();
   }
 
   logout(): void{

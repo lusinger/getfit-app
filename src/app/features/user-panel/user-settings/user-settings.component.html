@@ -8,10 +8,16 @@
       </svg>
     </div>
   </div>
-  <div (scroll)="lockScroll($event)" @toggleSettings *ngIf="settingsState === 'open'" class="settings-container">
+  <div appScrollLock @toggleSettings *ngIf="settingsState === 'open'" class="settings-container">
     <div class="settings-form">
-      <img class="user-image" src="assets/user.jpeg">
-      <form>
+      <div class="header-content">
+        <img class="user-image" src="assets/user.jpeg">
+        <section class="user-info">
+          <p>{{userData ? 'calories per day:' + userData.calorieGoal : ''}}</p>
+          <p>created on:</p>
+        </section>
+      </div>
+      <form [formGroup]="settingsForm">
         <div (click)="toggleSection(0)" class="section-title mt1">
           <h4 class="accent">Account Settings</h4>
           <h4 class="accent">{{subStates[0] === 'open' ? '-' : '+'}}</h4>
@@ -19,23 +25,23 @@
         <section class="section-body" [ngClass]="subStates[0] === 'open' ? '' : 'hide'">
           <label class="input-field light mt1">
             <span>username</span>
-            <input type="text" placeholder="username" spellcheck="false">
+            <input formControlName="userName" type="text" placeholder="{{userData ? userData.username : 'userName'}}" spellcheck="false">
           </label>
           <label class="input-field light mt1">
             <span>mail</span>
-            <input type="email" placeholder="mail" spellcheck="false">
+            <input formControlName="mail" type="email" placeholder="{{userData ? userData.mail : 'mail'}}" spellcheck="false">
           </label>
           <label class="input-field light mt1">
             <span>old password</span>
-            <input type="password" placeholder="old password" spellcheck="false">
+            <input formControlName="oldPassword" type="password" placeholder="old password" spellcheck="false">
           </label>
           <label class="input-field light mt1">
             <span>new password</span>
-            <input type="password" placeholder="new password" spellcheck="false">
+            <input formControlName="newPassword" type="password" placeholder="new password" spellcheck="false">
           </label>
           <label class="input-field light mt1">
             <span>retype password</span>
-            <input type="password" placeholder="retype password" spellcheck="false">
+            <input formControlName="retype" type="password" placeholder="retype password" spellcheck="false">
           </label>
         </section>
         <div (click)="toggleSection(1)" class="section-title mt1">
@@ -45,15 +51,27 @@
         <section class="section-body" [ngClass]="subStates[1] === 'open' ? '' : 'hide'">
           <label class="input-field light mt1">
             <span>fullname</span>
-            <input type="text" placeholder="fullname" spellcheck="false">
+            <input formControlName="fullName" type="text" placeholder="{{userData ? userData.fullName : 'fullName'}}" spellcheck="false">
           </label>
           <label class="input-field light mt1">
             <span>age</span>
-            <input type="number" placeholder="age" spellcheck="false">
+            <input formControlName="age" type="number" placeholder="{{userData ? userData.age : 'age'}}" spellcheck="false">
           </label>
           <label class="input-field light mt1">
             <span>height</span>
-            <input type="number" placeholder="height" spellcheck="false">
+            <input formControlName="height" type="number" placeholder="{{userData ? userData.height : 'height'}}" spellcheck="false">
+          </label>
+          <label class="input-field light mt1">
+            <span>current weight</span>
+            <input formControlName="currentWeight" type="number" placeholder="{{userData ? userData.currentWeight : 'current weight'}}" spellcheck="false">
+          </label>
+          <label class="input-field light mt1">
+            <span>target weight</span>
+            <input formControlName="targetWeight" type="number" placeholder="{{userData ? userData.targetWeight : 'target weight'}}" spellcheck="false">
+          </label>
+          <label class="input-field light mt1">
+            <span>change per week</span>
+            <input formControlName="changePerWeek" type="number" placeholder="{{userData ? userData.changePerWeek : 'change per week'}}" spellcheck="false">
           </label>
         </section>
         <button class="light mt1" type="submit">Update</button>
