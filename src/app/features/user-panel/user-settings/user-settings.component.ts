@@ -55,6 +55,18 @@ export class UserSettingsComponent implements OnInit {
     });
   }
 
+  deleteUser(): void{
+    if(this.auth.user){
+      this.auth.deleteUser(this.auth.user.id).subscribe({
+        next: (response) => {
+          if(response.statusCode === 200){
+            this.router.navigate(['']);
+          }
+        }
+      });
+    }
+  }
+
   toggleSection(index: number): void{
     console.log(this.subStates);
     if(this.subStates[index] === 'closed'){

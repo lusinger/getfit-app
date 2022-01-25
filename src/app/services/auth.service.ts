@@ -49,6 +49,19 @@ export class AuthService {
     });
   }
 
+  deleteUser(id: number): Observable<AuthResponse>{
+    const params = new HttpParams()
+      .set('id', id);
+
+    return this.http.delete<AuthResponse>(`${environment.serverUrl}/delete/user`, {
+      headers: this.defaultHeader,
+      params: params,
+      observe: 'body',
+      responseType: 'json',
+      withCredentials: true,
+    });
+  }
+
   register(registerData: RegisterRequest): Observable<AuthResponse>{
     return this.http.post<AuthResponse>(`${environment.serverUrl}/register`, registerData, {
       headers: this.defaultHeader,
