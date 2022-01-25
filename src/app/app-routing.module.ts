@@ -7,6 +7,7 @@ import { ResetComponent } from './features/reset/reset.component';
 import { LoginGuard } from './guards/login.guard';
 
 const routes: Routes = [
+  {path: '', component: LoginComponent},
   {path: 'login', component: LoginComponent},
   {path: 'reset', component: ResetComponent},
   {path: 'register', component: RegisterComponent},
