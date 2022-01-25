@@ -12,15 +12,14 @@ import { checkWhitespace } from 'src/app/validators/check-whitespace';
   styleUrls: ['./login.component.sass']
 })
 export class LoginComponent implements OnInit {
+  formTitle: string = 'getfit';
+  errorMessage: string = '';
+  
   loginForm = new FormGroup({
     user: new FormControl('', [checkWhitespace(), Validators.required, ]),
-    password: new FormControl('', [Validators.required, Validators.minLength(8)]),
+    password: new FormControl('', [Validators.required]),
   });
-
-  formTitle: string = 'getfit';
-
-  errorMessage: string = '';
-
+  
   constructor(
     private auth: AuthService,
     private router: Router,
