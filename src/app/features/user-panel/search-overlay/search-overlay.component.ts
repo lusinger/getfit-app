@@ -47,13 +47,13 @@ export class SearchOverlayComponent implements OnInit {
   });
 
   @Output() closeOverlay = new EventEmitter<'open' | 'closed'>();
-  @Input() overlaySection: Sections | null = null;
+  @Input() overlaySection: Sections = 'undefined';
   @Input() overlayState: 'open' | 'closed' = 'closed';
 
-  addState: 'search' | 'details' = 'search';
+  formState: 'search' | 'details' = 'search';
 
   searchValue: string | ' ' = ' ';
-  searchResults: Item[] | 'empty' = 'empty';
+  searchResults: Item[] = [];
   cachedResults: Item[] = [];
   selectedItem: Item | null = null;
   addedItems: Entry[] = [];
@@ -71,36 +71,27 @@ export class SearchOverlayComponent implements OnInit {
   }
 
   onInputChange($event: any): void{
-    this.data.getItems($event.target.value, 0, 10).subscribe({
+    this.searchValue = $event.target.value;
+    this.data.getItems(this.searchValue, 0, 10).subscribe({
       next: (response) => {
-        if(response === []){
-          this.searchResults = 'empty';
-        }else{
-          this.searchResults = response;
-        }
+        this.searchResults = response;
       }
     });
-    this.searchValue = $event.target.value;
   }
 
   addDetails(item: Item): void{
     this.selectedItem = item;
     this.searchValue = item.itemname;
-    this.addState = 'details';
+    this.formState = 'details';
   }
 
   addEntry(): void{
-    if(this.selectedItem && this.overlaySection && this.auth.user){
-      const newEntry: Entry = {createdon: new Date(), userid: this.auth.user.id, amount: this.detailForm.value.amount, unit: this.selectedUnit, entryid: this.selectedItem.id, isrecipe: false, section: this.overlaySection};
-      this.addedItems.push(newEntry);
-      this.cachedResults.push(this.selectedItem);
-      this.searchValue = '';
-      this.searchForm.reset();
-      this.addState = 'search';
-      console.log(this.selectedItem);
-      console.log(this.cachedResults);
-      console.log(this.addedItems);
-    }
+    const entry: Entry = {createdon: new Date(), userid: this.auth.user?.id, amount: this.detailForm.value.amount, unit: this.selectedUnit, entryid: this.selectedItem?.id, isrecipe: false, section: this.overlaySection};
+    this.addedItems.push(entry);
+    this.selectedItem && this.cachedResults.push(this.selectedItem);
+    this.searchValue = '';
+    this.searchForm.reset();
+    this.formState = 'search';
   }
 
   removeItem(item: Entry): void{
@@ -112,7 +103,7 @@ export class SearchOverlayComponent implements OnInit {
   closeSearch(): void{
     this.overlayState = 'closed';
     this.searchValue = ' ';
-    this.searchResults = 'empty';
+    this.searchResults = [];
     this.cachedResults = [];
     this.selectedItem = null;
     this.addedItems = [];
