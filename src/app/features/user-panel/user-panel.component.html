@@ -6,4 +6,4 @@
   <getfit-tracking-section [entries]="entries.dinner" [section]="'dinner'" (openSearchOverlay)="onOpenSearchOverlay($event)"></getfit-tracking-section>
   <getfit-tracking-section [entries]="entries.snack" *ngIf="settingsState === 'closed'" [section]="'snack'" (openSearchOverlay)="onOpenSearchOverlay($event)"></getfit-tracking-section>
 </div>
-<getfit-search-overlay [overlaySection]="selectedSection" [overlayState]="searchState" (closeOverlay)="toggleOverlay($event)" (entriesAdded)="onEntriesAdded()"></getfit-search-overlay>
+<getfit-search-overlay [currentDate]="selectedDate" [overlaySection]="selectedSection" [overlayState]="searchState" (closeOverlay)="toggleOverlay($event)" (entriesAdded)="onEntriesAdded()"></getfit-search-overlay>

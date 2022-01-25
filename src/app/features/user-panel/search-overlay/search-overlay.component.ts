@@ -50,6 +50,7 @@ export class SearchOverlayComponent implements OnInit, OnChanges {
   @Output() entriesAdded = new EventEmitter();
   @Input() overlaySection: Sections = 'undefined';
   @Input() overlayState: 'open' | 'closed' = 'closed';
+  @Input() currentDate: Date = new Date();
 
   formState: 'search' | 'details' = 'search';
 
@@ -93,7 +94,7 @@ export class SearchOverlayComponent implements OnInit, OnChanges {
   }
 
   addEntry(): void{
-    const entry: Entry = {createdon: new Date(), userid: this.auth.user?.id, amount: this.detailForm.value.amount, unit: this.selectedUnit, entryid: this.selectedItem?.id, isrecipe: false, section: this.overlaySection};
+    const entry: Entry = {createdon: this.currentDate, userid: this.auth.user?.id, amount: this.detailForm.value.amount, unit: this.selectedUnit, entryid: this.selectedItem?.id, isrecipe: false, section: this.overlaySection};
     this.addedItems.push(entry);
     this.selectedItem && this.cachedResults.push(this.selectedItem);
     this.searchValue = '';
