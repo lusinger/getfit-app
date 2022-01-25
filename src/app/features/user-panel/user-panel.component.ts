@@ -76,5 +76,7 @@ export class UserPanelComponent implements OnInit {
     });
   }
 
-  
+  onEntriesAdded(): void{
+    this.fetchEntries(this.selectedDate);
+  }  
 }

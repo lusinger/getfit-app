@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, HostListener } from '@angular/core';
+import { Component, OnInit, OnChanges, Input, Output, EventEmitter, SimpleChanges } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { Item } from 'src/app/interfaces/item';
@@ -36,7 +36,7 @@ import { AuthService } from 'src/app/services/auth.service';
     ])
   ]
 })
-export class SearchOverlayComponent implements OnInit {
+export class SearchOverlayComponent implements OnInit, OnChanges {
   searchForm = new FormGroup({
     search: new FormControl('', [Validators.required, ]),
   });
@@ -47,6 +47,7 @@ export class SearchOverlayComponent implements OnInit {
   });
 
   @Output() closeOverlay = new EventEmitter<'open' | 'closed'>();
+  @Output() entriesAdded = new EventEmitter();
   @Input() overlaySection: Sections = 'undefined';
   @Input() overlayState: 'open' | 'closed' = 'closed';
 
@@ -68,6 +69,12 @@ export class SearchOverlayComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+  }
+
+  ngOnChanges(changes: SimpleChanges): any{
+    if(changes['overlayState'].currentValue === 'open'){
+      window.scrollTo(0, 0);
+    }
   }
 
   onInputChange($event: any): void{
@@ -123,6 +130,7 @@ export class SearchOverlayComponent implements OnInit {
     this.data.addEntries(this.addedItems).subscribe({
       next: (response) => {
         console.log(response);
+        this.entriesAdded.emit();
         this.closeSearch();
       }
     })
