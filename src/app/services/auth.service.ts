@@ -9,8 +9,10 @@ import { AuthResponse } from '../interfaces/auth-response';
 import { environment } from 'src/environments/environment';
 import { User } from '../interfaces/user';
 
-interface PWReset{
-  newPassword: string;
+interface ResetQuery{
+  mail?: string;
+  access?: string;
+  newPassword?: string;
 }
 
 @Injectable({
@@ -70,25 +72,8 @@ export class AuthService {
     });
   }
 
-  resetPwRequest(query: any): Observable<AuthResponse>{
-    let resetParams = new HttpParams();
-    if('mail' in query){
-      resetParams = new HttpParams().set('mail', query.mail);
-    }else if('access' in query){
-      resetParams = new HttpParams().set('access', query.access);
-    }
-
-    return this.http.get<AuthResponse>(`${environment.serverUrl}/requestpwreset`, {
-      headers: this.defaultHeader,
-      params: resetParams,
-      observe: 'body',
-      responseType: 'json',
-      withCredentials: true,
-    });
-  };
-
-  resetPassword(reset: PWReset): Observable<AuthResponse>{
-    return this.http.put<AuthResponse>(`${environment.serverUrl}/resetpassword`, reset, {
+  resetPassword(query: ResetQuery): Observable<AuthResponse>{
+    return this.http.put<AuthResponse>(`${environment.serverUrl}/reset`, query, {
       headers: this.defaultHeader,
       observe: 'body',
       responseType: 'json',
