@@ -1,4 +1,5 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
+import { Entry } from 'src/app/interfaces/entry';
 import { DataService } from 'src/app/services/data.service';
 import { Sections } from 'src/app/types/sections';
 
@@ -7,13 +8,17 @@ import { Sections } from 'src/app/types/sections';
   templateUrl: './tracking-section.component.html',
   styleUrls: ['./tracking-section.component.sass']
 })
-export class TrackingSectionComponent implements OnInit {
+export class TrackingSectionComponent implements OnInit{
   @Input() section: Sections = 'undefined';
-  @Input() entries: any[] = [];
+  @Input() entries: Entry[] = [];
 
   @Output() openSearchOverlay = new EventEmitter<Sections>();
 
-  constructor(private data: DataService) { }
+  totalCalories: number = 0;
+
+  constructor(
+    private data: DataService,){
+  }
 
   ngOnInit(): void {
   }
@@ -34,6 +39,46 @@ export class TrackingSectionComponent implements OnInit {
   }
 
   onOpenSearchOverlay(): void{
-    this.openSearchOverlay.emit(this.section);
+    this.openSearchOverlay.emit(this.section); 
+  }
+
+  async calculateCalories(entries: Entry[]): Promise<number>{
+    let totalCalories: number = 0;
+    for(const entry of entries){
+      /* totalCalories += await this.getCalories(entry); */
+      totalCalories += 10;
+    }
+    return totalCalories;
+  }
+
+  async getCalories(entry: Entry): Promise<number>{
+    let calorieCount = 0;
+    switch(entry.unit){
+      case 'g':
+        if(entry.content !== undefined && 'itemname' in entry.content){
+          calorieCount = entry.amount * entry.content.perg;
+        }else{
+        }
+        break;
+      case 'ml':
+        if(entry.content !== undefined && 'itemname' in entry.content){
+          calorieCount = entry.amount * entry.content.perml;
+        }else{
+        }
+        break;
+      case 'EL':
+        if(entry.content !== undefined && 'itemname' in entry.content){
+          calorieCount = entry.amount * entry.content.perel;
+        }else{
+        }
+        break;
+      case 'Pers':
+        if(entry.content !== undefined && 'recipename' in entry.content){
+          
+        }else{
+        }
+        break;
+    }
+    return calorieCount;
   }
 }

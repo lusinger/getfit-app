@@ -73,7 +73,8 @@ export class SearchOverlayComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): any{
-    if(changes['overlayState'].currentValue === 'open'){
+    let change = changes['overlayState'];
+    if(change !== undefined && change.currentValue === 'open'){
       window.scrollTo(0, 0);
     }
   }
