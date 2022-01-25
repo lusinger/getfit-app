@@ -1,4 +1,4 @@
-<div *ngIf="overlayState === 'open'" class="search-overlay-wrapper" @toggleOverlay>
+<div appScrollLock *ngIf="overlayState === 'open'" class="search-overlay-wrapper" @toggleOverlay>
   <div class="search-overlay-container">
     <div class="search-overlay-header">
       <h3 class="title-line-1">Add<span>{{searchValue}}</span>to</h3>
@@ -6,7 +6,7 @@
       <h3 class="title-line-3">Section</h3>
     </div>
     <div class="search-overlay-content">
-      <form [formGroup]="searchForm" *ngIf="addState === 'search'">
+      <form [formGroup]="searchForm" *ngIf="formState === 'search'">
         <label class="checkbox-field mt1">
           <input type="checkbox">
           <span>recipe</span>
@@ -15,14 +15,14 @@
           <span>add food item</span>
           <input (input)="onInputChange($event)" formControlName="search" type="text" placeholder="add food item" spellcheck="false">
         </label>
-        <div *ngIf="searchResults !== 'empty' && searchValue !== ''" class="search-result-container">
+        <div *ngIf="searchResults.length > 0 && searchValue !== ''" class="search-result-container">
           <div *ngFor="let item of searchResults;" class="search-result" (click)="addDetails(item)">
             <p class="result-name">{{item.itemname}}</p>
             <p class="result-type">recipe</p>
           </div>
         </div>
       </form>
-      <form class="detail-form" [formGroup]="detailForm" *ngIf="addState === 'details'" (ngSubmit)="addEntry()">
+      <form class="detail-form" [formGroup]="detailForm" *ngIf="formState === 'details'" (ngSubmit)="addEntry()">
         <div class="input-field-container mt1">
           <label class="input-field">
             <span>amount</span>

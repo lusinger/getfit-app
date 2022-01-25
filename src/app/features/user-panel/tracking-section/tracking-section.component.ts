@@ -8,10 +8,10 @@ import { Sections } from 'src/app/types/sections';
   styleUrls: ['./tracking-section.component.sass']
 })
 export class TrackingSectionComponent implements OnInit {
-  @Input() section: Sections | null = null;
+  @Input() section: Sections = 'undefined';
   @Input() entries: any[] = [];
 
-  @Output() openSearchOverlay = new EventEmitter<Sections | null>();
+  @Output() openSearchOverlay = new EventEmitter<Sections>();
 
   constructor(private data: DataService) { }
 
