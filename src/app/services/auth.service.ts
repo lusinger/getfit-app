@@ -97,5 +97,13 @@ export class AuthService {
   setUser(user: User): void{
     this.user = user;
   }
+
+  getUser(): User | null{
+    if(this.user !== null){
+      return this.user;
+    }else{
+      return null;
+    }
+  }
 }
  
