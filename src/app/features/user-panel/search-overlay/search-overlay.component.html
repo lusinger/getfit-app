@@ -1,4 +1,4 @@
-<div *ngIf="overlayState === 'open'" class="search-overlay-wrapper" @toggleOverlay>
+<div appScrollLock *ngIf="overlayState === 'open'" class="search-overlay-wrapper" @toggleOverlay>
   <div class="search-overlay-container">
     <div class="search-overlay-header">
       <h3 class="title-line-1">Add<span>{{searchValue}}</span>to</h3>

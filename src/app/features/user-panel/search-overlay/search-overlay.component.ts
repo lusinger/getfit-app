@@ -110,13 +110,6 @@ export class SearchOverlayComponent implements OnInit {
     this.closeOverlay.emit('closed');
   }
 
-  @HostListener('window:scroll')
-  lockScrolling(): void{
-    if(this.overlayState === 'open'){
-      window.scrollTo(0, 0);
-    }
-  }
-
   toggleOptions(): void{
     this.optionsShown = !this.optionsShown;
   }

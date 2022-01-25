@@ -24,6 +24,8 @@ export class SectionEntries{
         return this.breakfast;
       case 'snack':
         return this.breakfast;
+      default:
+        return [];
     }
   };
 

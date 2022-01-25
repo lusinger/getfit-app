@@ -15,7 +15,7 @@ export class UserPanelComponent implements OnInit {
   entries = new SectionEntries([], [], [], []);
 
   selectedDate: Date = new Date();
-  selectedSection: Sections | null = null;
+  selectedSection: Sections = 'undefined';
   settingsState: 'open' | 'closed' = 'closed';
   searchState: 'open' | 'closed' = 'closed';
 
@@ -42,7 +42,7 @@ export class UserPanelComponent implements OnInit {
     this.settingsState = $event;
   }
   
-  onOpenSearchOverlay($event: Sections | null): void{
+  onOpenSearchOverlay($event: Sections): void{
     this.settingsState = 'closed';
     this.selectedSection = $event;
     this.searchState = 'open';
