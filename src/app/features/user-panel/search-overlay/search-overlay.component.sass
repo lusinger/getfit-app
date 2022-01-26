@@ -15,7 +15,6 @@
     width: 100%
     display: flex
     flex-flow: column
-    flex-grow: 1
     .search-overlay-header
       .title-line-1
         display: block
@@ -37,7 +36,12 @@
         font-style: italic
         text-transform: capitalize
     .search-overlay-content
+      width: 100%
+      display: flex
+      flex-flow: column
+      flex-grow: 1
       form
+        width: 100%
         .search-result-container
           width: 100%
           height: auto
@@ -72,7 +76,7 @@
           position: relative
           width: 100%
           height: 40px
-          background: $accent
+          background: $darkest
           padding: 0 $rem*0.5
           display: flex
           .select-header
@@ -82,7 +86,10 @@
             align-items: center
             height: 40px
             width: 100%
+            p
+              color: $lightest
             .toggler
+              color: $lightest-medium
               font-size: $rem*1.5
           .select-options
             position: absolute
@@ -98,8 +105,10 @@
               display: flex
               justify-content: space-between
               align-items: center
-              background: $accent
-              border-bottom: 1px solid $darkest-medium
+              background: $darkest-medium
+              border-top: 2px solid $lightest-medium
+              p
+                color: $lightest
       .added-item-container
         display: flex
         flex-flow: column
