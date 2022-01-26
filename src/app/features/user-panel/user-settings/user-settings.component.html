@@ -19,8 +19,8 @@
       </div>
       <form [formGroup]="settingsForm">
         <div (click)="toggleSection(0)" class="section-title mt1">
-          <h4 class="accent">Account Settings</h4>
-          <h4 class="accent">{{subStates[0] === 'open' ? '-' : '+'}}</h4>
+          <h4 class="light">Account Settings</h4>
+          <h4 class="toggler">{{subStates[0] === 'open' ? '-' : '+'}}</h4>
         </div>
         <section class="section-body" [ngClass]="subStates[0] === 'open' ? '' : 'hide'">
           <label class="input-field light mt1">
@@ -45,8 +45,8 @@
           </label>
         </section>
         <div (click)="toggleSection(1)" class="section-title mt1">
-          <h4 class="accent">Private Details</h4>
-          <h4 class="accent">{{subStates[1] === 'open' ? '-' : '+'}}</h4>
+          <h4 class="light">Private Details</h4>
+          <h4 class="toggler">{{subStates[1] === 'open' ? '-' : '+'}}</h4>
         </div>
         <section class="section-body" [ngClass]="subStates[1] === 'open' ? '' : 'hide'">
           <label class="input-field light mt1">
@@ -76,7 +76,7 @@
         </section>
         <button class="light mt1" type="submit">Update</button>
         <p (click)="logout()" class="accent mt1">logout</p>
-        <p (click)="deleteUser()" class="accent mt1">delete</p>
+        <p (click)="toggleConfirmation()" class="accent mt1">delete</p>
       </form>
     </div>
     <div class="settings-footer">
@@ -86,4 +86,21 @@
       </svg> 
     </div>
   </div>  
+  <div *ngIf="confirmationState === 'open'" class="modulo-container">
+    <div class="modulo-background">
+
+    </div>
+    <div class="modulo-content">
+      <div @toggleSettings class="modulo">
+        <section class="modulo-header">
+          <h4 (click)="toggleConfirmation()">X</h4>
+        </section>
+        <h4 class="mt1">Are your sure you want to delete your account?</h4>
+        <section class="button-group mt1">
+          <button class="mr05" type="button" (click)="deleteUser()">Yes</button>
+          <button class="ml05" type="button" (click)="toggleConfirmation()">No</button>
+        </section>
+      </div>
+    </div>
+  </div>
 </div>

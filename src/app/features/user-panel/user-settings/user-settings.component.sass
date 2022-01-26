@@ -1,5 +1,10 @@
 @import '../../../../sass/_variables'
-  
+
+.mr05
+  margin-right: $rem*0.5
+.ml05
+  margin-left: $rem*0.5  
+
 .settings-wrapper
   position: relative
   width: 100vw
@@ -35,7 +40,7 @@
         path
           fill: $accent
   .settings-container
-    z-index: 99
+    z-index: 50
     position: absolute
     display: flex
     flex-flow: column
@@ -72,6 +77,8 @@
           width: 100%
           height: auto
           cursor: pointer
+          .toggler
+            color: $lightest-medium
         .section-body
           transform: scaleY(1)
           height: fit-content
@@ -96,6 +103,48 @@
         line
           stroke: $accent
 
+  .modulo-container
+    display: flex
+    justify-content: center
+    position: absolute
+    width: 100%
+    top: 0
+    left: 0
+    .modulo-background
+      min-width: 100vw
+      min-height: 100vh
+      background: $darkest
+      padding: $rem
+      z-index: 80
+      opacity: 0.75
+      position: absolute
+      top: 0
+      left: 0
+    .modulo-content
+      width: 100%
+      min-height: 100vh
+      z-index: 99
+      display: flex
+      justify-content: center
+      align-items: flex-start
+      padding: $rem*2 $rem $rem $rem
+      .modulo
+        width: 100%
+        height: auto
+        background: $accent
+        box-shadow: $shadow
+        padding: $rem
+        .modulo-header
+          width: 100%
+          display: flex
+          h4
+            user-select: none
+            cursor: pointer
+        .button-group
+          width: 100%
+          display: flex
+          justify-content: space-between
+
 @media (min-width: $query-small)
   .header-content
     max-width: 600px
@@ -104,3 +153,5 @@
       max-width: 600px
     .settings-footer
       max-width: 600px
+  .modulo-container *
+    max-width: 600px
