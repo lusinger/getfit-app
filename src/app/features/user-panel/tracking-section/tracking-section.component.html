@@ -2,7 +2,7 @@
   <div class="section-header">
     <div class="header-title">
       <h3>{{section}}</h3>
-      <h3 class="header-calories">{{totalCalories}} kcal</h3>
+      <h3 class="header-calories">{{totalCalories | number: '1.0-0'}} kcal</h3>
     </div>
     <svg class="toggler" width="20" height="12" viewBox="0 0 20 12" (click)="toggleSection()">
       <line class="toggler-line" x1="19.2929" y1="10.7071" x2="10.7015" y2="2.11576" stroke="#112031" stroke-opacity="0.5" stroke-width="2"/>

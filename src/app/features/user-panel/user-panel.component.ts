@@ -13,6 +13,7 @@ import { SectionEntries } from 'src/app/classes/section-entries';
 })
 export class UserPanelComponent implements OnInit {
   entries = new SectionEntries([], [], [], []);
+  entriesChanged: boolean = false;
 
   selectedDate: Date = new Date();
   selectedSection: Sections = 'undefined';
@@ -66,6 +67,7 @@ export class UserPanelComponent implements OnInit {
     this.data.getEntries(date).subscribe({
       next: (response: Entry[]) => {
         this.entries.addData(response);
+        this.entriesChanged = true;
       },
       error: (error) => {
 
@@ -74,9 +76,15 @@ export class UserPanelComponent implements OnInit {
 
       }
     });
+    this.entriesChanged = false;
   }
 
   onEntriesAdded(): void{
     this.fetchEntries(this.selectedDate);
-  }  
+  }
+  
+  onEntryRemoved(): void{
+    this.entriesChanged = true;
+    this.entriesChanged = false;
+  }
 }
