@@ -91,7 +91,6 @@ export class UserSettingsComponent implements OnInit {
   }
 
   toggleSection(index: number): void{
-    console.log(this.subStates);
     if(this.subStates[index] === 'closed'){
       this.subStates[index] = 'open';
       this.subStates.map((state, i) => {

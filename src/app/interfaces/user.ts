@@ -1,7 +1,8 @@
 export interface User {
   id: number;
-  username: string;
+  userName: string;
   mail: string;
+  password?: string;
   fullName: string;
   age: number;
   height: number;
@@ -10,4 +11,6 @@ export interface User {
   changePerWeek: number;
   gender: 'male' | 'female';
   calorieGoal: number;
+  activityRating: 1.2 | 1.375 | 1.55 | 1.725 | 1.9;
+  createdOn?: Date;
 }

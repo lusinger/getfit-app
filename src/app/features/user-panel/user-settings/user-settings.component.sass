@@ -59,16 +59,27 @@
         display: flex
         width: 100%
         .user-image
-          width: $rem*6
-          height: $rem*6
-          border-radius: 50%
-          border: 2px solid $accent
+          position: relative
+          img
+            width: $rem*6
+            height: $rem*6
+            border-radius: 50%
+          .edit-button
+            cursor: pointer
+            position: absolute
+            top: 0
+            left: 0
+            z-index: 40
+            input
+              display: none
+            path
+              fill: $accent
         .user-info
           padding-left: $rem
           display: flex
           flex-flow: column
           p
-            color: $accent
+            color: $lightest-medium
             font-style: italic
       form
         .section-title
