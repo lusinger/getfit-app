@@ -16,6 +16,8 @@ export class TrackingSectionComponent implements OnInit{
 
   totalCalories: number = 0;
 
+  sectionState: 'open' | 'closed' = 'closed'
+
   constructor(
     private data: DataService,){
   }
@@ -80,5 +82,13 @@ export class TrackingSectionComponent implements OnInit{
         break;
     }
     return calorieCount;
+  }
+
+  toggleSection(): void{
+    if(this.sectionState === 'closed'){
+      this.sectionState = 'open';
+    }else{
+      this.sectionState = 'closed';
+    }
   }
 }

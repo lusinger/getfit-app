@@ -38,6 +38,8 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class SearchOverlayComponent implements OnInit, OnChanges {
   searchForm = new FormGroup({
+    isRecipe: new FormControl(false, []),
+    recipeTitle: new FormControl('', []),
     search: new FormControl('', [Validators.required, ]),
   });
 
@@ -61,6 +63,9 @@ export class SearchOverlayComponent implements OnInit, OnChanges {
   addedItems: Entry[] = [];
   units: Units[] = ['g', 'ml', 'EL', 'Pers'];
   selectedUnit: Units = 'g';
+
+  isRecipe: boolean = false;
+  recipeTitle: string = '';
 
   optionsShown: boolean = false;
 
@@ -88,6 +93,10 @@ export class SearchOverlayComponent implements OnInit, OnChanges {
     });
   }
 
+  onRecipeChange($event: any): void{
+    this.recipeTitle = $event.target.value;
+  }
+
   addDetails(item: Item): void{
     this.selectedItem = item;
     this.searchValue = item.itemname;
@@ -99,7 +108,11 @@ export class SearchOverlayComponent implements OnInit, OnChanges {
     this.addedItems.push(entry);
     this.selectedItem && this.cachedResults.push(this.selectedItem);
     this.searchValue = '';
-    this.searchForm.reset();
+    if(this.isRecipe){
+      this.searchForm.get('search')?.setValue('');
+    }else{
+      this.searchForm.reset();
+    }
     this.formState = 'search';
   }
 
@@ -129,13 +142,21 @@ export class SearchOverlayComponent implements OnInit, OnChanges {
   }
 
   onAddToSection(): void{
-    this.data.addEntries(this.addedItems).subscribe({
-      next: (response) => {
-        console.log(response);
-        this.entriesAdded.emit();
-        this.closeSearch();
-      }
-    })
+    if(!this.isRecipe){
+      this.data.addEntries(this.addedItems).subscribe({
+        next: (response) => {
+          console.log(response);
+          this.entriesAdded.emit();
+          this.closeSearch();
+        }
+      });
+    }else{
+      this.data.addRecipe({entries: this.addedItems, recipe: {recipename: this.recipeTitle, itemamounts: 1, itemunits: 'Pers'}}).subscribe({
+        next: (response) => {
+          this.closeSearch();
+        }
+      });
+    }
   }
 
   getItemName(entry: Entry): string | null{
@@ -167,5 +188,10 @@ export class SearchOverlayComponent implements OnInit, OnChanges {
       const defaultItem: Item = {itemname: 'default', protein: 0, fat: 0, carb: 0, perel: 0, perg: 0, perml: 0};
       return defaultItem;
     }
+  }
+
+  toggleRecipe(): void{
+    this.isRecipe = !this.isRecipe;
+    this.searchForm.get('isRecipe')?.setValue(this.isRecipe);
   }
 }

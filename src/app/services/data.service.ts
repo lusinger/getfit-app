@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, retry, throwError, catchError } from 'rxjs';
 import { Item } from '../interfaces/item';
+import { Recipe } from '../interfaces/recipe';
 import { environment } from 'src/environments/environment';
 import { AuthResponse } from '../interfaces/auth-response';
 
@@ -93,6 +94,15 @@ export class DataService {
       responseType: 'json',
       withCredentials: true,
     });
+  }
+
+  addRecipe = (data: {entries: Entry[], recipe: Recipe}): Observable<AuthResponse> => {
+    return this.http.post<AuthResponse>(`${environment.serverUrl}/create/recipe`, data, {
+      headers: this.defaultHeader,
+      observe: 'body',
+      responseType: 'json',
+      withCredentials: true,
+    })
   }
 
   deleteEntry = (id: number): Observable<AuthResponse> => {
