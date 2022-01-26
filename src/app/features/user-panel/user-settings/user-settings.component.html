@@ -11,21 +11,29 @@
   <div appScrollLock @toggleSettings *ngIf="settingsState === 'open'" class="settings-container">
     <div class="settings-form">
       <div class="header-content">
-        <img class="user-image" src="assets/user.jpeg">
+        <section class="user-image">
+          <img src="assets/user.jpeg">
+          <label class="edit-button">
+            <input type="file" accept="image/png, image/jpeg">
+            <svg width="25" height="25" viewBox="0 0 25 25">
+              <path d="M5.02929 2.08325C5.7832 2.08325 6.53711 2.37036 7.11263 2.94588L8.33333 4.16659L4.16666 8.33325L2.94596 7.11255C1.79596 5.96255 1.79596 4.09692 2.94596 2.94588C3.52148 2.37036 4.27539 2.08325 5.02929 2.08325ZM9.89583 5.72909L21.875 17.7083V21.8749H17.7083L5.72916 9.89575L9.89583 5.72909Z" fill="#345B63"/>
+            </svg>   
+          </label>
+        </section>  
         <section class="user-info">
-          <p>{{userData ? 'calories per day:' + userData.calorieGoal : ''}}</p>
-          <p>created on:</p>
+          <p>{{userData ? 'calories per day: ' + userData.calorieGoal + 'kcal' : ''}}</p>
+          <p>{{userData ? 'created on: ' + userData.createdOn : '' | date: "MM/dd/yy"}}</p>
         </section>
       </div>
       <form [formGroup]="settingsForm">
         <div (click)="toggleSection(0)" class="section-title mt1">
-          <h4 class="accent">Account Settings</h4>
-          <h4 class="accent">{{subStates[0] === 'open' ? '-' : '+'}}</h4>
+          <h4 class="light">Account Settings</h4>
+          <h4 class="toggler">{{subStates[0] === 'open' ? '-' : '+'}}</h4>
         </div>
         <section class="section-body" [ngClass]="subStates[0] === 'open' ? '' : 'hide'">
           <label class="input-field light mt1">
             <span>username</span>
-            <input formControlName="userName" type="text" placeholder="{{userData ? userData.username : 'userName'}}" spellcheck="false">
+            <input formControlName="userName" type="text" placeholder="{{userData ? userData.userName : 'userName'}}" spellcheck="false">
           </label>
           <label class="input-field light mt1">
             <span>mail</span>
@@ -45,8 +53,8 @@
           </label>
         </section>
         <div (click)="toggleSection(1)" class="section-title mt1">
-          <h4 class="accent">Private Details</h4>
-          <h4 class="accent">{{subStates[1] === 'open' ? '-' : '+'}}</h4>
+          <h4 class="light">Private Details</h4>
+          <h4 class="toggler">{{subStates[1] === 'open' ? '-' : '+'}}</h4>
         </div>
         <section class="section-body" [ngClass]="subStates[1] === 'open' ? '' : 'hide'">
           <label class="input-field light mt1">
@@ -76,7 +84,7 @@
         </section>
         <button class="light mt1" type="submit">Update</button>
         <p (click)="logout()" class="accent mt1">logout</p>
-        <p (click)="deleteUser()" class="accent mt1">delete</p>
+        <p (click)="toggleConfirmation()" class="accent mt1">delete</p>
       </form>
     </div>
     <div class="settings-footer">
@@ -86,4 +94,21 @@
       </svg> 
     </div>
   </div>  
+  <div *ngIf="confirmationState === 'open'" class="modulo-container">
+    <div class="modulo-background">
+
+    </div>
+    <div class="modulo-content">
+      <div @toggleSettings class="modulo">
+        <section class="modulo-header">
+          <h4 (click)="toggleConfirmation()">X</h4>
+        </section>
+        <h4 class="mt1">Are your sure you want to delete your account?</h4>
+        <section class="button-group mt1">
+          <button class="mr05" type="button" (click)="deleteUser()">Yes</button>
+          <button class="ml05" type="button" (click)="toggleConfirmation()">No</button>
+        </section>
+      </div>
+    </div>
+  </div>
 </div>

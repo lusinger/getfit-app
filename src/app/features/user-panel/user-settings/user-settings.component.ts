@@ -41,6 +41,7 @@ export class UserSettingsComponent implements OnInit {
   });
 
   settingsState: 'open' | 'closed' = 'closed';
+  confirmationState: 'open' | 'closed' = 'closed';
 
   subStates: ('open' | 'closed')[] = ['closed', 'closed'];
   userData: User | null = null;
@@ -60,6 +61,11 @@ export class UserSettingsComponent implements OnInit {
       this.settingsState = 'open';
     }
     this.userData = this.auth.getUser();
+    console.log(this.userData);
+  }
+
+  toggleConfirmation(): void{
+    this.confirmationState === 'open' ? this.confirmationState = 'closed' : this.confirmationState = 'open';
   }
 
   logout(): void{
@@ -72,6 +78,7 @@ export class UserSettingsComponent implements OnInit {
   }
 
   deleteUser(): void{
+    this.toggleConfirmation();
     if(this.auth.user){
       this.auth.deleteUser(this.auth.user.id).subscribe({
         next: (response) => {
@@ -84,21 +91,18 @@ export class UserSettingsComponent implements OnInit {
   }
 
   toggleSection(index: number): void{
-    console.log(this.subStates);
     if(this.subStates[index] === 'closed'){
-      this.subStates.forEach((value, i) => {
-        if(i === index){
-          this.subStates[index] = 'open';
-        }else{
-          this.subStates[i] = 'closed';
+      this.subStates[index] = 'open';
+      this.subStates.map((state, i) => {
+        if(i !== index){
+          this.subStates[i] === 'open' ? this.subStates[i] = 'closed' : this.subStates[i];
         }
       });
     }else{
-      this.subStates.forEach((value, i) => {
-        if(i === index){
-          this.subStates[index] = 'closed';
-        }else{
-          this.subStates[i] = 'open';
+      this.subStates[index] = 'closed';
+      this.subStates.map((state, i) => {
+        if(i !== index){
+          this.subStates[i] === 'closed' ? this.subStates[i] : this.subStates[i] = 'open';
         }
       });
     }
