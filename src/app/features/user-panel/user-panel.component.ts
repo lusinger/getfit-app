@@ -5,6 +5,7 @@ import { DataService } from 'src/app/services/data.service';
 import {Entry} from '../../interfaces/entry';
 import { Sections } from 'src/app/types/sections';
 import { SectionEntries } from 'src/app/classes/section-entries';
+import { AuthResponse } from 'src/app/interfaces/auth-response';
 
 @Component({
   selector: 'getfit-user-panel',
@@ -69,7 +70,7 @@ export class UserPanelComponent implements OnInit {
         this.data.entryToAdd(response);
       },
       error: (error) => {
-
+        console.log(error);
       },
       complete: () => {
 

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, retry, throwError, catchError, Subject, BehaviorSubject } from 'rxjs';
 import { Item } from '../interfaces/item';
 import { Recipe } from '../interfaces/recipe';
