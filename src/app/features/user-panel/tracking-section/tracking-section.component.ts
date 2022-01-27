@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges, Input, Output, EventEmitter, SimpleChanges} from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
 import { Entry } from 'src/app/interfaces/entry';
 import { DataService } from 'src/app/services/data.service';
 import { Sections } from 'src/app/types/sections';
@@ -8,13 +8,11 @@ import { Sections } from 'src/app/types/sections';
   templateUrl: './tracking-section.component.html',
   styleUrls: ['./tracking-section.component.sass']
 })
-export class TrackingSectionComponent implements OnInit, OnChanges{
+export class TrackingSectionComponent implements OnInit{
   @Input() section: Sections = 'undefined';
   @Input() entries: Entry[] = [];
-  @Input() entriesChanged: boolean = false;
 
-  @Output() openSearchOverlay = new EventEmitter<Sections>();
-  @Output() entryRemoved = new EventEmitter();
+  @Output() openingSearch = new EventEmitter<Sections>();
   @Output() changeDetected = new EventEmitter();
 
   totalCalories: number = 0;
@@ -27,40 +25,46 @@ export class TrackingSectionComponent implements OnInit, OnChanges{
   }
 
   ngOnInit(): void {
-    let timeout = setTimeout(() => {
-      if(this.entries.length > 0){
-        this.sectionState = 'open';
+    this.data.dateChanged.subscribe({
+      next: (date) => {
+        this.totalCalories = 0;
       }
-    }, 100);
-    this.data.state.subscribe((state) => {
-      setTimeout(() => {
-        console.log(state);
-        if(state === true){
-          this.totalCalories = this.calculateCalories(this.entries);
-          this.data.updateState(false);
+    });
+
+    this.data.entryRemoved.subscribe({
+      next: (entry) => {
+        if(this.entries.length === 0){
+          this.sectionState = 'closed';
         }
-      }, 50);
+        if(entry.section === this.section){
+          this.totalCalories = this.calculateCalories(this.entries);
+        }
+      }
+    });
+    this.data.entryAdded.subscribe({
+      next: (entries) => {
+        if(entries.length > 0){
+          this.sectionState = 'open';
+          let sectionEntries: Entry[] = [] as Entry[];
+          sectionEntries = entries.filter((entry) => {
+            if(entry.section === this.section){
+              sectionEntries.push(entry);
+            }
+            this.totalCalories = this.calculateCalories(sectionEntries);
+          });
+        }
+      }
     });
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-      let change = changes['entriesChanged'];
-      if(change !== undefined){
-        let current = change.currentValue;
-        if(current === true){
-          this.totalCalories = this.calculateCalories(this.entries);
-          this.changeDetected.emit();
-        }
-      }
-  }
+  // EventEmitter handlers
 
-  onItemRemoved($event: any): void{
+  onRemovingItem($event: Entry): void{
     this.entries = this.entries.filter(entry => {
-      if(entry.id === $event.id){
-        this.entryRemoved.emit();
+      if(entry.id !== undefined && entry.id === $event.id){
         this.data.deleteEntry($event.id).subscribe({
           next: (response) => {
-            console.log(response);
+            this.data.entryToRemove($event);
           }
         });
         return false;
@@ -70,8 +74,8 @@ export class TrackingSectionComponent implements OnInit, OnChanges{
     });
   }
 
-  onOpenSearchOverlay(): void{
-    this.openSearchOverlay.emit(this.section); 
+  onOpeningSearch(): void{
+    this.openingSearch.emit(this.section); 
   }
 
   calculateCalories(entries: Entry[]): number{
@@ -114,10 +118,6 @@ export class TrackingSectionComponent implements OnInit, OnChanges{
   }
 
   toggleSection(): void{
-    if(this.sectionState === 'closed'){
-      this.sectionState = 'open';
-    }else{
-      this.sectionState = 'closed';
-    }
+    this.sectionState === 'closed' ? this.sectionState = 'open' : this.sectionState = 'closed';
   }
 }

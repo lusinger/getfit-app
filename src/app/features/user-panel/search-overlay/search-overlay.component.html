@@ -45,8 +45,8 @@
           </div>
         </div>
       </form>
-      <ul *ngIf="addedItems.length > 0" class="added-item-container mt1">
-        <li @addedItem *ngFor="let entry of addedItems" class="added-item">
+      <ul *ngIf="addedEntries.length > 0" class="added-item-container mt1">
+        <li @addedItem *ngFor="let entry of addedEntries" class="added-item">
           <div class="result-content">
             <div class="result-data">
               <p class="result-name">{{entry.amount}}{{entry.unit}} {{getItemName(entry)}}</p>
@@ -59,7 +59,7 @@
           <p class="result-control" (click)="removeItem(entry)">X</p>
         </li>
       </ul>
-      <button *ngIf="addedItems.length > 0" class="mt1" type="button" (click)="onAddToSection()">add to section</button>
+      <button *ngIf="addedEntries.length > 0" class="mt1" type="button" (click)="onAddToSection()">add to section</button>
     </div>
     <div class="search-overlay-footer">
       <svg (click)="closeSearch()" class="toggler" width="28" height="28" viewBox="0 0 28 28">

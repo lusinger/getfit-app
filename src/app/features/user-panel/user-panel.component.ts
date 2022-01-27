@@ -27,9 +27,7 @@ export class UserPanelComponent implements OnInit {
   ngOnInit(): void {
     this.auth.loadUser().subscribe({
       next: (response) => {
-        console.log(response);
         this.auth.setUser(response.payload);
-        console.log(this.auth.user);
       },
     });
     this.fetchEntries(this.selectedDate);
@@ -59,15 +57,16 @@ export class UserPanelComponent implements OnInit {
   
   onDateChanged($event: Date): void{
     this.selectedDate = $event;
+    this.data.changeToDate(this.selectedDate);
     this.fetchEntries(this.selectedDate);
   }
 
   fetchEntries(date: Date): void{
     this.entries.clearData();
-    this.data.updateState(true);
     this.data.getEntries(date).subscribe({
       next: (response: Entry[]) => {
         this.entries.addData(response);
+        this.data.entryToAdd(response);
       },
       error: (error) => {
 
@@ -80,12 +79,5 @@ export class UserPanelComponent implements OnInit {
 
   onEntriesAdded(): void{
     this.fetchEntries(this.selectedDate);
-  }
-  
-  onEntryRemoved(): void{
-    this.data.updateState(true);
-  }
-
-  onChangeDetected(): void{
   }
 }

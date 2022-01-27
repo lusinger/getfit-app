@@ -59,8 +59,8 @@ export class SearchOverlayComponent implements OnInit, OnChanges {
   searchValue: string | ' ' = ' ';
   searchResults: Item[] = [];
   cachedResults: Item[] = [];
-  selectedItem: Item | null = null;
-  addedItems: Entry[] = [];
+  selectedItem: Item = {} as Item;
+  addedEntries: Entry[] = [];
   units: Units[] = ['g', 'ml', 'EL', 'Pers'];
   selectedUnit: Units = 'g';
 
@@ -104,8 +104,8 @@ export class SearchOverlayComponent implements OnInit, OnChanges {
   }
 
   addEntry(): void{
-    const entry: Entry = {createdon: this.currentDate, userid: this.auth.user?.id, amount: this.detailForm.value.amount, unit: this.selectedUnit, entryid: this.selectedItem?.id, isrecipe: false, section: this.overlaySection};
-    this.addedItems.push(entry);
+    const entry: Entry = {createdon: this.currentDate, userid: this.auth.user?.id, amount: this.detailForm.value.amount, unit: this.selectedUnit, entryid: this.selectedItem?.id, isrecipe: false, section: this.overlaySection, content: this.selectedItem};
+    this.addedEntries.push(entry);
     this.selectedItem && this.cachedResults.push(this.selectedItem);
     this.searchValue = '';
     if(this.isRecipe){
@@ -117,7 +117,7 @@ export class SearchOverlayComponent implements OnInit, OnChanges {
   }
 
   removeItem(item: Entry): void{
-    this.addedItems = this.addedItems.filter(entry => {
+    this.addedEntries = this.addedEntries.filter(entry => {
       return entry.createdon.toISOString() === item.createdon.toISOString() ? false : true; 
     })
   }
@@ -127,8 +127,8 @@ export class SearchOverlayComponent implements OnInit, OnChanges {
     this.searchValue = ' ';
     this.searchResults = [];
     this.cachedResults = [];
-    this.selectedItem = null;
-    this.addedItems = [];
+    this.selectedItem = {} as Item;
+    this.addedEntries = [];
     this.closeOverlay.emit('closed');
   }
 
@@ -143,15 +143,14 @@ export class SearchOverlayComponent implements OnInit, OnChanges {
 
   onAddToSection(): void{
     if(!this.isRecipe){
-      this.data.addEntries(this.addedItems).subscribe({
+      this.data.addEntries(this.addedEntries).subscribe({
         next: (response) => {
-          console.log(response);
           this.entriesAdded.emit();
           this.closeSearch();
         }
       });
     }else{
-      this.data.addRecipe({entries: this.addedItems, recipe: {recipename: this.recipeTitle, itemamounts: 1, itemunits: 'Pers'}}).subscribe({
+      this.data.addRecipe({entries: this.addedEntries, recipe: {recipename: this.recipeTitle, itemamounts: 1, itemunits: 'Pers'}}).subscribe({
         next: (response) => {
           this.closeSearch();
         }

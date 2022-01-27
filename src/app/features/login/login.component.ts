@@ -31,7 +31,6 @@ export class LoginComponent implements OnInit {
   onLoginSubmit(): void{
     this.auth.login(this.loginForm.value).subscribe({
       next: (response) => {
-        console.log(response);
         switch(response.statusCode){
           case 200:
             this.auth.toggleLogin();

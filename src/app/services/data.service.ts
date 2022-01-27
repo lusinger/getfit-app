@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Observable, retry, throwError, catchError } from 'rxjs';
+import { Observable, retry, throwError, catchError, Subject, BehaviorSubject } from 'rxjs';
 import { Item } from '../interfaces/item';
 import { Recipe } from '../interfaces/recipe';
 import { environment } from 'src/environments/environment';
 import { AuthResponse } from '../interfaces/auth-response';
-import { BehaviorSubject } from 'rxjs';
 
 import { Entry } from '../interfaces/entry';
 
@@ -13,9 +12,9 @@ import { Entry } from '../interfaces/entry';
   providedIn: 'root'
 })
 export class DataService {
-  dataState = new BehaviorSubject<boolean>(false);
-  state = this.dataState.asObservable();
-  isLoading: boolean = false;
+  entryRemoved = new Subject<Entry>();
+  entryAdded = new Subject<Entry[]>();
+  dateChanged = new Subject<Date>();
 
   defaultHeader = new HttpHeaders({
     'Content-Type': 'application/json',
@@ -24,13 +23,15 @@ export class DataService {
   constructor(
     private http: HttpClient,
   ) { }
-
-  updateState = (state: boolean) => {
-    this.dataState.next(state);
+   
+  entryToRemove = (entry: Entry) => {
+    this.entryRemoved.next(entry);
   }
-
-  updateIsLoading = (isLoading: boolean) => {
-    this.isLoading = isLoading;
+  entryToAdd = (entry: Entry[]) => {
+    this.entryAdded.next(entry);
+  }
+  changeToDate = (date: Date) => {
+    this.dateChanged.next(date);
   }
 
   getItem = (id: number): Observable<Item> => {

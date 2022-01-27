@@ -118,7 +118,6 @@ export class UserSettingsComponent implements OnInit {
     this.profilePicture = $event.target.files[0];
     if(this.profilePicture){
       this.fd.append('profilePicture', this.profilePicture, this.profilePicture.name);
-      console.log(this.fd);
     }
   }
 
@@ -126,7 +125,6 @@ export class UserSettingsComponent implements OnInit {
     if(this.profilePicture !== null){
       this.data.addImage(this.fd).subscribe({
         next: (response) => {
-          console.log(response);
         }
       })
     }

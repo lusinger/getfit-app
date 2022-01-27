@@ -37,7 +37,6 @@ export class ResetComponent implements OnInit {
       });
       this.auth.resetPassword({access: query}).subscribe({
         next: (response) => {
-          console.log(response)
           if(response.payload){
             this.showResetForm = response.payload.allowReset;
           }
@@ -53,7 +52,6 @@ export class ResetComponent implements OnInit {
   onMailSubmit(): void{
     this.auth.resetPassword({mail: this.resetForm.value.mail}).subscribe({
       next: (response) => {
-        console.log(response)
         if(response.payload){
           this.showResetForm = response.payload.allowReset;
         }
