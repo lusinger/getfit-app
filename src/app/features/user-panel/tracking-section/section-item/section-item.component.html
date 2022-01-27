@@ -1,6 +1,6 @@
 <div class="section-item-container" [ngClass]="remove ? 'remove' : ''">
   <div class="item-content">
-    <p class="item-name">{{itemData.amount}}{{itemData.unit}} {{itemData.content.itemname}}</p>
+    <p class="item-name">{{itemData | entryContent}}</p>
     <p class="item-data">{{calculateCalories() | number: '1.0-0'}} kcal</p>
   </div>
   <div class="item-control">
@@ -10,3 +10,4 @@
     <p (click)="removeItem()">X</p>  
   </div>
 </div>
+§1

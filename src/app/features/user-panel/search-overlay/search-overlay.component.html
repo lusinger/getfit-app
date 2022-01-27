@@ -22,7 +22,7 @@
         <div *ngIf="searchResults.length > 0 && searchValue !== ''" class="search-result-container">
           <div *ngFor="let item of searchResults;" class="search-result" (click)="addDetails(item)">
             <p class="result-name">{{item.itemname}}</p>
-            <p class="result-type">recipe</p>
+            <p class="result-type"></p>
           </div>
         </div>
       </form>

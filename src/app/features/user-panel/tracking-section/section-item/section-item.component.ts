@@ -1,4 +1,5 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { Entry } from 'src/app/interfaces/entry';
 
 @Component({
   selector: 'getfit-section-item',
@@ -6,7 +7,7 @@ import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
   styleUrls: ['./section-item.component.sass']
 })
 export class SectionItemComponent implements OnInit {
-  @Input() itemData: any;
+  @Input() itemData: Entry = {} as Entry;
   @Output() itemRemoved = new EventEmitter<any>();
 
   remove: boolean = false;
@@ -24,21 +25,19 @@ export class SectionItemComponent implements OnInit {
   }
 
   calculateCalories(): number{
-    let calories = 0;
-    switch(this.itemData.unit){
-      case 'g':
-        calories = this.itemData.amount * this.itemData.content.perg;
-        break;
-      case 'ml':
-        calories = this.itemData.amount * this.itemData.content.perml;
-        break;
-      case 'EL':
-        calories = this.itemData.amount * this.itemData.content.perel;
-        break;
-      default:
-        calories = 0;
-        break;
-    };
-    return calories;
+    if(this.itemData.content && 'itemname' in this.itemData.content){
+      switch(this.itemData.unit){
+        case 'g':
+          return this.itemData.amount * this.itemData.content.perg;
+        case 'ml':
+          return this.itemData.amount * this.itemData.content.perml;
+        case 'EL':
+          return this.itemData.amount * this.itemData.content.perel;
+        default:
+          return 0;
+      };
+    }else{
+      return 0;
+    }
   }
 }

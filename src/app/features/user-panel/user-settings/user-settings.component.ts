@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { FormBuilder } from '@angular/forms';
 
 import { AuthService } from 'src/app/services/auth.service';
+import { DataService } from 'src/app/services/data.service';
 import { User } from 'src/app/interfaces/user';
 
 @Component({
@@ -40,15 +41,19 @@ export class UserSettingsComponent implements OnInit {
     gender: [''],
   });
 
+  profilePicture: File | null = null;
+
   settingsState: 'open' | 'closed' = 'closed';
   confirmationState: 'open' | 'closed' = 'closed';
 
   subStates: ('open' | 'closed')[] = ['closed', 'closed'];
   userData: User | null = null;
+  fd = new FormData();
 
   constructor(
     private auth: AuthService,
     private router: Router,
+    private data: DataService,
     private fb: FormBuilder) { }
 
   ngOnInit(): void {
@@ -60,8 +65,9 @@ export class UserSettingsComponent implements OnInit {
     }else{
       this.settingsState = 'open';
     }
-    this.userData = this.auth.getUser();
-    console.log(this.userData);
+    if(this.auth.user !== null && this.userData === null){
+      this.userData = this.auth.getUser();
+    }
   }
 
   toggleConfirmation(): void{
@@ -108,10 +114,21 @@ export class UserSettingsComponent implements OnInit {
     }
   }
 
-  @HostListener('window:scroll', ['$event'])
-  lockScroll(event: any): void{
-    if(this.settingsState === 'open'){
-      window.scrollTo(0, 0);
+  fileSelected($event: any): void{
+    this.profilePicture = $event.target.files[0];
+    if(this.profilePicture){
+      this.fd.append('profilePicture', this.profilePicture, this.profilePicture.name);
+      console.log(this.fd);
+    }
+  }
+
+  onSendImage(): void{
+    if(this.profilePicture !== null){
+      this.data.addImage(this.fd).subscribe({
+        next: (response) => {
+          console.log(response);
+        }
+      })
     }
   }
 }

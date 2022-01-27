@@ -15,8 +15,10 @@ export class TrackingSectionComponent implements OnInit, OnChanges{
 
   @Output() openSearchOverlay = new EventEmitter<Sections>();
   @Output() entryRemoved = new EventEmitter();
+  @Output() changeDetected = new EventEmitter();
 
   totalCalories: number = 0;
+  initialLoad: boolean = false;
 
   sectionState: 'open' | 'closed' = 'closed'
 
@@ -30,12 +32,25 @@ export class TrackingSectionComponent implements OnInit, OnChanges{
         this.sectionState = 'open';
       }
     }, 100);
+    this.data.state.subscribe((state) => {
+      setTimeout(() => {
+        console.log(state);
+        if(state === true){
+          this.totalCalories = this.calculateCalories(this.entries);
+          this.data.updateState(false);
+        }
+      }, 50);
+    });
   }
 
-  async ngOnChanges(changes: SimpleChanges): Promise<void> {
+  ngOnChanges(changes: SimpleChanges): void {
       let change = changes['entriesChanged'];
-      if(change.currentValue === true){
-        this.totalCalories = await this.calculateCalories(this.entries);
+      if(change !== undefined){
+        let current = change.currentValue;
+        if(current === true){
+          this.totalCalories = this.calculateCalories(this.entries);
+          this.changeDetected.emit();
+        }
       }
   }
 
@@ -59,15 +74,15 @@ export class TrackingSectionComponent implements OnInit, OnChanges{
     this.openSearchOverlay.emit(this.section); 
   }
 
-  async calculateCalories(entries: Entry[]): Promise<number>{
+  calculateCalories(entries: Entry[]): number{
     let totalCalories: number = 0;
     for(const entry of entries){
-      totalCalories += await this.getCalories(entry);
+      totalCalories += this.getCalories(entry);
     }
     return totalCalories;
   }
 
-  async getCalories(entry: Entry): Promise<number>{
+  getCalories(entry: Entry): number{
     let calorieCount = 0;
     switch(entry.unit){
       case 'g':

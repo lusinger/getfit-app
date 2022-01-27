@@ -12,5 +12,5 @@
   <div class="section-content" [ngStyle]="sectionState === 'closed' ? {'height': '0'} : {'height': (entries.length * 60) + 'px'}">
     <getfit-section-item *ngFor="let entry of entries; let i = index" [itemData]="entry" (itemRemoved)="onItemRemoved($event)"></getfit-section-item>
   </div>
-  <getfit-add-item (openSearchOverlay)="onOpenSearchOverlay()"></getfit-add-item>
+  <getfit-add-item (openingSearch)="onOpenSearchOverlay()"></getfit-add-item>
 </div>

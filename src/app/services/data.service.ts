@@ -5,6 +5,7 @@ import { Item } from '../interfaces/item';
 import { Recipe } from '../interfaces/recipe';
 import { environment } from 'src/environments/environment';
 import { AuthResponse } from '../interfaces/auth-response';
+import { BehaviorSubject } from 'rxjs';
 
 import { Entry } from '../interfaces/entry';
 
@@ -12,6 +13,10 @@ import { Entry } from '../interfaces/entry';
   providedIn: 'root'
 })
 export class DataService {
+  dataState = new BehaviorSubject<boolean>(false);
+  state = this.dataState.asObservable();
+  isLoading: boolean = false;
+
   defaultHeader = new HttpHeaders({
     'Content-Type': 'application/json',
   });
@@ -19,6 +24,14 @@ export class DataService {
   constructor(
     private http: HttpClient,
   ) { }
+
+  updateState = (state: boolean) => {
+    this.dataState.next(state);
+  }
+
+  updateIsLoading = (isLoading: boolean) => {
+    this.isLoading = isLoading;
+  }
 
   getItem = (id: number): Observable<Item> => {
     return this.http.get<Item>(`${environment.serverUrl}/item:${id}`, {
@@ -81,6 +94,19 @@ export class DataService {
     return this.http.get<Entry[]>(`${environment.serverUrl}/entries`, {
       headers: this.defaultHeader,
       params: params,
+      observe: 'body',
+      responseType: 'json',
+      withCredentials: true,
+    });
+  }
+
+  addImage = (file: FormData): Observable<AuthResponse> => {
+    const header = new HttpHeaders({
+      'Content-Type': 'image/jpeg'
+    });
+
+    return this.http.post<AuthResponse>(`${environment.serverUrl}/add/image`, file, {
+      headers: header,
       observe: 'body',
       responseType: 'json',
       withCredentials: true,

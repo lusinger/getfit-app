@@ -64,10 +64,10 @@ export class UserPanelComponent implements OnInit {
 
   fetchEntries(date: Date): void{
     this.entries.clearData();
+    this.data.updateState(true);
     this.data.getEntries(date).subscribe({
       next: (response: Entry[]) => {
         this.entries.addData(response);
-        this.entriesChanged = true;
       },
       error: (error) => {
 
@@ -76,7 +76,6 @@ export class UserPanelComponent implements OnInit {
 
       }
     });
-    this.entriesChanged = false;
   }
 
   onEntriesAdded(): void{
@@ -84,7 +83,9 @@ export class UserPanelComponent implements OnInit {
   }
   
   onEntryRemoved(): void{
-    this.entriesChanged = true;
-    this.entriesChanged = false;
+    this.data.updateState(true);
+  }
+
+  onChangeDetected(): void{
   }
 }
