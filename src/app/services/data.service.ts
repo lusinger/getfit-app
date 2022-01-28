@@ -108,7 +108,7 @@ export class DataService {
         console.log('[Client] failed to reach server');
         break;
       default:
-        console.log('[Client] undefined error occured');
+        console.error('[Client] undefined error occured');
     }
     return throwError(() => new Error(`${error.message}`));
   }
@@ -132,7 +132,7 @@ export class DataService {
       observe: 'body',
       responseType: 'json',
       withCredentials: true,
-    })
+    }).pipe(catchError(this.handleUpdateEntryErrors));
   }
 //#endregion
 
