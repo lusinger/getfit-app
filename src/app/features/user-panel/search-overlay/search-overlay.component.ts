@@ -37,6 +37,18 @@ import { AuthService } from 'src/app/services/auth.service';
   ]
 })
 export class SearchOverlayComponent implements OnInit, OnChanges {
+  @Output() closeOverlay = new EventEmitter<'open' | 'closed'>();
+  @Output() entriesAdded = new EventEmitter();
+  @Input() overlaySection: Sections = 'undefined';
+  @Input() overlayState: 'open' | 'edit' | 'closed' = 'closed';
+  @Input() currentDate: Date = new Date();
+  @Input() entryToEdit: Entry = {} as Entry;
+
+  editForm = new FormGroup({
+    amount: new FormControl('', [Validators.required, ]),
+    unit: new FormControl(this.entryToEdit.unit, [Validators.required, ]),
+  });
+
   searchForm = new FormGroup({
     isRecipe: new FormControl(false, []),
     recipeTitle: new FormControl('', []),
@@ -47,12 +59,6 @@ export class SearchOverlayComponent implements OnInit, OnChanges {
     amount: new FormControl('', [Validators.required]),
     unit: new FormControl('g', [Validators.required]),
   });
-
-  @Output() closeOverlay = new EventEmitter<'open' | 'closed'>();
-  @Output() entriesAdded = new EventEmitter();
-  @Input() overlaySection: Sections = 'undefined';
-  @Input() overlayState: 'open' | 'closed' = 'closed';
-  @Input() currentDate: Date = new Date();
 
   formState: 'search' | 'details' = 'search';
 
@@ -192,5 +198,19 @@ export class SearchOverlayComponent implements OnInit, OnChanges {
   toggleRecipe(): void{
     this.isRecipe = !this.isRecipe;
     this.searchForm.get('isRecipe')?.setValue(this.isRecipe);
+  }
+
+  onEditSubmit(): void{
+    this.data.updateEntry(this.entryToEdit).subscribe({
+      next: (response) => {
+        console.log(response);
+      }
+    })
+  }
+
+  onAmountChanged($event: any): void{
+    const newEntry: Entry = this.entryToEdit;
+    newEntry.amount = parseInt($event.target.value);
+    this.entryToEdit = newEntry;
   }
 }

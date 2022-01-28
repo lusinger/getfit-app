@@ -13,6 +13,7 @@ export class TrackingSectionComponent implements OnInit{
   @Input() entries: Entry[] = [];
 
   @Output() openingSearch = new EventEmitter<Sections>();
+  @Output() openingEdit = new EventEmitter<{section: Sections, entry: Entry}>();
   @Output() changeDetected = new EventEmitter();
 
   totalCalories: number = 0;
@@ -55,6 +56,10 @@ export class TrackingSectionComponent implements OnInit{
         }
       }
     });
+  }
+
+  onOpeningEdit($event: Entry): void{
+    this.openingEdit.emit({section: this.section, entry: $event});
   }
 
   // EventEmitter handlers

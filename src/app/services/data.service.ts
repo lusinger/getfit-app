@@ -101,6 +101,41 @@ export class DataService {
     });
   }
 
+//#region assigned to handle Entry data...
+  handleUpdateEntryErrors = (error: HttpErrorResponse) => {
+    switch(error.status){
+      case 0:
+        console.log('[Client] failed to reach server');
+        break;
+      default:
+        console.log('[Client] undefined error occured');
+    }
+    return throwError(() => new Error(`${error.message}`));
+  }
+
+  updateEntry = (entry: Entry): Observable<AuthResponse> => {
+    return this.http.put<AuthResponse>(`${environment.serverUrl}/update/entry`, entry, {
+      headers: this.defaultHeader,
+      observe: 'body',
+      responseType: 'json',
+      withCredentials: true,
+    }).pipe(catchError(this.handleUpdateEntryErrors));
+  }
+  
+  deleteEntry = (id: number): Observable<AuthResponse> => {
+    const params = new HttpParams()
+      .set('id', id);
+
+    return this.http.delete<AuthResponse>(`${environment.serverUrl}/delete/entry`, {
+      headers: this.defaultHeader,
+      params: params,
+      observe: 'body',
+      responseType: 'json',
+      withCredentials: true,
+    })
+  }
+//#endregion
+
   addImage = (file: FormData): Observable<AuthResponse> => {
     const header = new HttpHeaders({
       'Content-Type': 'image/jpeg'
@@ -132,16 +167,4 @@ export class DataService {
     })
   }
 
-  deleteEntry = (id: number): Observable<AuthResponse> => {
-    const params = new HttpParams()
-      .set('id', id);
-
-    return this.http.delete<AuthResponse>(`${environment.serverUrl}/delete/entry`, {
-      headers: this.defaultHeader,
-      params: params,
-      observe: 'body',
-      responseType: 'json',
-      withCredentials: true,
-    })
-  }
 }
