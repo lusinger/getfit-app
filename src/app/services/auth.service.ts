@@ -22,8 +22,6 @@ export class AuthService {
   defaultHeader = new HttpHeaders({
     'Content-Type': 'application/json',
   });
-
-  isLoggedIn: boolean = false;
   user: User | null = null;
 
   constructor(private http: HttpClient,) { }
@@ -88,10 +86,6 @@ export class AuthService {
       responseType: 'json',
       withCredentials: true,
     });
-  }
-
-  toggleLogin(): void{
-    this.isLoggedIn = !this.isLoggedIn;
   }
 
   setUser(user: User): void{

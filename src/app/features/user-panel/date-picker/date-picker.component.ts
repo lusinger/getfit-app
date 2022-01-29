@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { trigger, transition, style, animate } from '@angular/animations';
+import { StateMachineService } from 'src/app/services/state-machine.service';
 
 @Component({
   selector: 'getfit-date-picker',
@@ -20,18 +21,19 @@ import { trigger, transition, style, animate } from '@angular/animations';
 })
 export class DatePickerComponent implements OnInit {
   @Input() overlayState: 'open' | 'closed' = 'closed';
-  @Input() currentDate: Date = new Date();
-
-  @Output() selectedDateChanged = new EventEmitter<Date>();
-
-  selectedDate: Date = new Date(this.currentDate);
+  
+  currentDate: Date = new Date();
+  selectedDate: Date = {} as Date;
 
   days: string[] = ['Mo', 'Th', 'Tu', 'We', 'Fr', 'Sa', 'Su'];
   dates: Date[] = [];
 
-  constructor() { }
+  constructor(private state: StateMachineService) { }
 
   ngOnInit(): void {
+    this.state.selectedDate.subscribe((date) => {
+      this.selectedDate = date;
+    });
     this.dates = this.generateCalendar(this.selectedDate);
     addEventListener('scroll', () => {
       if(this.overlayState === 'open'){
@@ -117,7 +119,7 @@ export class DatePickerComponent implements OnInit {
     }else{
       this.selectedDate = date;
     }
-    this.selectedDateChanged.emit(date);
+    this.state.setSelectedDate(date);
   }
 
   toggleOverlay(): void{

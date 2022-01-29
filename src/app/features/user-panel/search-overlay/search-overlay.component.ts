@@ -8,6 +8,7 @@ import { DataService } from 'src/app/services/data.service';
 import { Units } from 'src/app/types/units';
 import { Sections } from 'src/app/types/sections';
 import { AuthService } from 'src/app/services/auth.service';
+import { StateMachineService } from 'src/app/services/state-machine.service';
 
 @Component({
   selector: 'getfit-search-overlay',
@@ -50,9 +51,9 @@ export class SearchOverlayComponent implements OnInit {
 
   @Output() closeOverlay = new EventEmitter<'open' | 'closed'>();
   @Output() entriesAdded = new EventEmitter();
-  @Input() overlaySection: Sections = 'undefined';
   @Input() overlayState: 'open' | 'closed' = 'closed';
-  @Input() currentDate: Date = new Date();
+  selectedDate: Date = {} as Date;
+  overlaySection: Sections = 'undefined';
 
   formState: 'search' | 'details' = 'search';
 
@@ -72,9 +73,16 @@ export class SearchOverlayComponent implements OnInit {
   constructor(
     private data: DataService,
     private auth: AuthService,
+    private state: StateMachineService,
   ) { }
 
   ngOnInit(): void {
+    this.state.selectedSection.subscribe((section) => {
+      this.overlaySection = section;
+    });
+    this.state.selectedDate.subscribe((date) => {
+      this.selectedDate = date;
+    })
   }
 
   onInputChange($event: any): void{
@@ -97,7 +105,7 @@ export class SearchOverlayComponent implements OnInit {
   }
 
   addEntry(): void{
-    const entry: Entry = {createdon: this.currentDate, userid: this.auth.user?.id, amount: this.detailForm.value.amount, unit: this.selectedUnit, entryid: this.selectedItem?.id, isrecipe: false, section: this.overlaySection, content: this.selectedItem};
+    const entry: Entry = {createdon: this.selectedDate, userid: this.auth.user?.id, amount: this.detailForm.value.amount, unit: this.selectedUnit, entryid: this.selectedItem?.id, isrecipe: false, section: this.overlaySection, content: this.selectedItem};
     this.addedEntries.push(entry);
     this.selectedItem && this.cachedResults.push(this.selectedItem);
     this.searchValue = '';

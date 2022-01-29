@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { DataService } from 'src/app/services/data.service';
+import { StateMachineService } from 'src/app/services/state-machine.service';
 
 import {Entry} from '../../interfaces/entry';
 import { Sections } from 'src/app/types/sections';
@@ -16,22 +17,26 @@ export class UserPanelComponent implements OnInit {
   entries = new SectionEntries([], [], [], []);
   entriesChanged: boolean = false;
 
-  selectedDate: Date = new Date();
-  selectedSection: Sections = 'undefined';
+  selectedDate: Date = {} as Date;
   settingsState: 'open' | 'closed' = 'closed';
   searchState: 'open' | 'closed' = 'closed';
 
   constructor(
     private auth: AuthService,
-    private data: DataService) { }
+    private data: DataService,
+    private state: StateMachineService) { }
 
   ngOnInit(): void {
+    this.state.selectedDate.subscribe((date) => {
+      this.selectedDate = date;
+      this.fetchEntries(this.selectedDate);
+    });
+
     this.auth.loadUser().subscribe({
       next: (response) => {
-        this.auth.setUser(response.payload);
+        this.state.setLoadedUser(response.payload);
       },
     });
-    this.fetchEntries(this.selectedDate);
   }
 
   openSettings(): void{
@@ -42,9 +47,8 @@ export class UserPanelComponent implements OnInit {
     this.settingsState = $event;
   }
   
-  onOpenSearchOverlay($event: Sections): void{
+  onOpenSearchOverlay(): void{
     this.settingsState = 'closed';
-    this.selectedSection = $event;
     this.searchState = 'open';
   }
 
@@ -55,19 +59,12 @@ export class UserPanelComponent implements OnInit {
       this.searchState = 'open';
     }
   }
-  
-  onDateChanged($event: Date): void{
-    this.selectedDate = $event;
-    this.data.changeToDate(this.selectedDate);
-    this.fetchEntries(this.selectedDate);
-  }
 
   fetchEntries(date: Date): void{
     this.entries.clearData();
     this.data.getEntries(date).subscribe({
       next: (response: Entry[]) => {
-        this.entries.addData(response);
-        this.data.entryToAdd(response);
+        this.state.setEntries(response);
       },
       error: (error) => {
         console.log(error);
