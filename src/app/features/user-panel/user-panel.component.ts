@@ -26,6 +26,15 @@ export class UserPanelComponent implements OnInit {
     private data: DataService) { }
 
   ngOnInit(): void {
+    setInterval(() => {
+      if(this.auth.user){
+        this.auth.refreshToken(this.auth.user.mail).subscribe({
+          next: response => {
+            console.log(response);
+          }
+        });
+      }
+    }, 600000);
     this.auth.loadUser().subscribe({
       next: (response) => {
         this.auth.setUser(response.payload);

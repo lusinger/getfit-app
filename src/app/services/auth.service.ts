@@ -28,7 +28,7 @@ export class AuthService {
 
   constructor(private http: HttpClient,) { }
 
-  refreshToke(mail: string): Observable<AuthResponse>{
+  refreshToken(mail: string): Observable<AuthResponse>{
     const params = new HttpParams()
       .set('mail', mail);
     return this.http.get<AuthResponse>(`${environment.serverUrl}/refresh/token`, {
