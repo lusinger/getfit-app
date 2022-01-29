@@ -6,17 +6,16 @@
   margin-left: $rem*0.5  
 
 .settings-wrapper
-  position: relative
+  position: absolute
+  top: 0
+  left: 0
   width: 100vw
   height: auto
   .settings-container
     z-index: 50
-    position: absolute
     display: flex
     flex-flow: column
     align-items: center
-    top: 0
-    left: 0
     background: $darkest
     min-width: 100vw
     max-width: 100vw
@@ -74,15 +73,7 @@
       align-items: center
       width: 100%
       border-bottom: 2px solid $lightest-medium
-      .settings-toggler
-        margin: $rem $rem*0.5 $rem*0.5 $rem*0.5
-        cursor: pointer
-        line
-          stroke: $lightest-medium
-          transition: all 0.35s ease-in-out 
-      .settings-toggler:hover
-        line
-          stroke: $accent
+      
 
   .modulo-container
     display: flex

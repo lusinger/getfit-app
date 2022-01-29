@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit} from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import { trigger, transition, animate, style } from '@angular/animations';
 import { Router } from '@angular/router';
 import { FormBuilder } from '@angular/forms';
@@ -46,7 +46,8 @@ export class UserSettingsComponent implements OnInit {
   currentCalories: number = 0;
   profilePicture: File | null = null;
 
-  settingsState: State = 'closed';
+  @Input() settingsState: State = 'closed';
+  @Output() closingSettings = new EventEmitter();
   confirmationState: State = 'closed';
 
   subStates: State[] = ['closed', 'closed'];
@@ -66,8 +67,8 @@ export class UserSettingsComponent implements OnInit {
     });
   }
 
-  toggleSettings(): void{
-    this.settingsState === 'closed' ? this.settingsState = 'open' : this.settingsState = 'closed';
+  closeSettings(): void{
+    this.closingSettings.emit();
   }
 
   toggleConfirmation(): void{
