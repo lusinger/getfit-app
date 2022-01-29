@@ -13,12 +13,6 @@ import { Sections } from '../types/sections';
   providedIn: 'root'
 })
 export class DataService {
-  entryRemoved = new Subject<Entry>();
-  entryAdded = new Subject<Entry[]>();
-  dateChanged = new Subject<Date>();
-
-  caloriesChanged = new BehaviorSubject<{breakfast?: number, lunch?: number, dinner?: number, snack?: number}>({breakfast: 0, lunch: 0, dinner: 0, snack: 0});
-
   defaultHeader = new HttpHeaders({
     'Content-Type': 'application/json',
   });
@@ -26,32 +20,6 @@ export class DataService {
   constructor(
     private http: HttpClient,
   ) { }
-   
-  entryToRemove = (entry: Entry) => {
-    this.entryRemoved.next(entry);
-  }
-  entryToAdd = (entry: Entry[]) => {
-    this.entryAdded.next(entry);
-  }
-  changeToDate = (date: Date) => {
-    this.dateChanged.next(date);
-  }
-  addCalories = (section: Sections, amount: number) => {
-    switch(section){
-      case 'breakfast':
-        this.caloriesChanged.next({breakfast: amount});
-        break;
-      case 'lunch': 
-        this.caloriesChanged.next({lunch: amount});
-        break;
-      case 'dinner':
-        this.caloriesChanged.next({dinner: amount});
-        break;
-      case 'snack':
-        this.caloriesChanged.next({snack: amount});
-        break;
-    }
-  }
 
   getItem = (id: number): Observable<Item> => {
     return this.http.get<Item>(`${environment.serverUrl}/item:${id}`, {

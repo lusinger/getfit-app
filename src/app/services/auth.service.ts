@@ -22,11 +22,21 @@ export class AuthService {
   defaultHeader = new HttpHeaders({
     'Content-Type': 'application/json',
   });
-
-  isLoggedIn: boolean = false;
   user: User | null = null;
 
   constructor(private http: HttpClient,) { }
+
+  refreshToken(mail: string): Observable<AuthResponse>{
+    const params = new HttpParams()
+      .set('mail', mail);
+    return this.http.get<AuthResponse>(`${environment.serverUrl}/refresh/token`, {
+      headers: this.defaultHeader,
+      params: params,
+      observe: 'body',
+      responseType: 'json',
+      withCredentials: true,
+    });
+  }
 
   login(loginData: LoginRequest): Observable<AuthResponse>{
     const params = new HttpParams()
@@ -88,10 +98,6 @@ export class AuthService {
       responseType: 'json',
       withCredentials: true,
     });
-  }
-
-  toggleLogin(): void{
-    this.isLoggedIn = !this.isLoggedIn;
   }
 
   setUser(user: User): void{
