@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
 import { Entry } from 'src/app/interfaces/entry';
 import { DataService } from 'src/app/services/data.service';
+import { StateMachineService } from 'src/app/services/state-machine.service';
 import { Sections } from 'src/app/types/sections';
 
 @Component({
@@ -12,8 +13,7 @@ export class TrackingSectionComponent implements OnInit{
   @Input() section: Sections = 'undefined';
   @Input() entries: Entry[] = [];
 
-  @Output() openingSearch = new EventEmitter<Sections>();
-  @Output() changeDetected = new EventEmitter();
+  @Output() openingSearch = new EventEmitter();
 
   totalCalories: number = 0;
   initialLoad: boolean = false;
@@ -21,7 +21,8 @@ export class TrackingSectionComponent implements OnInit{
   sectionState: 'open' | 'closed' = 'closed'
 
   constructor(
-    private data: DataService,){
+    private data: DataService,
+    private state: StateMachineService){
   }
 
   ngOnInit(): void {
@@ -75,7 +76,8 @@ export class TrackingSectionComponent implements OnInit{
   }
 
   onOpeningSearch(): void{
-    this.openingSearch.emit(this.section); 
+    this.state.setSelectedSection(this.section);
+    this.openingSearch.emit(); 
   }
 
   calculateCalories(entries: Entry[]): number{

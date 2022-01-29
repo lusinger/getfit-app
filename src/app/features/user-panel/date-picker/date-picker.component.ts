@@ -21,10 +21,8 @@ import { StateMachineService } from 'src/app/services/state-machine.service';
 })
 export class DatePickerComponent implements OnInit {
   @Input() overlayState: 'open' | 'closed' = 'closed';
-  @Input() currentDate: Date = new Date();
-
-  @Output() selectedDateChanged = new EventEmitter<Date>();
-
+  
+  currentDate: Date = new Date();
   selectedDate: Date = {} as Date;
 
   days: string[] = ['Mo', 'Th', 'Tu', 'We', 'Fr', 'Sa', 'Su'];

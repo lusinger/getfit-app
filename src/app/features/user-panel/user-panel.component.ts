@@ -32,6 +32,9 @@ export class UserPanelComponent implements OnInit {
       this.selectedDate = date;
       this.fetchEntries(this.selectedDate);
     });
+    this.state.selectedSection.subscribe((section) => {
+
+    });
 
     this.auth.loadUser().subscribe({
       next: (response) => {
@@ -48,9 +51,8 @@ export class UserPanelComponent implements OnInit {
     this.settingsState = $event;
   }
   
-  onOpenSearchOverlay($event: Sections): void{
+  onOpenSearchOverlay(): void{
     this.settingsState = 'closed';
-    this.selectedSection = $event;
     this.searchState = 'open';
   }
 
