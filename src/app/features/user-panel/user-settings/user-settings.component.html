@@ -1,100 +1,112 @@
-<div class="settings-wrapper">
-  <div appScrollLock @toggleSettings *ngIf="settingsState === 'open'" class="settings-container">
-    <div class="settings-form">
-      <div class="header-content">
-        <section class="user-image">
-          <img src="assets/user.jpeg">
-          <label class="edit-button">
-            <input (change)="fileSelected($event)" type="file" accept="image/png, image/jpeg">
-            <svg-edit [style]="'light'"></svg-edit>
-          </label>
-        </section>  
-        <section class="user-info">
-          <p>{{userData ? 'calories per day: ' + userData.calorieGoal + 'kcal' : ''}}</p>
-          <p>{{userData ? 'created on: ' + userData.createdOn : '' | date: "MM/dd/yy"}}</p>
-        </section>
+<div appScrollLock @toggleSettings *ngIf="settingsState === 'open'" class="settings-container">
+  <div class="header">
+      <section class="header-image">
+        <img src="assets/user.jpeg">
+        <svg-edit [style]="'light'"></svg-edit>
+        <label>
+          <input (change)="fileSelected($event)" type="file" accept="image/png, image/jpeg">
+        </label>
+      </section>  
+      <section class="user-info">
+        <p>{{userData ? 'calories per day: ' + userData.calorieGoal + 'kcal' : ''}}</p>
+        <p>{{userData ? 'created on: ' + userData.createdOn : '' | date: "MM/dd/yy"}}</p>
+      </section>
+  </div>
+  <form class="form-container" [formGroup]="settingsForm">
+    <div (click)="toggleSection(0)" class="section-title mt1">
+      <h4 class="accent">Account Settings</h4>
+      <h4 class="toggler">{{subStates[0] === 'open' ? '-' : '+'}}</h4>
+    </div>
+    <section class="section-body" [ngClass]="subStates[0] === 'open' ? '' : 'hide'">
+      <label class="input-field light mt1">
+        <span>username</span>
+        <input formControlName="userName" type="text" placeholder="{{userData ? userData.userName : 'username'}}" spellcheck="false">
+      </label>
+      <label class="input-field light mt1">
+        <span>mail</span>
+        <input formControlName="mail" type="email" placeholder="{{userData ? userData.mail : 'mail'}}" spellcheck="false">
+      </label>
+      <label class="input-field light mt1">
+        <span>old password</span>
+        <input formControlName="oldPassword" type="password" placeholder="old password" spellcheck="false">
+      </label>
+      <label class="input-field light mt1">
+        <span>new password</span>
+        <input formControlName="newPassword" type="password" placeholder="new password" spellcheck="false">
+      </label>
+      <label class="input-field light mt1">
+        <span>retype password</span>
+        <input formControlName="retype" type="password" placeholder="retype password" spellcheck="false">
+      </label>
+    </section>
+    <div (click)="toggleSection(1)" class="section-title mt1">
+      <h4 class="accent">Private Settings</h4>
+      <h4 class="toggler">{{subStates[1] === 'open' ? '-' : '+'}}</h4>
+    </div>
+    <section class="section-body" [ngClass]="subStates[1] === 'open' ? '' : 'hide'">
+      <label class="input-field light mt1">
+        <span>fullname</span>
+        <input formControlName="fullName" type="text" placeholder="{{userData ? userData.fullName : 'fullName'}}" spellcheck="false">
+      </label>
+      <label class="input-field light mt1">
+        <span>age</span>
+        <input formControlName="age" type="number" placeholder="{{userData ? userData.age : 'age'}}" spellcheck="false">
+      </label>
+      <label class="input-field light mt1">
+        <span>height</span>
+        <input formControlName="height" type="number" placeholder="{{userData ? userData.height : 'height'}}" spellcheck="false">
+      </label>
+      <label class="input-field light mt1">
+        <span>current weight</span>
+        <input formControlName="currentWeight" type="number" placeholder="{{userData ? userData.currentWeight : 'current weight'}}" spellcheck="false">
+      </label>
+      <label class="input-field light mt1">
+        <span>target weight</span>
+        <input formControlName="targetWeight" type="number" placeholder="{{userData ? userData.targetWeight : 'target weight'}}" spellcheck="false">
+      </label>
+      <label class="input-field light mt1">
+        <span>change per week</span>
+        <input formControlName="changePerWeek" type="number" placeholder="{{userData ? userData.changePerWeek : 'change per week'}}" spellcheck="false">
+      </label>
+      <getfit-dropdown [values]="[
+        {key: 'sedentary', value: 1.2}, 
+        {key: 'lightly active', value: 1.375}, 
+        {key: 'moderatly active', value: 1.55},
+        {key: 'very active', value: 1.725},
+        {key: 'extra active', value: 1.9}]"></getfit-dropdown>
+      <div class="radio-group mt1">
+        <label class="radio-field light">
+          <input formControlName="gender" type="radio" name="gender" value="male">
+          <span>male</span>
+        </label>
+        <label class="radio-field light">
+          <input formControlName="gender" type="radio" name="gender" value="female">
+          <span>female</span>
+        </label>
       </div>
-      <form [formGroup]="settingsForm">
-        <div (click)="toggleSection(0)" class="section-title mt1">
-          <h4 class="light">Account Settings</h4>
-          <h4 class="toggler">{{subStates[0] === 'open' ? '-' : '+'}}</h4>
-        </div>
-        <section class="section-body" [ngClass]="subStates[0] === 'open' ? '' : 'hide'">
-          <label class="input-field light mt1">
-            <span>username</span>
-            <input formControlName="userName" type="text" placeholder="{{userData ? userData.userName : 'userName'}}" spellcheck="false">
-          </label>
-          <label class="input-field light mt1">
-            <span>mail</span>
-            <input formControlName="mail" type="email" placeholder="{{userData ? userData.mail : 'mail'}}" spellcheck="false">
-          </label>
-          <label class="input-field light mt1">
-            <span>old password</span>
-            <input formControlName="oldPassword" type="password" placeholder="old password" spellcheck="false">
-          </label>
-          <label class="input-field light mt1">
-            <span>new password</span>
-            <input formControlName="newPassword" type="password" placeholder="new password" spellcheck="false">
-          </label>
-          <label class="input-field light mt1">
-            <span>retype password</span>
-            <input formControlName="retype" type="password" placeholder="retype password" spellcheck="false">
-          </label>
-        </section>
-        <div (click)="toggleSection(1)" class="section-title mt1">
-          <h4 class="light">Private Details</h4>
-          <h4 class="toggler">{{subStates[1] === 'open' ? '-' : '+'}}</h4>
-        </div>
-        <section class="section-body" [ngClass]="subStates[1] === 'open' ? '' : 'hide'">
-          <label class="input-field light mt1">
-            <span>fullname</span>
-            <input formControlName="fullName" type="text" placeholder="{{userData ? userData.fullName : 'fullName'}}" spellcheck="false">
-          </label>
-          <label class="input-field light mt1">
-            <span>age</span>
-            <input formControlName="age" type="number" placeholder="{{userData ? userData.age : 'age'}}" spellcheck="false">
-          </label>
-          <label class="input-field light mt1">
-            <span>height</span>
-            <input formControlName="height" type="number" placeholder="{{userData ? userData.height : 'height'}}" spellcheck="false">
-          </label>
-          <label class="input-field light mt1">
-            <span>current weight</span>
-            <input formControlName="currentWeight" type="number" placeholder="{{userData ? userData.currentWeight : 'current weight'}}" spellcheck="false">
-          </label>
-          <label class="input-field light mt1">
-            <span>target weight</span>
-            <input formControlName="targetWeight" type="number" placeholder="{{userData ? userData.targetWeight : 'target weight'}}" spellcheck="false">
-          </label>
-          <label class="input-field light mt1">
-            <span>change per week</span>
-            <input formControlName="changePerWeek" type="number" placeholder="{{userData ? userData.changePerWeek : 'change per week'}}" spellcheck="false">
-          </label>
-        </section>
-        <button class="light mt1" type="submit" (click)="onSendImage()">Update</button>
-        <p (click)="logout()" class="accent mt1">logout</p>
-        <p (click)="toggleConfirmation()" class="accent mt1">delete</p>
-      </form>
-    </div>
-    <div class="settings-footer">
-      <svg-cross (click)="closeSettings()"></svg-cross>
-    </div>
-  </div>  
-  <div *ngIf="confirmationState === 'open'" class="modulo-container">
-    <div class="modulo-background">
+    </section>
+    <button class="light mt1" type="submit" (click)="updateUser()">Update</button>
+    <p (click)="logout()" class="accent mt1">logout</p>
+    <p (click)="toggleConfirmation()" class="accent mt1">delete</p>
+  </form>
+  <div class="footer-container">
+    <svg-cross (click)="closeSettings()"></svg-cross>
+  </div>
+</div>
+<div *ngIf="confirmationState === 'open'" class="modulo-container">
+  <div class="modulo-background">
 
-    </div>
-    <div class="modulo-content">
-      <div @toggleSettings class="modulo">
-        <section class="modulo-header">
-          <h4 (click)="toggleConfirmation()">X</h4>
-        </section>
-        <h4 class="mt1">Are your sure you want to delete your account?</h4>
-        <section class="button-group mt1">
-          <button class="mr05" type="button" (click)="deleteUser()">Yes</button>
-          <button class="ml05" type="button" (click)="toggleConfirmation()">No</button>
-        </section>
-      </div>
+  </div>
+  <div class="modulo-content">
+    <div @toggleSettings class="modulo">
+      <section class="modulo-header">
+        <h4 (click)="toggleConfirmation()">X</h4>
+      </section>
+      <h4 class="mt1">Are your sure you want to delete your account?</h4>
+      <section class="button-group mt1">
+        <button class="mr05" type="button" (click)="deleteUser()">Yes</button>
+        <button class="ml05" type="button" (click)="toggleConfirmation()">No</button>
+      </section>
     </div>
   </div>
 </div>

@@ -50,7 +50,7 @@ export class UserSettingsComponent implements OnInit {
   @Output() closingSettings = new EventEmitter();
   confirmationState: State = 'closed';
 
-  subStates: State[] = ['closed', 'closed'];
+  subStates: State[] = ['open', 'closed'];
   userData: User = {} as User;
   fd = new FormData();
 
@@ -95,6 +95,10 @@ export class UserSettingsComponent implements OnInit {
         }
       });
     }
+  }
+
+  updateUser(): void{
+    
   }
 
   toggleSection(index: number): void{

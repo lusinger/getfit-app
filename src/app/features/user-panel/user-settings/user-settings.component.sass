@@ -5,13 +5,13 @@
 .ml05
   margin-left: $rem*0.5  
 
-.settings-wrapper
-  position: absolute
-  top: 0
-  left: 0
-  width: 100vw
+:host
+  width: 100%
   height: auto
   .settings-container
+    position: absolute
+    top: 0
+    left: 0
     z-index: 50
     display: flex
     flex-flow: column
@@ -21,53 +21,60 @@
     max-width: 100vw
     min-height: 100vh
     padding: $rem*2 $rem
-    .settings-form
+    .header
+      display: flex
       width: 100%
-      flex-grow: 1
-      .header-content
-        display: flex
-        width: 100%
-        .user-image
+      height: auto
+      .header-image
+        img
           position: relative
-          img
-            width: $rem*6
-            height: $rem*6
-            border-radius: 50%
-          .edit-button
-            cursor: pointer
-            position: absolute
-            top: 0
-            left: 0
-            z-index: 40
-            input
-              display: none
-            path
-              fill: $accent
-        .user-info
-          padding-left: $rem
-          display: flex
-          flex-flow: column
-          p
-            color: $lightest-medium
-            font-style: italic
-      form
-        .section-title
-          display: flex
-          justify-content: space-between
-          width: 100%
-          height: auto
-          cursor: pointer
-          .toggler
-            color: $lightest-medium
-        .section-body
-          transform: scaleY(1)
-          height: fit-content
-        .section-body.hide
-          transform: scaleY(0)
-          height: 0px
+          width: $rem*6
+          height: $rem*6
+          border-radius: 50%
+        img + *
+          position: absolute
+          top: 0
+          left: 0
+          z-index: 40
+        label
+          input
+            display: none
+          
+      .user-info
+        padding-left: $rem
+        display: flex
+        flex-flow: column
+        p
+          color: $lightest-medium
+          font-style: italic
+    .form-container
+      display: flex
+      flex-flow: column
+      width: 100%
+      height: auto
+      flex-grow: 1
+      .section-title
+        display: flex
+        justify-content: space-between
+        width: 100%
+        height: auto
+        cursor: pointer
+        .toggler
+          color: $lightest-medium
+      .section-body
+        transform: scaleY(1)
+        height: fit-content
+      .section-body.hide
+        transform: scaleY(0)
+        height: 0px
+      .radio-group
+        display: flex
+        flex-flow: row
+        width: 100%
+        height: auto
       p
         cursor: pointer
-    .settings-footer
+    .footer-container
       display: flex
       justify-content: center
       align-items: center
@@ -118,12 +125,7 @@
           justify-content: space-between
 
 @media (min-width: $query-small)
-  .header-content
+  .settings-container *
     max-width: 600px
-  .settings-container
-    .settings-form
-      max-width: 600px
-    .settings-footer
-      max-width: 600px
   .modulo-container *
     max-width: 600px

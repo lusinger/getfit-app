@@ -25,6 +25,7 @@ import { HeaderComponent } from './features/user-panel/header/header.component';
 import { SettingsComponent } from './svg/settings/settings.component';
 import { CrossComponent } from './svg/cross/cross.component';
 import { EditComponent } from './svg/edit/edit.component';
+import { DropdownComponent } from './components/dropdown/dropdown.component';
 
 @NgModule({
   declarations: [
@@ -47,6 +48,7 @@ import { EditComponent } from './svg/edit/edit.component';
     SettingsComponent,
     CrossComponent,
     EditComponent,
+    DropdownComponent,
   ],
   imports: [
     BrowserModule,
