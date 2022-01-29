@@ -38,6 +38,13 @@ import { StateMachineService } from 'src/app/services/state-machine.service';
   ]
 })
 export class SearchOverlayComponent implements OnInit {
+  @Input() entryToEdit: Entry = {} as Entry;
+
+  editForm = new FormGroup({
+    amount: new FormControl('', [Validators.required, ]),
+    unit: new FormControl(this.entryToEdit.unit, [Validators.required, ]),
+  });
+  
   searchForm = new FormGroup({
     isRecipe: new FormControl(false, []),
     recipeTitle: new FormControl('', []),
@@ -54,7 +61,6 @@ export class SearchOverlayComponent implements OnInit {
   @Input() overlayState: 'open' | 'closed' = 'closed';
   selectedDate: Date = {} as Date;
   overlaySection: Sections = 'undefined';
-
   formState: 'search' | 'details' = 'search';
 
   searchValue: string | ' ' = ' ';
@@ -193,5 +199,19 @@ export class SearchOverlayComponent implements OnInit {
   toggleRecipe(): void{
     this.isRecipe = !this.isRecipe;
     this.searchForm.get('isRecipe')?.setValue(this.isRecipe);
+  }
+
+  onEditSubmit(): void{
+    this.data.updateEntry(this.entryToEdit).subscribe({
+      next: (response) => {
+        console.log(response);
+      }
+    })
+  }
+
+  onAmountChanged($event: any): void{
+    const newEntry: Entry = this.entryToEdit;
+    newEntry.amount = parseInt($event.target.value);
+    this.entryToEdit = newEntry;
   }
 }

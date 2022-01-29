@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
+import { AuthResponse } from 'src/app/interfaces/auth-response';
 import { Entry } from 'src/app/interfaces/entry';
 import { DataService } from 'src/app/services/data.service';
 import { StateMachineService } from 'src/app/services/state-machine.service';
@@ -13,6 +14,7 @@ export class TrackingSectionComponent implements OnInit{
   @Input() section: Sections = 'undefined';
   entries: Entry[] = [];
 
+  @Output() openingEdit = new EventEmitter<{section: Sections, entry: Entry}>();
   @Output() openingSearch = new EventEmitter();
 
   totalCalories: number = 0;
@@ -43,6 +45,10 @@ export class TrackingSectionComponent implements OnInit{
       this.totalCalories = 0;
       return [];
     }
+  }
+
+  onOpeningEdit($event: Entry): void{
+    this.openingEdit.emit({section: this.section, entry: $event});
   }
 
   // EventEmitter handlers

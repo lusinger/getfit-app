@@ -19,7 +19,7 @@ export class UserPanelComponent implements OnInit, OnDestroy {
 
   selectedDate: Date = {} as Date;
   settingsState: 'open' | 'closed' = 'closed';
-  searchState: 'open' | 'closed' = 'closed';
+  searchState: 'open' | 'edit' | 'closed' = 'closed';
 
   constructor(
     private auth: AuthService,
@@ -68,11 +68,11 @@ export class UserPanelComponent implements OnInit, OnDestroy {
     this.searchState = 'open';
   }
 
-  toggleOverlay($event: 'open' | 'closed'): void{
-    if(this.searchState === 'open'){
+  toggleOverlay($event: 'open' | 'edit' | 'closed'): void{
+    if(this.searchState === 'open' || this.searchState === 'edit'){
       this.searchState = 'closed';
     }else{
-      this.searchState = 'open';
+      this.searchState = $event;
     }
   }
 
@@ -93,5 +93,12 @@ export class UserPanelComponent implements OnInit, OnDestroy {
 
   onEntriesAdded(): void{
     this.fetchEntries(this.selectedDate);
+  }
+
+  onOpenEdit($event: {section: Sections, entry: Entry}): void{
+    this.selectedSection = $event.section;
+    this.selectedEntry = $event.entry;
+    this.toggleOverlay('edit');
+    this.data.updateEntry(this.entries.breakfast[0]);
   }
 }
