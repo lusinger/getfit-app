@@ -76,7 +76,7 @@ export class UserSettingsComponent implements OnInit {
 
   logout(): void{
     this.auth.logout().subscribe({
-      next: response => {
+      next: (response) => {
         this.state.setApplicationState('loged out');
         this.router.navigate(['login']);
       }
