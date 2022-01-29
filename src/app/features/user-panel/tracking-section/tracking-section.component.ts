@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
 import { Entry } from 'src/app/interfaces/entry';
 import { DataService } from 'src/app/services/data.service';
+import { StateMachineService } from 'src/app/services/state-machine.service';
 import { Sections } from 'src/app/types/sections';
 
 @Component({
@@ -10,10 +11,9 @@ import { Sections } from 'src/app/types/sections';
 })
 export class TrackingSectionComponent implements OnInit{
   @Input() section: Sections = 'undefined';
-  @Input() entries: Entry[] = [];
+  entries: Entry[] = [];
 
-  @Output() openingSearch = new EventEmitter<Sections>();
-  @Output() changeDetected = new EventEmitter();
+  @Output() openingSearch = new EventEmitter();
 
   totalCalories: number = 0;
   initialLoad: boolean = false;
@@ -21,61 +21,48 @@ export class TrackingSectionComponent implements OnInit{
   sectionState: 'open' | 'closed' = 'closed'
 
   constructor(
-    private data: DataService,){
+    private data: DataService,
+    private state: StateMachineService){
   }
 
   ngOnInit(): void {
-    this.data.dateChanged.subscribe({
-      next: (date) => {
-        this.totalCalories = 0;
-      }
+    this.state.entries.subscribe((entries) => {
+      this.entries = this.loadEntries(entries);
     });
+  }
 
-    this.data.entryRemoved.subscribe({
-      next: (entry) => {
-        if(this.entries.length === 0){
-          this.sectionState = 'closed';
-        }
-        if(entry.section === this.section){
-          this.totalCalories = this.calculateCalories(this.entries);
-        }
-      }
-    });
-    this.data.entryAdded.subscribe({
-      next: (entries) => {
-        if(entries.length > 0){
-          this.sectionState = 'open';
-          let sectionEntries: Entry[] = [] as Entry[];
-          sectionEntries = entries.filter((entry) => {
-            if(entry.section === this.section){
-              sectionEntries.push(entry);
-            }
-            this.totalCalories = this.calculateCalories(sectionEntries);
-          });
-        }
-      }
-    });
+  loadEntries(entries: Entry[]): Entry[]{
+    if(entries.length > 0){
+      let data = entries.filter((entry) => {
+        return entry.section === this.section ? true : false;
+      });
+      data.length > 0 ? this.sectionState = 'open' : this.sectionState = 'closed';
+      this.totalCalories = this.calculateCalories(data);
+      return data;
+    }else{
+      this.totalCalories = 0;
+      return [];
+    }
   }
 
   // EventEmitter handlers
 
   onRemovingItem($event: Entry): void{
-    this.entries = this.entries.filter(entry => {
-      if(entry.id !== undefined && entry.id === $event.id){
-        this.data.deleteEntry($event.id).subscribe({
-          next: (response) => {
-            this.data.entryToRemove($event);
-          }
-        });
-        return false;
-      }else{
-        return true;
-      }
-    });
+    if($event.id !== undefined){
+      this.data.deleteEntry($event.id).subscribe({
+        next: (response) => {
+          let newData = this.entries.filter((entry) => {
+            return $event.id! === entry.id! ? false : true;
+          });
+          this.state.setEntries(newData);
+        }
+      });
+    }
   }
 
   onOpeningSearch(): void{
-    this.openingSearch.emit(this.section); 
+    this.state.setSelectedSection(this.section);
+    this.openingSearch.emit(); 
   }
 
   calculateCalories(entries: Entry[]): number{

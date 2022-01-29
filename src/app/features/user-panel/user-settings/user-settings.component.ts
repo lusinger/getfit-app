@@ -6,6 +6,7 @@ import { FormBuilder } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 import { DataService } from 'src/app/services/data.service';
 import { User } from 'src/app/interfaces/user';
+import { StateMachineService } from 'src/app/services/state-machine.service';
 
 @Component({
   selector: 'getfit-user-settings',
@@ -53,6 +54,7 @@ export class UserSettingsComponent implements OnInit {
   constructor(
     private auth: AuthService,
     private router: Router,
+    private state: StateMachineService,
     private data: DataService,
     private fb: FormBuilder) { }
 
@@ -77,7 +79,7 @@ export class UserSettingsComponent implements OnInit {
   logout(): void{
     this.auth.logout().subscribe({
       next: response => {
-        this.auth.toggleLogin();
+        this.state.setApplicationState('loged out');
         this.router.navigate(['login']);
       }
     });

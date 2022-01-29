@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { DataService } from 'src/app/services/data.service';
+import { StateMachineService } from 'src/app/services/state-machine.service';
 
 import {Entry} from '../../interfaces/entry';
 import { Sections } from 'src/app/types/sections';
@@ -16,14 +17,14 @@ export class UserPanelComponent implements OnInit, OnDestroy {
   entries = new SectionEntries([], [], [], []);
   refreshInterval: NodeJS.Timeout = {} as NodeJS.Timeout;
 
-  selectedDate: Date = new Date();
-  selectedSection: Sections = 'undefined';
+  selectedDate: Date = {} as Date;
   settingsState: 'open' | 'closed' = 'closed';
   searchState: 'open' | 'closed' = 'closed';
 
   constructor(
     private auth: AuthService,
-    private data: DataService) { }
+    private data: DataService,
+    private state: StateMachineService) { }
 
   ngOnInit(): void {
     //--refresh token all 10min => 600000ms
@@ -36,12 +37,17 @@ export class UserPanelComponent implements OnInit, OnDestroy {
         });
       }
     }, 600000);
+
+    this.state.selectedDate.subscribe((date) => {
+      this.selectedDate = date;
+      this.fetchEntries(this.selectedDate);
+    });
+
     this.auth.loadUser().subscribe({
       next: (response) => {
-        this.auth.setUser(response.payload);
+        this.state.setLoadedUser(response.payload);
       },
     });
-    this.fetchEntries(this.selectedDate);
   }
 
   ngOnDestroy(): void {
@@ -57,9 +63,8 @@ export class UserPanelComponent implements OnInit, OnDestroy {
     this.settingsState = $event;
   }
   
-  onOpenSearchOverlay($event: Sections): void{
+  onOpenSearchOverlay(): void{
     this.settingsState = 'closed';
-    this.selectedSection = $event;
     this.searchState = 'open';
   }
 
@@ -70,19 +75,12 @@ export class UserPanelComponent implements OnInit, OnDestroy {
       this.searchState = 'open';
     }
   }
-  
-  onDateChanged($event: Date): void{
-    this.selectedDate = $event;
-    this.data.changeToDate(this.selectedDate);
-    this.fetchEntries(this.selectedDate);
-  }
 
   fetchEntries(date: Date): void{
     this.entries.clearData();
     this.data.getEntries(date).subscribe({
       next: (response: Entry[]) => {
-        this.entries.addData(response);
-        this.data.entryToAdd(response);
+        this.state.setEntries(response);
       },
       error: (error) => {
         console.log(error);

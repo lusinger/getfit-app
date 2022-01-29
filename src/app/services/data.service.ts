@@ -12,10 +12,6 @@ import { Entry } from '../interfaces/entry';
   providedIn: 'root'
 })
 export class DataService {
-  entryRemoved = new Subject<Entry>();
-  entryAdded = new Subject<Entry[]>();
-  dateChanged = new Subject<Date>();
-
   defaultHeader = new HttpHeaders({
     'Content-Type': 'application/json',
   });
@@ -23,16 +19,6 @@ export class DataService {
   constructor(
     private http: HttpClient,
   ) { }
-   
-  entryToRemove = (entry: Entry) => {
-    this.entryRemoved.next(entry);
-  }
-  entryToAdd = (entry: Entry[]) => {
-    this.entryAdded.next(entry);
-  }
-  changeToDate = (date: Date) => {
-    this.dateChanged.next(date);
-  }
 
   getItem = (id: number): Observable<Item> => {
     return this.http.get<Item>(`${environment.serverUrl}/item:${id}`, {
