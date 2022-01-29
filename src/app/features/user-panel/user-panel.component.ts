@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { DataService } from 'src/app/services/data.service';
+import { StateMachineService } from 'src/app/services/state-machine.service';
 
 import {Entry} from '../../interfaces/entry';
 import { Sections } from 'src/app/types/sections';
@@ -16,22 +17,27 @@ export class UserPanelComponent implements OnInit {
   entries = new SectionEntries([], [], [], []);
   entriesChanged: boolean = false;
 
-  selectedDate: Date = new Date();
+  selectedDate: Date = {} as Date;
   selectedSection: Sections = 'undefined';
   settingsState: 'open' | 'closed' = 'closed';
   searchState: 'open' | 'closed' = 'closed';
 
   constructor(
     private auth: AuthService,
-    private data: DataService) { }
+    private data: DataService,
+    private state: StateMachineService) { }
 
   ngOnInit(): void {
+    this.state.selectedDate.subscribe((date) => {
+      this.selectedDate = date;
+      this.fetchEntries(this.selectedDate);
+    });
+
     this.auth.loadUser().subscribe({
       next: (response) => {
         this.auth.setUser(response.payload);
       },
     });
-    this.fetchEntries(this.selectedDate);
   }
 
   openSettings(): void{
@@ -54,12 +60,6 @@ export class UserPanelComponent implements OnInit {
     }else{
       this.searchState = 'open';
     }
-  }
-  
-  onDateChanged($event: Date): void{
-    this.selectedDate = $event;
-    this.data.changeToDate(this.selectedDate);
-    this.fetchEntries(this.selectedDate);
   }
 
   fetchEntries(date: Date): void{
