@@ -60,14 +60,6 @@ export class UserSettingsComponent implements OnInit {
     private fb: FormBuilder) { }
 
   ngOnInit(): void {
-    this.data.caloriesChanged.subscribe({
-      next: (value) => {
-        if(value.snack !== undefined && value.lunch !== undefined && value.dinner !== undefined && value.breakfast !== undefined){
-          console.log(value);
-          this.currentCalories = (value.breakfast + value.lunch + value.dinner + value.snack);
-        }
-      }
-    });
   }
 
   toggleSettings(): void{

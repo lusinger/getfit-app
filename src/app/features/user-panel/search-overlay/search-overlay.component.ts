@@ -38,7 +38,7 @@ import { StateMachineService } from 'src/app/services/state-machine.service';
   ]
 })
 export class SearchOverlayComponent implements OnInit {
-  @Input() entryToEdit: Entry = {} as Entry;
+  entryToEdit: Entry = {} as Entry;
 
   editForm = new FormGroup({
     amount: new FormControl('', [Validators.required, ]),
@@ -58,10 +58,10 @@ export class SearchOverlayComponent implements OnInit {
 
   @Output() closeOverlay = new EventEmitter<'open' | 'closed'>();
   @Output() entriesAdded = new EventEmitter();
-  @Input() overlayState: 'open' | 'closed' = 'closed';
+  @Input() overlayState: 'open' | 'closed' | 'edit' = 'closed';
   selectedDate: Date = {} as Date;
   overlaySection: Sections = 'undefined';
-  formState: 'search' | 'details' = 'search';
+  formState: 'search' | 'details' | 'edit' = 'search';
 
   searchValue: string | ' ' = ' ';
   searchResults: Item[] = [];
@@ -88,6 +88,9 @@ export class SearchOverlayComponent implements OnInit {
     });
     this.state.selectedDate.subscribe((date) => {
       this.selectedDate = date;
+    });
+    this.state.entryToEdit.subscribe((entry) => {
+      this.entryToEdit = entry;
     })
   }
 
@@ -202,16 +205,19 @@ export class SearchOverlayComponent implements OnInit {
   }
 
   onEditSubmit(): void{
-    this.data.updateEntry(this.entryToEdit).subscribe({
+    /* this.data.updateEntry(this.entryToEdit).subscribe({
       next: (response) => {
         console.log(response);
       }
-    })
+    }) */
   }
 
   onAmountChanged($event: any): void{
-    const newEntry: Entry = this.entryToEdit;
-    newEntry.amount = parseInt($event.target.value);
-    this.entryToEdit = newEntry;
+    if($event.target.value !== ''){
+      this.entryToEdit.amount = parseFloat($event.target.value);
+      this.state.setEntryToEdit(this.entryToEdit);
+    }else{
+      this.entryToEdit.amount = 1;
+    }
   }
 }

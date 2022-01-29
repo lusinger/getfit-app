@@ -95,10 +95,8 @@ export class UserPanelComponent implements OnInit, OnDestroy {
     this.fetchEntries(this.selectedDate);
   }
 
-  onOpenEdit($event: {section: Sections, entry: Entry}): void{
-    this.selectedSection = $event.section;
-    this.selectedEntry = $event.entry;
+  onOpenEdit($event: Entry): void{
+    this.state.setEntryToEdit($event);
     this.toggleOverlay('edit');
-    this.data.updateEntry(this.entries.breakfast[0]);
   }
 }

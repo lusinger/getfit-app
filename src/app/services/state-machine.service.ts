@@ -23,6 +23,9 @@ export class StateMachineService {
   _loadedUser = new BehaviorSubject<User>({} as User);
   loadedUser = this._loadedUser.asObservable();
 
+  _entryToEdit = new BehaviorSubject<Entry>({} as Entry);
+  entryToEdit = this._entryToEdit.asObservable();
+
   constructor() { }
 
   //#region getting and setting application state
@@ -53,6 +56,13 @@ export class StateMachineService {
   }
   setEntries(entries: Entry[]){
     this._entries.next(entries);
+  }
+
+  getEntryToEdit(): Observable<Entry>{
+    return this.entryToEdit;
+  }
+  setEntryToEdit(entry: Entry){
+    this._entryToEdit.next(entry);
   }
 
   getLoadedUser(): Observable<User>{
