@@ -52,6 +52,7 @@ export class TrackingSectionComponent implements OnInit{
             }
             this.totalCalories = this.calculateCalories(sectionEntries);
           });
+          this.data.addCalories(this.section, this.totalCalories);
         }
       }
     });
