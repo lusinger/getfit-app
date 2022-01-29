@@ -26,6 +26,18 @@ export class AuthService {
 
   constructor(private http: HttpClient,) { }
 
+  refreshToken(mail: string): Observable<AuthResponse>{
+    const params = new HttpParams()
+      .set('mail', mail);
+    return this.http.get<AuthResponse>(`${environment.serverUrl}/refresh/token`, {
+      headers: this.defaultHeader,
+      params: params,
+      observe: 'body',
+      responseType: 'json',
+      withCredentials: true,
+    });
+  }
+
   login(loginData: LoginRequest): Observable<AuthResponse>{
     const params = new HttpParams()
       .set('user', loginData.user)

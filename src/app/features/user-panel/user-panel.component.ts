@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { DataService } from 'src/app/services/data.service';
 import { StateMachineService } from 'src/app/services/state-machine.service';
@@ -13,9 +13,9 @@ import { AuthResponse } from 'src/app/interfaces/auth-response';
   templateUrl: './user-panel.component.html',
   styleUrls: ['./user-panel.component.sass']
 })
-export class UserPanelComponent implements OnInit {
+export class UserPanelComponent implements OnInit, OnDestroy {
   entries = new SectionEntries([], [], [], []);
-  entriesChanged: boolean = false;
+  refreshInterval: NodeJS.Timeout = {} as NodeJS.Timeout;
 
   selectedDate: Date = {} as Date;
   settingsState: 'open' | 'closed' = 'closed';
@@ -27,6 +27,17 @@ export class UserPanelComponent implements OnInit {
     private state: StateMachineService) { }
 
   ngOnInit(): void {
+    //--refresh token all 10min => 600000ms
+    this.refreshInterval = setInterval(() => {
+      if(this.auth.user){
+        this.auth.refreshToken(this.auth.user.mail).subscribe({
+          next: response => {
+            console.log(response);
+          }
+        });
+      }
+    }, 600000);
+
     this.state.selectedDate.subscribe((date) => {
       this.selectedDate = date;
       this.fetchEntries(this.selectedDate);
@@ -37,6 +48,11 @@ export class UserPanelComponent implements OnInit {
         this.state.setLoadedUser(response.payload);
       },
     });
+  }
+
+  ngOnDestroy(): void {
+    //--clear interval if Component is destroyed
+    clearInterval(this.refreshInterval);
   }
 
   openSettings(): void{
