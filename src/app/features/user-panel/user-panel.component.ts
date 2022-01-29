@@ -18,7 +18,6 @@ export class UserPanelComponent implements OnInit {
   entriesChanged: boolean = false;
 
   selectedDate: Date = {} as Date;
-  selectedSection: Sections = 'undefined';
   settingsState: 'open' | 'closed' = 'closed';
   searchState: 'open' | 'closed' = 'closed';
 
@@ -32,13 +31,10 @@ export class UserPanelComponent implements OnInit {
       this.selectedDate = date;
       this.fetchEntries(this.selectedDate);
     });
-    this.state.selectedSection.subscribe((section) => {
-
-    });
 
     this.auth.loadUser().subscribe({
       next: (response) => {
-        this.auth.setUser(response.payload);
+        this.state.setLoadedUser(response.payload);
       },
     });
   }

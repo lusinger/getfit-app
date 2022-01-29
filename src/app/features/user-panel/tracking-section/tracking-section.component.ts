@@ -29,21 +29,6 @@ export class TrackingSectionComponent implements OnInit{
     this.state.entries.subscribe((entries) => {
       this.entries = this.loadEntries(entries);
     });
-
-    /*this.data.entryAdded.subscribe({
-      next: (entries) => {
-        if(entries.length > 0){
-          this.sectionState = 'open';
-          let sectionEntries: Entry[] = [] as Entry[];
-          sectionEntries = entries.filter((entry) => {
-            if(entry.section === this.section){
-              sectionEntries.push(entry);
-            }
-            this.totalCalories = this.calculateCalories(sectionEntries);
-          });
-        }
-      }
-    }); */
   }
 
   loadEntries(entries: Entry[]): Entry[]{
