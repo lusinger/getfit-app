@@ -7,6 +7,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { DataService } from 'src/app/services/data.service';
 import { User } from 'src/app/interfaces/user';
 import { StateMachineService } from 'src/app/services/state-machine.service';
+import { State } from 'src/app/types/state';
 
 @Component({
   selector: 'getfit-user-settings',
@@ -45,11 +46,11 @@ export class UserSettingsComponent implements OnInit {
   currentCalories: number = 0;
   profilePicture: File | null = null;
 
-  settingsState: 'open' | 'closed' = 'closed';
-  confirmationState: 'open' | 'closed' = 'closed';
+  settingsState: State = 'closed';
+  confirmationState: State = 'closed';
 
-  subStates: ('open' | 'closed')[] = ['closed', 'closed'];
-  userData: User | null = null;
+  subStates: State[] = ['closed', 'closed'];
+  userData: User = {} as User;
   fd = new FormData();
 
   constructor(
@@ -60,17 +61,13 @@ export class UserSettingsComponent implements OnInit {
     private fb: FormBuilder) { }
 
   ngOnInit(): void {
+    this.state.loadedUser.subscribe({
+      next: user => this.userData = user,
+    });
   }
 
   toggleSettings(): void{
-    if(this.settingsState === 'open'){
-      this.settingsState = 'closed';
-    }else{
-      this.settingsState = 'open';
-    }
-    if(this.auth.user !== null && this.userData === null){
-      this.userData = this.auth.getUser();
-    }
+    this.settingsState === 'closed' ? this.settingsState = 'open' : this.settingsState = 'closed';
   }
 
   toggleConfirmation(): void{
