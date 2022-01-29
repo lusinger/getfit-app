@@ -68,7 +68,7 @@
         <span>change per week</span>
         <input formControlName="changePerWeek" type="number" placeholder="{{userData ? userData.changePerWeek : 'change per week'}}" spellcheck="false">
       </label>
-      <getfit-dropdown [values]="[
+      <getfit-dropdown (changingOption)="onChangingOption($event)" [values]="[
         {key: 'sedentary', value: 1.2}, 
         {key: 'lightly active', value: 1.375}, 
         {key: 'moderatly active', value: 1.55},

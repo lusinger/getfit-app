@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { State } from 'src/app/types/state';
 
 @Component({
@@ -9,7 +9,8 @@ import { State } from 'src/app/types/state';
 export class DropdownComponent implements OnInit {
   @Input() values: {[key: string]: number | string}[] = [];
   @Input() style: 'dark' | 'light' = 'light';
-  selected: {[key: string]: number | string} = {key: 'default', value: 0};
+  @Input() selected: {[key: string]: number | string} = {key: 'default', value: 0};
+  @Output() changingOption = new EventEmitter<number>();
   isOpen: State = 'closed';
 
   constructor() { }
@@ -24,6 +25,7 @@ export class DropdownComponent implements OnInit {
 
   selectOption(option: {[key: string]: number | string}): void{
     this.selected = option;
+    this.changingOption.emit(option['value'] as number);
     this.toggleDropdown();
   }
 }

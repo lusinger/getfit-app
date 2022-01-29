@@ -63,8 +63,24 @@ export class UserSettingsComponent implements OnInit {
 
   ngOnInit(): void {
     this.state.loadedUser.subscribe({
-      next: user => this.userData = user,
+      next: user => {
+        this.userData = user;
+        this.settingsForm.get('userName')?.setValue(this.userData.userName);
+        this.settingsForm.get('mail')?.setValue(this.userData.mail);
+        this.settingsForm.get('fullName')?.setValue(this.userData.fullName);
+        this.settingsForm.get('age')?.setValue(this.userData.age);
+        this.settingsForm.get('height')?.setValue(this.userData.height);
+        this.settingsForm.get('currentWeight')?.setValue(this.userData.currentWeight);
+        this.settingsForm.get('targetWeight')?.setValue(this.userData.targetWeight);
+        this.settingsForm.get('changePerWeek')?.setValue(this.userData.changePerWeek);
+        this.settingsForm.get('activityRating')?.setValue(this.userData.activityRating);
+        this.settingsForm.get('gender')?.setValue(this.userData.gender);
+      },
     });
+  }
+
+  onChangingOption($event: number): void{
+    this.settingsForm.get('activityRating')?.setValue($event);
   }
 
   closeSettings(): void{
@@ -98,7 +114,11 @@ export class UserSettingsComponent implements OnInit {
   }
 
   updateUser(): void{
-    
+    this.auth.updateUser(this.settingsForm).subscribe({
+      next: (response) => {
+        console.log(response);
+      }
+    });
   }
 
   toggleSection(index: number): void{
