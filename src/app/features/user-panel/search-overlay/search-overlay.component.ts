@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges, Input, Output, EventEmitter, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { Item } from 'src/app/interfaces/item';
@@ -36,7 +36,7 @@ import { AuthService } from 'src/app/services/auth.service';
     ])
   ]
 })
-export class SearchOverlayComponent implements OnInit, OnChanges {
+export class SearchOverlayComponent implements OnInit {
   searchForm = new FormGroup({
     isRecipe: new FormControl(false, []),
     recipeTitle: new FormControl('', []),
@@ -75,13 +75,6 @@ export class SearchOverlayComponent implements OnInit, OnChanges {
   ) { }
 
   ngOnInit(): void {
-  }
-
-  ngOnChanges(changes: SimpleChanges): any{
-    let change = changes['overlayState'];
-    if(change !== undefined && change.currentValue === 'open'){
-      window.scrollTo(0, 0);
-    }
   }
 
   onInputChange($event: any): void{
