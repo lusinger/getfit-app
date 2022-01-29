@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges, Input, Output, EventEmitter, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { Item } from 'src/app/interfaces/item';
@@ -8,6 +8,7 @@ import { DataService } from 'src/app/services/data.service';
 import { Units } from 'src/app/types/units';
 import { Sections } from 'src/app/types/sections';
 import { AuthService } from 'src/app/services/auth.service';
+import { StateMachineService } from 'src/app/services/state-machine.service';
 
 @Component({
   selector: 'getfit-search-overlay',
@@ -36,19 +37,14 @@ import { AuthService } from 'src/app/services/auth.service';
     ])
   ]
 })
-export class SearchOverlayComponent implements OnInit, OnChanges {
-  @Output() closeOverlay = new EventEmitter<'open' | 'closed'>();
-  @Output() entriesAdded = new EventEmitter();
-  @Input() overlaySection: Sections = 'undefined';
-  @Input() overlayState: 'open' | 'edit' | 'closed' = 'closed';
-  @Input() currentDate: Date = new Date();
+export class SearchOverlayComponent implements OnInit {
   @Input() entryToEdit: Entry = {} as Entry;
 
   editForm = new FormGroup({
     amount: new FormControl('', [Validators.required, ]),
     unit: new FormControl(this.entryToEdit.unit, [Validators.required, ]),
   });
-
+  
   searchForm = new FormGroup({
     isRecipe: new FormControl(false, []),
     recipeTitle: new FormControl('', []),
@@ -60,6 +56,11 @@ export class SearchOverlayComponent implements OnInit, OnChanges {
     unit: new FormControl('g', [Validators.required]),
   });
 
+  @Output() closeOverlay = new EventEmitter<'open' | 'closed'>();
+  @Output() entriesAdded = new EventEmitter();
+  @Input() overlayState: 'open' | 'closed' = 'closed';
+  selectedDate: Date = {} as Date;
+  overlaySection: Sections = 'undefined';
   formState: 'search' | 'details' = 'search';
 
   searchValue: string | ' ' = ' ';
@@ -78,16 +79,16 @@ export class SearchOverlayComponent implements OnInit, OnChanges {
   constructor(
     private data: DataService,
     private auth: AuthService,
+    private state: StateMachineService,
   ) { }
 
   ngOnInit(): void {
-  }
-
-  ngOnChanges(changes: SimpleChanges): any{
-    let change = changes['overlayState'];
-    if(change !== undefined && change.currentValue === 'open'){
-      window.scrollTo(0, 0);
-    }
+    this.state.selectedSection.subscribe((section) => {
+      this.overlaySection = section;
+    });
+    this.state.selectedDate.subscribe((date) => {
+      this.selectedDate = date;
+    })
   }
 
   onInputChange($event: any): void{
@@ -110,7 +111,7 @@ export class SearchOverlayComponent implements OnInit, OnChanges {
   }
 
   addEntry(): void{
-    const entry: Entry = {createdon: this.currentDate, userid: this.auth.user?.id, amount: this.detailForm.value.amount, unit: this.selectedUnit, entryid: this.selectedItem?.id, isrecipe: false, section: this.overlaySection, content: this.selectedItem};
+    const entry: Entry = {createdon: this.selectedDate, userid: this.auth.user?.id, amount: this.detailForm.value.amount, unit: this.selectedUnit, entryid: this.selectedItem?.id, isrecipe: false, section: this.overlaySection, content: this.selectedItem};
     this.addedEntries.push(entry);
     this.selectedItem && this.cachedResults.push(this.selectedItem);
     this.searchValue = '';

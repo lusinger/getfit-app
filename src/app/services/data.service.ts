@@ -1,21 +1,18 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Observable, retry, throwError, catchError, Subject, BehaviorSubject } from 'rxjs';
+import { Observable, retry, throwError, catchError, Subject, BehaviorSubject, startWith } from 'rxjs';
 import { Item } from '../interfaces/item';
 import { Recipe } from '../interfaces/recipe';
 import { environment } from 'src/environments/environment';
 import { AuthResponse } from '../interfaces/auth-response';
 
 import { Entry } from '../interfaces/entry';
+import { Sections } from '../types/sections';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
-  entryRemoved = new Subject<Entry>();
-  entryAdded = new Subject<Entry[]>();
-  dateChanged = new Subject<Date>();
-
   defaultHeader = new HttpHeaders({
     'Content-Type': 'application/json',
   });
@@ -23,16 +20,6 @@ export class DataService {
   constructor(
     private http: HttpClient,
   ) { }
-   
-  entryToRemove = (entry: Entry) => {
-    this.entryRemoved.next(entry);
-  }
-  entryToAdd = (entry: Entry[]) => {
-    this.entryAdded.next(entry);
-  }
-  changeToDate = (date: Date) => {
-    this.dateChanged.next(date);
-  }
 
   getItem = (id: number): Observable<Item> => {
     return this.http.get<Item>(`${environment.serverUrl}/item:${id}`, {

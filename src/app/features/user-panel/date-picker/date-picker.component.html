@@ -3,7 +3,7 @@
   <h4 (click)="toggleOverlay()" class="toggler-title">{{selectedDate.toDateString() === currentDate.toDateString() ? 'today' : selectedDate.toDateString()}}</h4>
   <h4 (click)="selectNextDate(selectedDate)" class="toggler">{{"\>"}}</h4>
 </div>
-<div @toggleOverlay *ngIf="overlayState === 'open'" class="date-picker-overlay">
+<div @toggleOverlay appScrollLock *ngIf="overlayState === 'open'" class="date-picker-overlay">
   <div class="date-picker-wrapper">
     <div class="date-picker-header">
       <h4 (click)="selectPrevMonth(selectedDate)" class="toggler">{{"\<"}}</h4>
