@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { Observable, BehaviorSubject, Subject } from 'rxjs';
 import { Sections } from '../types/sections';
+import { Entry } from '../interfaces/entry';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +12,9 @@ export class StateMachineService {
 
   _selectedSection = new BehaviorSubject<Sections>('breakfast');
   selectedSection = this._selectedSection.asObservable();
+
+  _entries = new BehaviorSubject<Entry[]>([]);
+  entries = this._entries.asObservable();
 
   constructor() { }
 
@@ -26,5 +30,12 @@ export class StateMachineService {
   }
   setSelectedSection(section: Sections){
     this._selectedSection.next(section);
+  }
+
+  getEntries(): Observable<Entry[]>{
+    return this.entries;
+  }
+  setEntries(entries: Entry[]){
+    this._entries.next(entries);
   }
 }
