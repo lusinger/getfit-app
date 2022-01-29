@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'svg-settings',
@@ -6,15 +6,8 @@ import { Component, OnInit, HostListener, Output, EventEmitter } from '@angular/
   styleUrls: ['./settings.component.sass']
 })
 export class SettingsComponent implements OnInit {
-  @Output() openingSettings = new EventEmitter();
-
   constructor() { }
 
   ngOnInit(): void {
-  }
-
-  @HostListener('click')
-  openSettings(): void{
-    this.openingSettings.emit();
   }
 }

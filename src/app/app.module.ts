@@ -24,6 +24,7 @@ import { EntryContentPipe } from './pipes/entry-content.pipe';
 import { HeaderComponent } from './features/user-panel/header/header.component';
 import { SettingsComponent } from './svg/settings/settings.component';
 import { CrossComponent } from './svg/cross/cross.component';
+import { EditComponent } from './svg/edit/edit.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import { CrossComponent } from './svg/cross/cross.component';
     HeaderComponent,
     SettingsComponent,
     CrossComponent,
+    EditComponent,
   ],
   imports: [
     BrowserModule,

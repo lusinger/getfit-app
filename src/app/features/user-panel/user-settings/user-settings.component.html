@@ -6,9 +6,7 @@
           <img src="assets/user.jpeg">
           <label class="edit-button">
             <input (change)="fileSelected($event)" type="file" accept="image/png, image/jpeg">
-            <svg width="25" height="25" viewBox="0 0 25 25">
-              <path d="M5.02929 2.08325C5.7832 2.08325 6.53711 2.37036 7.11263 2.94588L8.33333 4.16659L4.16666 8.33325L2.94596 7.11255C1.79596 5.96255 1.79596 4.09692 2.94596 2.94588C3.52148 2.37036 4.27539 2.08325 5.02929 2.08325ZM9.89583 5.72909L21.875 17.7083V21.8749H17.7083L5.72916 9.89575L9.89583 5.72909Z" fill="#345B63"/>
-            </svg>   
+            <svg-edit [style]="'light'"></svg-edit>
           </label>
         </section>  
         <section class="user-info">
