@@ -16,7 +16,17 @@ export class StateMachineService {
   _entries = new BehaviorSubject<Entry[]>([]);
   entries = this._entries.asObservable();
 
+  _entriesRemoved = new BehaviorSubject<Entry>({} as Entry);
+  entriesRemoved = this._entriesRemoved.asObservable();
+
   constructor() { }
+
+  getApplicationState(){
+    return localStorage.getItem('applicationState');
+  }
+  setApplicationState(state: 'loged in' | 'loged out'){
+    localStorage.setItem('applicationState', state);
+  }
 
   getSelectedDate(): Observable<Date>{
     return this.selectedDate;
@@ -38,4 +48,6 @@ export class StateMachineService {
   setEntries(entries: Entry[]){
     this._entries.next(entries);
   }
+
+
 }

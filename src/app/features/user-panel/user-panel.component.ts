@@ -68,8 +68,7 @@ export class UserPanelComponent implements OnInit {
     this.entries.clearData();
     this.data.getEntries(date).subscribe({
       next: (response: Entry[]) => {
-        this.entries.addData(response);
-        this.data.entryToAdd(response);
+        this.state.setEntries(response);
       },
       error: (error) => {
         console.log(error);

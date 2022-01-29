@@ -11,7 +11,7 @@ import { Sections } from 'src/app/types/sections';
 })
 export class TrackingSectionComponent implements OnInit{
   @Input() section: Sections = 'undefined';
-  @Input() entries: Entry[] = [];
+  entries: Entry[] = [];
 
   @Output() openingSearch = new EventEmitter();
 
@@ -26,23 +26,11 @@ export class TrackingSectionComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    this.data.dateChanged.subscribe({
-      next: (date) => {
-        this.totalCalories = 0;
-      }
+    this.state.entries.subscribe((entries) => {
+      this.entries = this.loadEntries(entries);
     });
 
-    this.data.entryRemoved.subscribe({
-      next: (entry) => {
-        if(this.entries.length === 0){
-          this.sectionState = 'closed';
-        }
-        if(entry.section === this.section){
-          this.totalCalories = this.calculateCalories(this.entries);
-        }
-      }
-    });
-    this.data.entryAdded.subscribe({
+    /*this.data.entryAdded.subscribe({
       next: (entries) => {
         if(entries.length > 0){
           this.sectionState = 'open';
@@ -55,24 +43,36 @@ export class TrackingSectionComponent implements OnInit{
           });
         }
       }
-    });
+    }); */
+  }
+
+  loadEntries(entries: Entry[]): Entry[]{
+    if(entries.length > 0){
+      let data = entries.filter((entry) => {
+        return entry.section === this.section ? true : false;
+      });
+      data.length > 0 ? this.sectionState = 'open' : this.sectionState = 'closed';
+      this.totalCalories = this.calculateCalories(data);
+      return data;
+    }else{
+      this.totalCalories = 0;
+      return [];
+    }
   }
 
   // EventEmitter handlers
 
   onRemovingItem($event: Entry): void{
-    this.entries = this.entries.filter(entry => {
-      if(entry.id !== undefined && entry.id === $event.id){
-        this.data.deleteEntry($event.id).subscribe({
-          next: (response) => {
-            this.data.entryToRemove($event);
-          }
-        });
-        return false;
-      }else{
-        return true;
-      }
-    });
+    if($event.id !== undefined){
+      this.data.deleteEntry($event.id).subscribe({
+        next: (response) => {
+          let newData = this.entries.filter((entry) => {
+            return $event.id! === entry.id! ? false : true;
+          });
+          this.state.setEntries(newData);
+        }
+      });
+    }
   }
 
   onOpeningSearch(): void{

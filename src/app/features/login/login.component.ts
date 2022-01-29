@@ -3,6 +3,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { AuthService } from 'src/app/services/auth.service';
+import { StateMachineService } from 'src/app/services/state-machine.service';
 
 //--import for whitespace validator to refuse usernames white leading and trailing whitespaces
 import { checkWhitespace } from 'src/app/validators/check-whitespace';
@@ -23,9 +24,11 @@ export class LoginComponent implements OnInit {
   constructor(
     private auth: AuthService,
     private router: Router,
+    private state: StateMachineService,
   ) { }
 
   ngOnInit(): void {
+    this.state.setApplicationState('loged out');
   }
 
   onLoginSubmit(): void{
@@ -33,7 +36,7 @@ export class LoginComponent implements OnInit {
       next: (response) => {
         switch(response.statusCode){
           case 200:
-            this.auth.toggleLogin();
+            this.state.setApplicationState('loged in');
             this.loginForm.reset();
             this.navigateTo('userpanel');
             break;
