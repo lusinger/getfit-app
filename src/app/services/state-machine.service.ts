@@ -26,6 +26,9 @@ export class StateMachineService {
   _entryToEdit = new BehaviorSubject<Entry>({} as Entry);
   entryToEdit = this._entryToEdit.asObservable();
 
+  /* _sectionCalories = new BehaviorSubject<{breakfast: number, lunch: number, dinner: number, snack: number}>({breakfast: 0, lunch: 0, dinner: 0, snack: 0});
+  sectionCalories = this._sectionCalories.asObservable(); */
+
   constructor() { }
 
   //#region getting and setting application state
@@ -71,4 +74,31 @@ export class StateMachineService {
   setLoadedUser(user: User): void{
     this._loadedUser.next(user);
   }
+
+  /* getSectionCalories(): Observable<{breakfast: number, lunch: number, dinner: number, snack: number}>{
+    return this._sectionCalories;
+  }
+  setSectionCalories(calories: number, section: Sections){
+    this.getSectionCalories().subscribe({
+      next: (data) => {
+        switch(section){
+          case 'breakfast':
+            data.breakfast = calories;
+            break;
+          case 'lunch':
+            data.lunch = calories;
+            break;
+          case 'dinner':
+            data.dinner = calories;
+            break;
+          case 'snack':
+            data.snack = calories;
+            break;
+          case 'undefined': 
+            break;
+        }
+        this._sectionCalories.next(data);
+      }
+    });
+  } */ 
 }

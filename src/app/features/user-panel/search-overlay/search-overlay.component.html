@@ -18,9 +18,9 @@
             <input (input)="onAmountChanged($event)" formControlName="amount" type="number" placeholder={{entryToEdit.amount}} spellcheck="false">
           </label>
           <getfit-dropdown [style]="'dark'" (changingOption)="onChangingOption($event)" [values]="[
-            {key: 'EL', value: 'EL'}, 
+            {key: 'g', value: 'g'}, 
             {key: 'ml', value: 'ml'}, 
-            {key: 'g', value: 'g'}]"></getfit-dropdown>
+            {key: 'EL', value: 'EL'}, ]"></getfit-dropdown>
         </div>
         <button class="mt1" type="submit">update</button>
       </form>
@@ -54,9 +54,9 @@
             <input formControlName="amount" type="number" placeholder="amount" spellcheck="false">
           </label>
           <getfit-dropdown [style]="'dark'" (changingOption)="onChangingOption($event)" [values]="[
-            {key: 'EL', value: 'EL'}, 
+            {key: 'g', value: 'g'}, 
             {key: 'ml', value: 'ml'}, 
-            {key: 'g', value: 'g'}]"></getfit-dropdown>
+            {key: 'EL', value: 'EL'}, ]"></getfit-dropdown>
         </div>
       </form>
       <ul *ngIf="addedEntries.length > 0" class="added-item-container mt1">
@@ -76,10 +76,7 @@
       <button *ngIf="addedEntries.length > 0" class="mt1" type="button" (click)="onAddToSection()">add to section</button>
     </div>
     <div class="search-overlay-footer">
-      <svg (click)="closeSearch()" class="toggler" width="28" height="28" viewBox="0 0 28 28">
-        <line class="toggler-line" x1="1.29289" y1="26.7487" x2="26.7487" y2="1.29286" stroke="#112031" stroke-opacity="1" stroke-width="3"/>
-        <line class="toggler-line" x1="26.7488" y1="27.1629" x2="1.29292" y2="1.70707" stroke="#112031" stroke-opacity="1" stroke-width="3"/>
-      </svg>  
+      <svg-cross [style]="'dark'" (click)="closeSearch()"></svg-cross>
     </div>
   </div>
 </div>

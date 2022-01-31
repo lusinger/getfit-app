@@ -107,7 +107,7 @@ export class SearchOverlayComponent implements OnInit {
   }
 
   addEntry(): void{
-    const entry: Entry = {createdon: this.selectedDate, userid: this.loadedUser.id, amount: this.detailForm.value.amount, unit: this.selectedUnit['value'] as Units, entryid: this.selectedItem?.id, isrecipe: false, section: this.overlaySection, content: this.selectedItem};
+    const entry: Entry = {createdon: this.selectedDate, userid: this.loadedUser.id, amount: this.detailForm.value.amount, unit: this.selectedUnit['value'] as string, entryid: this.selectedItem?.id, isrecipe: false, section: this.overlaySection, content: this.selectedItem};
     this.addedEntries.push(entry);
     this.selectedItem && this.cachedResults.push(this.selectedItem);
     this.searchValue = '';

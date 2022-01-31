@@ -9,7 +9,7 @@ export interface Entry {
   userid?: number;
   entryid?: number;
   amount: number;
-  unit: Units;
+  unit: string;
   isrecipe: boolean;
   section: Sections;
   content?: Item | Recipe;

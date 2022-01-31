@@ -77,6 +77,9 @@ export class UserSettingsComponent implements OnInit {
         this.settingsForm.get('gender')?.setValue(this.userData.gender);
       },
     });
+    /* this.state.sectionCalories.subscribe((data) => {
+      this.currentCalories = (data.breakfast + data.dinner + data.lunch + data.snack);
+    }); */
   }
 
   onChangingOption($event: {[key: string]: number | string}): void{
