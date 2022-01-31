@@ -114,7 +114,7 @@ export class UserSettingsComponent implements OnInit {
   }
 
   updateUser(): void{
-    this.auth.updateUser(this.settingsForm).subscribe({
+    this.auth.updateUser({data: this.settingsForm.value, id: this.userData.id}).subscribe({
       next: (response) => {
         console.log(response);
       }

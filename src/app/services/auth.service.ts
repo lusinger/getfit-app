@@ -74,7 +74,7 @@ export class AuthService {
     });
   }
 
-  updateUser(user: any): Observable<AuthResponse>{
+  updateUser(user: {data: any, id: number}): Observable<AuthResponse>{
     return this.http.put<AuthResponse>(`${environment.serverUrl}/update/user`, user, {
       headers: this.defaultHeader,
       observe: 'body',
