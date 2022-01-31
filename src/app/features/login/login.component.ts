@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AuthResponse } from 'src/app/interfaces/auth-response';
 
 import { AuthService } from 'src/app/services/auth.service';
 import { StateMachineService } from 'src/app/services/state-machine.service';
@@ -31,7 +32,7 @@ export class LoginComponent implements OnInit {
     this.state.setApplicationState('loged out');
   }
 
-  onLoginSubmit(): void{
+  login(): void{
     this.auth.login(this.loginForm.value).subscribe({
       next: (response) => {
         switch(response.statusCode){
@@ -40,12 +41,12 @@ export class LoginComponent implements OnInit {
             this.loginForm.reset();
             this.navigateTo('userpanel');
             break;
-          case 404:
-            this.errorMessage = response.message;
-            break;
         }
-      },error: (err) => {throw err},
-      complete: () => {
+      },
+      error: (err) => {
+        if(err.error.statusCode === 404){
+          this.errorMessage = err.error.message;
+        }
       }
     });
   };
