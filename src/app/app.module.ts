@@ -21,6 +21,11 @@ import { AddItemComponent } from './features/user-panel/tracking-section/add-ite
 import { DatePickerComponent } from './features/user-panel/date-picker/date-picker.component';
 import { ScrollLockDirective } from './directives/scroll-lock.directive';
 import { EntryContentPipe } from './pipes/entry-content.pipe';
+import { HeaderComponent } from './features/user-panel/header/header.component';
+import { SettingsComponent } from './svg/settings/settings.component';
+import { CrossComponent } from './svg/cross/cross.component';
+import { EditComponent } from './svg/edit/edit.component';
+import { DropdownComponent } from './components/dropdown/dropdown.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +44,11 @@ import { EntryContentPipe } from './pipes/entry-content.pipe';
     DatePickerComponent,
     ScrollLockDirective,
     EntryContentPipe,
+    HeaderComponent,
+    SettingsComponent,
+    CrossComponent,
+    EditComponent,
+    DropdownComponent,
   ],
   imports: [
     BrowserModule,

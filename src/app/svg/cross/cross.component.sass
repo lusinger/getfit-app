@@ -1,0 +1,18 @@
+@import '../../../sass/_variables'
+
+:host
+  margin: $rem $rem*0.5 $rem*0.5 $rem*0.5
+  cursor: pointer
+  svg
+    line
+      transition: all 0.35s ease-in-out
+  svg.light
+    line
+      stroke: $lightest-medium
+  svg.dark
+    line
+      stroke: $darkest-medium
+:host:hover
+  svg
+    line
+      stroke: $accent

@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit} from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import { trigger, transition, animate, style } from '@angular/animations';
 import { Router } from '@angular/router';
 import { FormBuilder } from '@angular/forms';
@@ -7,6 +7,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { DataService } from 'src/app/services/data.service';
 import { User } from 'src/app/interfaces/user';
 import { StateMachineService } from 'src/app/services/state-machine.service';
+import { State } from 'src/app/types/state';
 
 @Component({
   selector: 'getfit-user-settings',
@@ -45,11 +46,12 @@ export class UserSettingsComponent implements OnInit {
   currentCalories: number = 0;
   profilePicture: File | null = null;
 
-  settingsState: 'open' | 'closed' = 'closed';
-  confirmationState: 'open' | 'closed' = 'closed';
+  @Input() settingsState: State = 'closed';
+  @Output() closingSettings = new EventEmitter();
+  confirmationState: State = 'closed';
 
-  subStates: ('open' | 'closed')[] = ['closed', 'closed'];
-  userData: User | null = null;
+  subStates: State[] = ['open', 'closed'];
+  userData: User = {} as User;
   fd = new FormData();
 
   constructor(
@@ -60,17 +62,29 @@ export class UserSettingsComponent implements OnInit {
     private fb: FormBuilder) { }
 
   ngOnInit(): void {
+    this.state.loadedUser.subscribe({
+      next: user => {
+        this.userData = user;
+        this.settingsForm.get('userName')?.setValue(this.userData.userName);
+        this.settingsForm.get('mail')?.setValue(this.userData.mail);
+        this.settingsForm.get('fullName')?.setValue(this.userData.fullName);
+        this.settingsForm.get('age')?.setValue(this.userData.age);
+        this.settingsForm.get('height')?.setValue(this.userData.height);
+        this.settingsForm.get('currentWeight')?.setValue(this.userData.currentWeight);
+        this.settingsForm.get('targetWeight')?.setValue(this.userData.targetWeight);
+        this.settingsForm.get('changePerWeek')?.setValue(this.userData.changePerWeek);
+        this.settingsForm.get('activityRating')?.setValue(this.userData.activityRating);
+        this.settingsForm.get('gender')?.setValue(this.userData.gender);
+      },
+    });
   }
 
-  toggleSettings(): void{
-    if(this.settingsState === 'open'){
-      this.settingsState = 'closed';
-    }else{
-      this.settingsState = 'open';
-    }
-    if(this.auth.user !== null && this.userData === null){
-      this.userData = this.auth.getUser();
-    }
+  onChangingOption($event: number): void{
+    this.settingsForm.get('activityRating')?.setValue($event);
+  }
+
+  closeSettings(): void{
+    this.closingSettings.emit();
   }
 
   toggleConfirmation(): void{
@@ -79,7 +93,7 @@ export class UserSettingsComponent implements OnInit {
 
   logout(): void{
     this.auth.logout().subscribe({
-      next: response => {
+      next: (response) => {
         this.state.setApplicationState('loged out');
         this.router.navigate(['login']);
       }
@@ -97,6 +111,14 @@ export class UserSettingsComponent implements OnInit {
         }
       });
     }
+  }
+
+  updateUser(): void{
+    this.auth.updateUser({data: this.settingsForm.value, id: this.userData.id}).subscribe({
+      next: (response) => {
+        console.log(response);
+      }
+    });
   }
 
   toggleSection(index: number): void{

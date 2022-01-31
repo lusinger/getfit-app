@@ -1,0 +1,12 @@
+<div class="dropdown-container" [ngStyle]="isOpen === 'open' ? {'height': (values.length + 1) * 40 + 'px'} : {'height': '40px'}">
+  <div (click)="toggleDropdown()" class="header">
+    <p>{{selected['key']}}</p>
+    <p>+</p>
+  </div>
+  <ul *ngIf="isOpen === 'open'">
+    <li *ngFor="let value of values; let i = index" (click)="selectOption(value)">
+      <p>{{value['key']}}</p>
+      <p>{{value['value']}}</p>
+    </li>
+  </ul>
+</div>

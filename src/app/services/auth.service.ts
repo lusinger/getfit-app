@@ -74,6 +74,15 @@ export class AuthService {
     });
   }
 
+  updateUser(user: {data: any, id: number}): Observable<AuthResponse>{
+    return this.http.put<AuthResponse>(`${environment.serverUrl}/update/user`, user, {
+      headers: this.defaultHeader,
+      observe: 'body',
+      responseType: 'json',
+      withCredentials: true,
+    })
+  }
+
   register(registerData: RegisterRequest): Observable<AuthResponse>{
     return this.http.post<AuthResponse>(`${environment.serverUrl}/register`, registerData, {
       headers: this.defaultHeader,
