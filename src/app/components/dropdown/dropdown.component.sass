@@ -1,12 +1,12 @@
 @import '../../../sass/_variables'
 
 .dropdown-container
-  margin-top: $rem
   width: 100%
   min-height: 40px
-  background: $accent
+  background: none
   transition: height 0.35s ease-in-out
   .header
+    cursor: pointer
     display: flex
     justify-content: space-between
     width: 100%
@@ -17,9 +17,22 @@
     list-style: none
     padding: 0 $rem*0.5
     li
+      cursor: pointer
       height: 40px
       width: 100%
       display: flex
       justify-content: space-between
       align-items: center
       border-top: 1px solid $darkest-medium
+.dropdown-container.light
+  background: $accent
+.dropdown-container.dark
+  background: $darkest
+  .header
+    p
+      color: $lightest
+  ul
+    li
+      border-top: 1px solid $lightest-medium
+      p
+        color: $lightest

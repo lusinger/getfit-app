@@ -1,1 +1,1 @@
-export type Units = 'g' | 'ml' | 'EL' | 'Pers';
+export type Units = 'g' | 'ml' | 'EL';

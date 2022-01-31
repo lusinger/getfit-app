@@ -9,6 +9,7 @@ import { Units } from 'src/app/types/units';
 import { Sections } from 'src/app/types/sections';
 import { AuthService } from 'src/app/services/auth.service';
 import { StateMachineService } from 'src/app/services/state-machine.service';
+import { User } from 'src/app/interfaces/user';
 
 @Component({
   selector: 'getfit-search-overlay',
@@ -46,8 +47,6 @@ export class SearchOverlayComponent implements OnInit {
   });
   
   searchForm = new FormGroup({
-    isRecipe: new FormControl(false, []),
-    recipeTitle: new FormControl('', []),
     search: new FormControl('', [Validators.required, ]),
   });
 
@@ -59,6 +58,7 @@ export class SearchOverlayComponent implements OnInit {
   @Output() closeOverlay = new EventEmitter<'open' | 'closed'>();
   @Output() entriesAdded = new EventEmitter();
   @Input() overlayState: 'open' | 'closed' | 'edit' = 'closed';
+  loadedUser: User = {} as User;
   selectedDate: Date = {} as Date;
   overlaySection: Sections = 'undefined';
   formState: 'search' | 'details' | 'edit' = 'search';
@@ -68,13 +68,7 @@ export class SearchOverlayComponent implements OnInit {
   cachedResults: Item[] = [];
   selectedItem: Item = {} as Item;
   addedEntries: Entry[] = [];
-  units: Units[] = ['g', 'ml', 'EL', 'Pers'];
-  selectedUnit: Units = 'g';
-
-  isRecipe: boolean = false;
-  recipeTitle: string = '';
-
-  optionsShown: boolean = false;
+  selectedUnit: {[key: string]: number | string} = {} as {[key: string]: number | string};
 
   constructor(
     private data: DataService,
@@ -83,6 +77,9 @@ export class SearchOverlayComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.state.loadedUser.subscribe((user) =>{
+      this.loadedUser = user;
+    });
     this.state.selectedSection.subscribe((section) => {
       this.overlaySection = section;
     });
@@ -103,10 +100,6 @@ export class SearchOverlayComponent implements OnInit {
     });
   }
 
-  onRecipeChange($event: any): void{
-    this.recipeTitle = $event.target.value;
-  }
-
   addDetails(item: Item): void{
     this.selectedItem = item;
     this.searchValue = item.itemname;
@@ -114,15 +107,11 @@ export class SearchOverlayComponent implements OnInit {
   }
 
   addEntry(): void{
-    const entry: Entry = {createdon: this.selectedDate, userid: this.auth.user?.id, amount: this.detailForm.value.amount, unit: this.selectedUnit, entryid: this.selectedItem?.id, isrecipe: false, section: this.overlaySection, content: this.selectedItem};
+    const entry: Entry = {createdon: this.selectedDate, userid: this.loadedUser.id, amount: this.detailForm.value.amount, unit: this.selectedUnit['value'] as Units, entryid: this.selectedItem?.id, isrecipe: false, section: this.overlaySection, content: this.selectedItem};
     this.addedEntries.push(entry);
     this.selectedItem && this.cachedResults.push(this.selectedItem);
     this.searchValue = '';
-    if(this.isRecipe){
-      this.searchForm.get('search')?.setValue('');
-    }else{
-      this.searchForm.reset();
-    }
+    this.searchForm.reset();
     this.formState = 'search';
   }
 
@@ -142,30 +131,17 @@ export class SearchOverlayComponent implements OnInit {
     this.closeOverlay.emit('closed');
   }
 
-  toggleOptions(): void{
-    this.optionsShown = !this.optionsShown;
-  }
-
-  selectUnit(unit: Units): void{
-    this.selectedUnit = unit;
-    this.optionsShown = false;
+  onChangingOption($event: {[key: string]: number | string}): void{
+    this.selectedUnit = $event;
   }
 
   onAddToSection(): void{
-    if(!this.isRecipe){
-      this.data.addEntries(this.addedEntries).subscribe({
-        next: (response) => {
-          this.entriesAdded.emit();
-          this.closeSearch();
-        }
-      });
-    }else{
-      this.data.addRecipe({entries: this.addedEntries, recipe: {recipename: this.recipeTitle, itemamounts: 1, itemunits: 'Pers'}}).subscribe({
-        next: (response) => {
-          this.closeSearch();
-        }
-      });
-    }
+    this.data.addEntries(this.addedEntries).subscribe({
+      next: (response) => {
+        this.entriesAdded.emit();
+        this.closeSearch();
+      }
+    });
   }
 
   getItemName(entry: Entry): string | null{
@@ -197,11 +173,6 @@ export class SearchOverlayComponent implements OnInit {
       const defaultItem: Item = {itemname: 'default', protein: 0, fat: 0, carb: 0, perel: 0, perg: 0, perml: 0};
       return defaultItem;
     }
-  }
-
-  toggleRecipe(): void{
-    this.isRecipe = !this.isRecipe;
-    this.searchForm.get('isRecipe')?.setValue(this.isRecipe);
   }
 
   onEditSubmit(): void{

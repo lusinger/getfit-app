@@ -101,12 +101,6 @@ export class TrackingSectionComponent implements OnInit{
         }else{
         }
         break;
-      case 'Pers':
-        if(entry.content !== undefined && 'recipename' in entry.content){
-          
-        }else{
-        }
-        break;
     }
     return calorieCount;
   }

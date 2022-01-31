@@ -1,7 +1,7 @@
 <div appScrollLock *ngIf="overlayState !== 'closed'" class="search-overlay-wrapper" @toggleOverlay>
   <div class="search-overlay-container">
     <div *ngIf="overlayState !== 'edit'"class="search-overlay-header">
-      <h3 class="title-line-1">Add<span>{{isRecipe ? recipeTitle : searchValue}}</span>to</h3>
+      <h3 class="title-line-1">Add<span>{{searchValue}}</span>to</h3>
       <h3 class="title-line-2">{{overlaySection}}</h3>
       <h3 class="title-line-3">Section</h3>
     </div>
@@ -12,22 +12,15 @@
           <h3 class="title-line-2">{{overlaySection}}</h3>
           <h3 class="title-line-3">Section</h3>
         </div>
-        <div class="input-field-container mt1">
+        <div class="input-field-container">
           <label class="input-field">
             <span>amount</span>
             <input (input)="onAmountChanged($event)" formControlName="amount" type="number" placeholder={{entryToEdit.amount}} spellcheck="false">
           </label>
-          <div class="select-container" [ngStyle]="optionsShown ? {'height': '200px'} : {'height': '40px'}">
-            <div class="select-header" (click)="toggleOptions()">
-              <p>{{selectedUnit}}</p>
-              <p class="toggler">{{optionsShown ? '-' : '+'}}</p>
-            </div>
-            <div class="select-options" *ngIf="optionsShown">
-              <div *ngFor="let option of units; let i = index" class="option" (click)="selectUnit(option)">
-                <p>{{option}}</p>
-              </div>
-            </div>
-          </div>
+          <getfit-dropdown [style]="'dark'" (changingOption)="onChangingOption($event)" [values]="[
+            {key: 'EL', value: 'EL'}, 
+            {key: 'ml', value: 'ml'}, 
+            {key: 'g', value: 'g'}]"></getfit-dropdown>
         </div>
         <button class="mt1" type="submit">update</button>
       </form>
@@ -43,14 +36,6 @@
         </li>
       </ul>
       <form [formGroup]="searchForm" *ngIf="formState === 'search' && overlayState !== 'edit'">
-        <label class="checkbox-field mt1" (click)="toggleRecipe()">
-          <input formControlName="isRecipe" type="checkbox">
-          <span>recipe</span>
-        </label>
-        <label *ngIf="isRecipe" class="input-field mt1">
-          <span>recipe title</span>
-          <input (input)="onRecipeChange($event)" formControlName="recipeTitle" type="text" placeholder="recipe title" spellcheck="false">
-        </label>
         <label class="input-field mt1">
           <span>add food item</span>
           <input (input)="onInputChange($event)" formControlName="search" type="text" placeholder="add food item" spellcheck="false">
@@ -68,17 +53,10 @@
             <span>amount</span>
             <input formControlName="amount" type="number" placeholder="amount" spellcheck="false">
           </label>
-          <div class="select-container" [ngStyle]="optionsShown ? {'height': '200px'} : {'height': '40px'}">
-            <div class="select-header" (click)="toggleOptions()">
-              <p>{{selectedUnit}}</p>
-              <p class="toggler">{{optionsShown ? '-' : '+'}}</p>
-            </div>
-            <div class="select-options" *ngIf="optionsShown">
-              <div *ngFor="let option of units; let i = index" class="option" (click)="selectUnit(option)">
-                <p>{{option}}</p>
-              </div>
-            </div>
-          </div>
+          <getfit-dropdown [style]="'dark'" (changingOption)="onChangingOption($event)" [values]="[
+            {key: 'EL', value: 'EL'}, 
+            {key: 'ml', value: 'ml'}, 
+            {key: 'g', value: 'g'}]"></getfit-dropdown>
         </div>
       </form>
       <ul *ngIf="addedEntries.length > 0" class="added-item-container mt1">
