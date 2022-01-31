@@ -15,7 +15,7 @@ import { AuthResponse } from 'src/app/interfaces/auth-response';
 })
 export class UserPanelComponent implements OnInit, OnDestroy {
   entries = new SectionEntries([], [], [], []);
-  refreshInterval: NodeJS.Timeout = {} as NodeJS.Timeout;
+  refreshInterval: any;
 
   selectedDate: Date = {} as Date;
   settingsState: 'open' | 'closed' = 'closed';
