@@ -79,8 +79,8 @@ export class UserSettingsComponent implements OnInit {
     });
   }
 
-  onChangingOption($event: number): void{
-    this.settingsForm.get('activityRating')?.setValue($event);
+  onChangingOption($event: {[key: string]: number | string}): void{
+    this.settingsForm.get('activityRating')?.setValue($event['value']);
   }
 
   closeSettings(): void{

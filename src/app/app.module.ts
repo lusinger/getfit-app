@@ -26,6 +26,7 @@ import { SettingsComponent } from './svg/settings/settings.component';
 import { CrossComponent } from './svg/cross/cross.component';
 import { EditComponent } from './svg/edit/edit.component';
 import { DropdownComponent } from './components/dropdown/dropdown.component';
+import { NumericFormatterDirective } from './directives/numeric-formatter.directive';
 
 @NgModule({
   declarations: [
@@ -49,6 +50,7 @@ import { DropdownComponent } from './components/dropdown/dropdown.component';
     CrossComponent,
     EditComponent,
     DropdownComponent,
+    NumericFormatterDirective,
   ],
   imports: [
     BrowserModule,

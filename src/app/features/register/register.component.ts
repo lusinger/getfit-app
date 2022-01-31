@@ -30,20 +30,6 @@ export class RegisterComponent implements OnInit {
   formTitle: string = 'getfit';
   errorMessage: string = '';
 
-  optionsShown: boolean = false;
-  selectedActivity: {key: string, value: number} = {
-    key: 'sedentary',
-    value: 1.2,
-  };
-
-  activityRatings: {[key: string]: number} = {
-    'sedentary': 1.2,
-    'lightly active': 1.375,
-    'moderatly active': 1.55,
-    'very active': 1.725,
-    'extra active': 1.9,
-  };
-
   constructor(
     private auth: AuthService,
     private router: Router) { }
@@ -64,21 +50,18 @@ export class RegisterComponent implements OnInit {
           this.registerForm.reset();
           this.navigateTo('login');
         }
-        if(response.statusCode === 409){
-          this.errorMessage = response.message;
-        }
       },
+      error: (err) => {
+        if(err.error.statusCode === 409){
+          this.errorMessage = err.error.message;
+        }
+      }
     });
   }
 
-  changeActivity(option: any): void{
-    this.selectedActivity = option
-    this.registerForm.get('activityRate')?.setValue(option.value);
-    this.optionsShown = false;
-  }
-
-  toggleOptions(): void{
-    this.optionsShown = !this.optionsShown;
+  onChangingOption($event: {[key: string]: number | string}): void{
+    this.registerForm.get('activityRate')?.setValue($event['value']);
+    this.registerForm.get('activityRate')?.value;
   }
 
   navigateTo(route: string): void{
