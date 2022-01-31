@@ -102,15 +102,13 @@ export class UserSettingsComponent implements OnInit {
 
   deleteUser(): void{
     this.toggleConfirmation();
-    if(this.auth.user){
-      this.auth.deleteUser(this.auth.user.id).subscribe({
-        next: (response) => {
-          if(response.statusCode === 200){
-            this.router.navigate(['']);
-          }
+    this.auth.deleteUser(this.userData.id).subscribe({
+      next: (response) => {
+        if(response.statusCode === 200){
+          this.router.navigate(['']);
         }
-      });
-    }
+      }
+    });
   }
 
   updateUser(): void{
