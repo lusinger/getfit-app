@@ -24,36 +24,30 @@
     </label>
     <label class="input-field light mt1">
       <span>age</span>
-      <input formControlName="age" type="number" placeholder="age" spellcheck="false">
+      <input appNumericFormatter [options]="{min: 0, max: 150, fractional: 0, step: 0.25, allowNegative: false}" formControlName="age" type="number" placeholder="age" spellcheck="false">
     </label>
     <label class="input-field light mt1">
       <span>height</span>
-      <input formControlName="height" type="number" placeholder="height" spellcheck="false">
+      <input appNumericFormatter [options]="{min: 0, max: 250, fractional: 0, step: 0.25, allowNegative: false}" formControlName="height" type="number" placeholder="height" spellcheck="false">
     </label>
     <label class="input-field light mt1">
       <span>current weight</span>
-      <input formControlName="currentWeight" type="number" placeholder="current weight" spellcheck="false">
+      <input appNumericFormatter [options]="{min: 40, max: 400, fractional: 2, step: 0.50, allowNegative: false}" formControlName="currentWeight" type="number" placeholder="current weight" spellcheck="false">
     </label>
     <label class="input-field light mt1">
       <span>target weight</span>
-      <input formControlName="targetWeight" type="number" placeholder="target weight" spellcheck="false">
+      <input appNumericFormatter [options]="{min: 40, max: 400, fractional: 2, step: 0.50, allowNegative: false}" formControlName="targetWeight" type="number" placeholder="target weight" spellcheck="false">
     </label>
     <label class="input-field light mt1">
       <span>change per week</span>
-      <input formControlName="changePerWeek" type="number" placeholder="change per week" spellcheck="false">
+      <input appNumericFormatter [options]="{min: 0, max: 1, fractional: 2, step: 0.25, allowNegative: false}" formControlName="changePerWeek" type="number" placeholder="change per week" spellcheck="false">
     </label>
-    <div class="select-container mt1" [ngStyle]="optionsShown ? {'height': '240px'} : {'height': '40px'}">
-      <div class="select-header" (click)="toggleOptions()">
-        <p>{{selectedActivity.key}}</p>
-        <p class="toggler">{{optionsShown ? '-' : '+'}}</p>
-      </div>
-      <div class="select-options" *ngIf="optionsShown">
-        <div *ngFor="let option of activityRatings | keyvalue" class="option" (click)="changeActivity(option)">
-          <p>{{option.key}}</p>
-          <p>{{option.value}}</p>
-        </div>
-      </div>
-    </div>
+    <getfit-dropdown (changingOption)="onChangingOption($event)" [values]="[
+      {key: 'sedentary', value: 1.2}, 
+      {key: 'lightly active', value: 1.375}, 
+      {key: 'moderatly active', value: 1.55},
+      {key: 'very active', value: 1.725},
+      {key: 'extra active', value: 1.9}]"></getfit-dropdown>
     <div class="radio-group mt1">
       <label class="radio-field light">
         <input formControlName="gender" type="radio" name="gender" value="male">

@@ -10,7 +10,7 @@ export class DropdownComponent implements OnInit {
   @Input() values: {[key: string]: number | string}[] = [];
   @Input() style: 'dark' | 'light' = 'light';
   @Input() selected: {[key: string]: number | string} = {key: 'default', value: 0};
-  @Output() changingOption = new EventEmitter<number>();
+  @Output() changingOption = new EventEmitter<{[key: string]: number | string}>();
   isOpen: State = 'closed';
 
   constructor() { }
@@ -25,7 +25,7 @@ export class DropdownComponent implements OnInit {
 
   selectOption(option: {[key: string]: number | string}): void{
     this.selected = option;
-    this.changingOption.emit(option['value'] as number);
+    this.changingOption.emit(option);
     this.toggleDropdown();
   }
 }
