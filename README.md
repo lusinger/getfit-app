@@ -4,6 +4,8 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ## Setup 
 
+Run `npm install` to install all necessary node packages.
+
 Set serverUrl property to value set in getfit-server (http://localhost:3001/api).
 Location of file src/app/environments/environment.ts
 
