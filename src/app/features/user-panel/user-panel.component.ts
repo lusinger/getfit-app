@@ -26,7 +26,7 @@ export class UserPanelComponent implements OnInit, OnDestroy {
     private state: StateMachineService) { }
 
   ngOnInit(): void {
-    //--refresh token all 10min => 600000ms
+    //--refresh token all 10min => 500000ms
     this.refreshInterval = setInterval(() => {
       if(this.auth.user){
         this.auth.refreshToken(this.auth.user.mail).subscribe({
@@ -35,7 +35,7 @@ export class UserPanelComponent implements OnInit, OnDestroy {
           }
         });
       }
-    }, 600000);
+    }, 500000);
 
     this.state.selectedDate.subscribe((date) => {
       this.selectedDate = date;

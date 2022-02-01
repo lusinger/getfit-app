@@ -30,9 +30,6 @@ export class TrackingSectionComponent implements OnInit{
     this.state.entries.subscribe((entries) => {
       this.entries = this.loadEntries(entries);
     });
-    /* this.state.sectionCalories.subscribe((data) => {
-
-    }); */
   }
 
   loadEntries(entries: Entry[]): Entry[]{
@@ -44,7 +41,7 @@ export class TrackingSectionComponent implements OnInit{
       this.totalCalories = this.calculateCalories(data);
       return data;
     }else{
-      this.totalCalories = 0;
+      this.state.setSectionCalories(0, this.section);
       return [];
     }
   }
