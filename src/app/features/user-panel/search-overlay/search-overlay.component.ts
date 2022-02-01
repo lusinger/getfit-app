@@ -32,12 +32,13 @@ export class SearchOverlayComponent implements OnInit {
 
   detailForm = new FormGroup({
     amount: new FormControl('', [Validators.required]),
-    unit: new FormControl('g' as Units, [Validators.required]),
+    unit: new FormControl('ml' as Units, [Validators.required]),
   });
 
   @Output() closeOverlay = new EventEmitter<'open' | 'closed'>();
   @Output() entriesAdded = new EventEmitter();
   @Input() overlayState: 'open' | 'closed' | 'edit' = 'closed';
+  selectedUnit: Units = 'g';
   loadedUser: User = {} as User;
   selectedDate: Date = {} as Date;
   overlaySection: Sections = 'undefined';
@@ -68,7 +69,8 @@ export class SearchOverlayComponent implements OnInit {
       this.detailForm.get('unit')?.setValue(entry.unit);
       this.entryToEdit.prev = this.entryToEdit.new;
       this.entryToEdit.new = entry;
-    })
+    });
+    this.detailForm.value.unit = this.selectedUnit;
   }
 
   onInputChange($event: Event): void{
@@ -83,7 +85,6 @@ export class SearchOverlayComponent implements OnInit {
         if(err.error.statusCode === 404){
           this.searchResults = [];
           this.errorMessage = err.error.message;
-          console.log('no entries found')
         }
       }
     });
@@ -101,9 +102,8 @@ export class SearchOverlayComponent implements OnInit {
     const item: Item = this.searchResults[0];
     const entry: Entry = {id: this.addedEntries.length, createdon: this.selectedDate, 
       userid: this.loadedUser.id, amount: this.detailForm.value.amount, 
-      unit: this.detailForm.value.unit, entryid: item.id, 
+      unit: this.selectedUnit, entryid: item.id, 
       isrecipe: false, section: this.overlaySection, content: item};
-    console.log(entry);
     this.addedEntries.push(entry);
     this.searchString = '';
     this.searchForm.reset();
@@ -126,7 +126,20 @@ export class SearchOverlayComponent implements OnInit {
   }
 
   onChangingOption($event: {[key: string]: number | string}): void{
-    this.detailForm.value.unit = $event['value'] as Units;
+    switch($event['value'] as Units){
+      case 'g':
+        this.detailForm.value.unit = 'g';
+        this.selectedUnit = 'g';
+        break;
+      case 'ml':
+        this.detailForm.value.unit = 'ml';
+        this.selectedUnit = 'ml';
+        break;
+      case 'EL':
+        this.detailForm.value.unit = 'EL';
+        this.selectedUnit = 'EL';
+        break;
+    }
   }
 
   onAddToSection(): void{
