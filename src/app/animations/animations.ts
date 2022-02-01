@@ -1,5 +1,15 @@
-import { trigger, animate, style, transition } from "@angular/animations";
+import { animate, trigger, style, transition } from "@angular/animations";
 
+const topIn = trigger('topIn', [
+  transition(':enter', [
+    style({transform: 'translateY(-100vh)'}),
+    animate(300, style({transform: 'translateY(0vh)'})),
+  ]),
+  transition(':leave', [
+    style({transform: 'translateY(0vh)'}),
+    animate(300, style({transform: 'translateY(-100vh)'})),
+  ]),
+]);
 
 const growVertically = trigger('growV', [
   transition(':enter', [
@@ -12,4 +22,4 @@ const growVertically = trigger('growV', [
   ]),
 ]);
 
-export {growVertically};
+export {topIn, growVertically};
