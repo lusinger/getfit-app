@@ -1,4 +1,4 @@
-<div class="section-item-container" [ngClass]="remove ? 'remove' : ''">
+<div @growV class="section-item-container" [ngClass]="remove ? 'remove' : ''">
   <div class="item-content">
     <p class="item-name">{{itemData | entryContent: 'data'}}</p>
     <p class="item-data">{{itemData | entryContent: 'calories' | number: '1.0-0'}} kcal</p>
