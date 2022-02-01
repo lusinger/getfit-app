@@ -35,7 +35,7 @@ export class SectionItemComponent implements OnInit {
     }, 600);
   }
 
-  openEdit($event: Entry): void{
+  openEdit(): void{
     this.openingEdit.emit(this.itemData);
   }
 }
