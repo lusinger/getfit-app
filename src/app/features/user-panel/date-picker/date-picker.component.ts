@@ -1,24 +1,14 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { trigger, transition, style, animate } from '@angular/animations';
 import { StateMachineService } from 'src/app/services/state-machine.service';
 import { State } from 'src/app/types/state';
+
+import { topIn } from 'src/app/animations/animations';
 
 @Component({
   selector: 'getfit-date-picker',
   templateUrl: './date-picker.component.html',
   styleUrls: ['./date-picker.component.sass'],
-  animations: [
-    trigger('toggleOverlay', [
-      transition(':enter', [
-        style({transform: 'translateY(-100vh)'}),
-        animate(300, style({transform: 'translateY(0vh)'})),
-      ]),
-      transition(':leave', [
-        style({transform: 'translateY(0vh)'}),
-        animate(300, style({transform: 'translateY(-100vh)'})),
-      ]),
-    ])
-  ],
+  animations: [topIn,],
 })
 export class DatePickerComponent implements OnInit {
   @Input() overlayState: State = 'closed';
