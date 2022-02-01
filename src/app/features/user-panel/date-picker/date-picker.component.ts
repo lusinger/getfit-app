@@ -1,6 +1,7 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { StateMachineService } from 'src/app/services/state-machine.service';
+import { State } from 'src/app/types/state';
 
 @Component({
   selector: 'getfit-date-picker',
@@ -20,12 +21,12 @@ import { StateMachineService } from 'src/app/services/state-machine.service';
   ],
 })
 export class DatePickerComponent implements OnInit {
-  @Input() overlayState: 'open' | 'closed' = 'closed';
+  @Input() overlayState: State = 'closed';
   
   currentDate: Date = new Date();
   selectedDate: Date = {} as Date;
 
-  days: string[] = ['Mo', 'Th', 'Tu', 'We', 'Fr', 'Sa', 'Su'];
+  days: string[] = ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'];
   dates: Date[] = [];
 
   constructor(private state: StateMachineService) { }
@@ -38,6 +39,7 @@ export class DatePickerComponent implements OnInit {
   }
 
   generateCalendar(date: Date): Date[]{
+    this.dates = [];
     const dates: Date[] = [];
     dates.push(date);
     if(date.getDate() !== 0){
@@ -89,32 +91,13 @@ export class DatePickerComponent implements OnInit {
     return nextMonth;
   }
 
-  selectPrevDate(date: Date): void{
-    this.selectDate(this.getPrevDate(date));
-  }
-
-  selectNextDate(date: Date): void{
-    this.selectDate(this.getNextDate(date));
-  }
-
-  selectPrevMonth(date: Date): void{
-    this.selectDate(this.getPrevMonth(date));
-  }
-
-  selectNextMonth(date: Date): void{
-    this.selectDate(this.getNextMonth(date));
-  }
-
-
   selectDate(date: Date): void{
     if(date.getMonth() !== this.selectedDate.getMonth()){
-      this.selectedDate = date;
-      this.dates = [];
+      this.state.setSelectedDate(date);
       this.dates = this.generateCalendar(this.selectedDate);
     }else{
-      this.selectedDate = date;
+      this.state.setSelectedDate(date);
     }
-    this.state.setSelectedDate(date);
   }
 
   toggleOverlay(): void{

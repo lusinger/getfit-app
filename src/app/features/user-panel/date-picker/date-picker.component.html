@@ -1,31 +1,31 @@
 <div class="date-picker-wrapper">
-  <h4 (click)="selectPrevDate(selectedDate)" class="toggler">{{"\<"}}</h4>
+  <h4 (click)="selectDate(getPrevDate(selectedDate))" class="toggler">{{"\<"}}</h4>
   <h4 (click)="toggleOverlay()" class="toggler-title">{{selectedDate.toDateString() === currentDate.toDateString() ? 'today' : selectedDate.toDateString()}}</h4>
-  <h4 (click)="selectNextDate(selectedDate)" class="toggler">{{"\>"}}</h4>
+  <h4 (click)="selectDate(getNextDate(selectedDate))" class="toggler">{{"\>"}}</h4>
 </div>
 <div @toggleOverlay appScrollLock *ngIf="overlayState === 'open'" class="date-picker-overlay">
   <div class="date-picker-wrapper">
     <div class="date-picker-header">
-      <h4 (click)="selectPrevMonth(selectedDate)" class="toggler">{{"\<"}}</h4>
+      <h4 (click)="selectDate(getPrevMonth(selectedDate))" class="toggler">{{"\<"}}</h4>
       <h4 (click)="toggleOverlay()" class="toggler-title">{{selectedDate.toDateString() === currentDate.toDateString() ? 'today' : selectedDate.toDateString()}}</h4>
-      <h4 (click)="selectNextMonth(selectedDate)" class="toggler">{{"\>"}}</h4>
+      <h4 (click)="selectDate(getNextMonth(selectedDate))" class="toggler">{{"\>"}}</h4>
     </div>
     <div class="date-picker-calendar">
-      <div class="calendar-header">
-        <div *ngFor="let day of days" class="header-field">
+      <div class="header">
+        <div *ngFor="let day of days" class="field">
           <p>{{day}}</p>
         </div>
       </div>
-      <div class="calendar-body">
+      <div class="body">
         <div *ngFor="let date of dates" 
           (click)="selectDate(date)"
           [ngClass]="{'': date.getMonth() === selectedDate.getMonth(), 'inactive': date.getMonth() !== selectedDate.getMonth(), 'active': date.toISOString() === selectedDate.toISOString()}" 
-          class="calendar-field">
+          class="field">
           <p>{{date.getDate()}}</p>
         </div>
       </div>
     </div>
-    <div class="date-picker-footer">
+    <div class="footer">
       <svg-cross [style]="'light'" (click)="toggleOverlay()"></svg-cross>
     </div>
   </div>
