@@ -26,8 +26,14 @@ export class StateMachineService {
   _entryToEdit = new BehaviorSubject<Entry>({} as Entry);
   entryToEdit = this._entryToEdit.asObservable();
 
-  /* _sectionCalories = new BehaviorSubject<{breakfast: number, lunch: number, dinner: number, snack: number}>({breakfast: 0, lunch: 0, dinner: 0, snack: 0});
-  sectionCalories = this._sectionCalories.asObservable(); */
+  _breakfastCalories = new BehaviorSubject<number>(0);
+  _lunchCalories = new BehaviorSubject<number>(0);
+  _dinnerCalories = new BehaviorSubject<number>(0);
+  _snackCalories = new BehaviorSubject<number>(0);
+  breakfastCalories = this._breakfastCalories.asObservable();
+  lunchCalories = this._lunchCalories.asObservable();
+  dinnerCalories = this._dinnerCalories.asObservable();
+  snackCalories = this._snackCalories.asObservable();
 
   constructor() { }
 
@@ -75,30 +81,20 @@ export class StateMachineService {
     this._loadedUser.next(user);
   }
 
-  /* getSectionCalories(): Observable<{breakfast: number, lunch: number, dinner: number, snack: number}>{
-    return this._sectionCalories;
-  }
   setSectionCalories(calories: number, section: Sections){
-    this.getSectionCalories().subscribe({
-      next: (data) => {
-        switch(section){
-          case 'breakfast':
-            data.breakfast = calories;
-            break;
-          case 'lunch':
-            data.lunch = calories;
-            break;
-          case 'dinner':
-            data.dinner = calories;
-            break;
-          case 'snack':
-            data.snack = calories;
-            break;
-          case 'undefined': 
-            break;
-        }
-        this._sectionCalories.next(data);
-      }
-    });
-  } */ 
+    switch(section){
+      case 'breakfast':
+        this._breakfastCalories.next(calories);
+        break;
+      case 'lunch':
+        this._lunchCalories.next(calories);
+        break;
+      case 'dinner':
+        this._dinnerCalories.next(calories);
+        break;
+      case 'snack':
+        this._snackCalories.next(calories);
+        break;
+    }
+  }
 }

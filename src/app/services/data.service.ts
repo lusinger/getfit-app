@@ -30,7 +30,7 @@ export class DataService {
     });
   };
 
-  getItems = (search?: string, start?: number, end?: number): Observable<Item[]> => {
+  getItems = (search?: string, start?: number, end?: number): Observable<AuthResponse> => {
     let params = new HttpParams();
     if(search !== undefined){
       params = new HttpParams()
@@ -48,7 +48,7 @@ export class DataService {
         .set('end', end);
     }
 
-    return this.http.get<Item[]>(`${environment.serverUrl}/items`, {
+    return this.http.get<AuthResponse>(`${environment.serverUrl}/items`, {
       headers: this.defaultHeader,
       params: params,
       observe: 'body',

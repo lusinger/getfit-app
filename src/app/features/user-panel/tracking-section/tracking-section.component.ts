@@ -80,7 +80,7 @@ export class TrackingSectionComponent implements OnInit{
     for(const entry of entries){
       totalCalories += this.getCalories(entry);
     }
-    /* this.state.setSectionCalories(totalCalories, this.section); */
+    this.state.setSectionCalories(totalCalories, this.section);
     return totalCalories;
   }
 

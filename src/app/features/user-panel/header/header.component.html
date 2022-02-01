@@ -1,7 +1,7 @@
 <div class="header">
   <div class="header-content">
     <img class="user-image" width="62" height="62" src="assets/user.jpeg">
-    <p class="accent">{{0}} calories remaining</p>
+    <p class="accent">{{(totalCalories.total <= userState.calorieGoal) ? (userState.calorieGoal - totalCalories.total) + ' kcal remaining' : (totalCalories.total - userState.calorieGoal) + ' kcal over goal'}}</p>
     <svg-settings (click)="toggleSettings()"></svg-settings>
   </div>
 </div>
