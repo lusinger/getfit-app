@@ -31,11 +31,11 @@ export class SectionItemComponent implements OnInit {
     this.remove = true;
     //--wait till cross off animation is finished.
     setTimeout(() => {
-      this.removingItem.emit(this.itemData)
+      this.removingItem.emit(this.itemData);
     }, 600);
   }
 
-  onClicked($event: any): void{
+  openEdit($event: Entry): void{
     this.openingEdit.emit(this.itemData);
   }
 }
