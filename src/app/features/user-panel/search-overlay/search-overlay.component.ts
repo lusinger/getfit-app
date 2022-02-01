@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Item } from 'src/app/interfaces/item';
 import { Entry } from 'src/app/interfaces/entry';
+import { Units } from 'src/app/types/units';
 
 import { DataService } from 'src/app/services/data.service';
 import { Sections } from 'src/app/types/sections';
@@ -31,7 +32,7 @@ export class SearchOverlayComponent implements OnInit {
 
   detailForm = new FormGroup({
     amount: new FormControl('', [Validators.required]),
-    unit: new FormControl('', [Validators.required]),
+    unit: new FormControl('g' as Units, [Validators.required]),
   });
 
   @Output() closeOverlay = new EventEmitter<'open' | 'closed'>();
@@ -90,7 +91,7 @@ export class SearchOverlayComponent implements OnInit {
 
   addDetails(item: Item): void{
     this.searchResults = this.searchResults.filter((data) => {
-      return data?.id === item?.id ? true : false;
+      return data.id === item.id ? true : false;
     });
     this.searchString = item.itemname;
     this.formState = 'details';
@@ -98,7 +99,11 @@ export class SearchOverlayComponent implements OnInit {
 
   addEntry(): void{
     const item: Item = this.searchResults[0];
-    const entry: Entry = {id: this.addedEntries.length, createdon: this.selectedDate, userid: this.loadedUser.id, amount: this.detailForm.value.amount, unit: this.detailForm.value.unit, entryid: item.id, isrecipe: false, section: this.overlaySection, content: item};
+    const entry: Entry = {id: this.addedEntries.length, createdon: this.selectedDate, 
+      userid: this.loadedUser.id, amount: this.detailForm.value.amount, 
+      unit: this.detailForm.value.unit, entryid: item.id, 
+      isrecipe: false, section: this.overlaySection, content: item};
+    console.log(entry);
     this.addedEntries.push(entry);
     this.searchString = '';
     this.searchForm.reset();
@@ -121,7 +126,7 @@ export class SearchOverlayComponent implements OnInit {
   }
 
   onChangingOption($event: {[key: string]: number | string}): void{
-    this.detailForm.value.unit = $event['value'];
+    this.detailForm.value.unit = $event['value'] as Units;
   }
 
   onAddToSection(): void{
@@ -156,7 +161,7 @@ export class SearchOverlayComponent implements OnInit {
 
   onEditChangeUnit($event: {[key: string]: number | string}){
     const newEntry: Entry = {...this.entryToEdit.new};
-    newEntry.unit = $event['value'] as string;
+    newEntry.unit = $event['value'] as Units;
     this.state.setEntryToEdit(newEntry);
   }
 
