@@ -1,11 +1,9 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { trigger, transition, style, animate } from '@angular/animations';
 import { Item } from 'src/app/interfaces/item';
 import { Entry } from 'src/app/interfaces/entry';
 
 import { DataService } from 'src/app/services/data.service';
-import { Units } from 'src/app/types/units';
 import { Sections } from 'src/app/types/sections';
 import { AuthService } from 'src/app/services/auth.service';
 import { StateMachineService } from 'src/app/services/state-machine.service';
