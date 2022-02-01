@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject, Subject } from 'rxjs';
-import { Sections } from '../types/sections';
-import { Entry } from '../interfaces/entry';
-import { User } from '../interfaces/user';
+import { User, Entry } from '../interfaces/interfaces';
+import { Sections } from '../types/types';
 
 @Injectable({
   providedIn: 'root'

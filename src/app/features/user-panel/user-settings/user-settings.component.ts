@@ -5,9 +5,9 @@ import { FormBuilder } from '@angular/forms';
 
 import { AuthService } from 'src/app/services/auth.service';
 import { DataService } from 'src/app/services/data.service';
-import { User } from 'src/app/interfaces/user';
 import { StateMachineService } from 'src/app/services/state-machine.service';
-import { State } from 'src/app/types/state';
+import { State } from 'src/app/types/types';
+import { User } from 'src/app/interfaces/interfaces';
 
 @Component({
   selector: 'getfit-user-settings',

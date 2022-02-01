@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
-import { Entry } from 'src/app/interfaces/entry';
+import { Entry } from 'src/app/interfaces/interfaces';
 import { growVertically } from 'src/app/animations/animations';
 
 @Component({

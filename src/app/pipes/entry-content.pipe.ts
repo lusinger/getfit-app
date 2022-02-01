@@ -1,7 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Item } from '../interfaces/item';
-import { Recipe } from '../interfaces/recipe';
-import { Entry } from '../interfaces/entry';
+import { Entry, Item, Recipe} from '../interfaces/interfaces';
 
 type PipeOptions = 'data' | 'name' | 'calories';
 

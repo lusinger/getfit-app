@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { StateMachineService } from 'src/app/services/state-machine.service';
-import { State } from 'src/app/types/state';
+import { State } from 'src/app/types/types';
 
 import { topIn } from 'src/app/animations/animations';
 

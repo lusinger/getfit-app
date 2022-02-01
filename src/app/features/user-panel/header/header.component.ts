@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { State } from 'src/app/types/state';
-import { User } from 'src/app/interfaces/user';
+import { State } from 'src/app/types/types';
+import { User } from 'src/app/interfaces/interfaces';
 import { StateMachineService } from 'src/app/services/state-machine.service';
 
 @Component({

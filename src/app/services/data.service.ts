@@ -1,13 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, retry, throwError, catchError, Subject, BehaviorSubject, startWith } from 'rxjs';
-import { Item } from '../interfaces/item';
-import { Recipe } from '../interfaces/recipe';
 import { environment } from 'src/environments/environment';
-import { AuthResponse } from '../interfaces/auth-response';
-
-import { Entry } from '../interfaces/entry';
-import { Sections } from '../types/sections';
+import { Sections } from '../types/types';
+import { Entry, AuthResponse, Recipe, Item } from '../interfaces/interfaces';
 
 @Injectable({
   providedIn: 'root'

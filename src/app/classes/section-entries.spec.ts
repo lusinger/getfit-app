@@ -1,5 +1,5 @@
 import { SectionEntries } from './section-entries';
-import { Entry } from '../interfaces/entry';
+import { Entry } from '../interfaces/interfaces';
 
 const data: Entry[] = [
   {id: 1, createdon: new Date(), userid: 1, entryid: 2, amount: 100, unit: 'g', isrecipe: false, section: 'breakfast'},
@@ -32,7 +32,7 @@ describe('class SectionEntries', () => {
   describe('addData()', () => {
     const entries = new SectionEntries([data[0]], [data[1]], [data[2]], [data[3]]);
     it('should add single entry to matching section', () => {
-      const entryToAdd: Entry = {id: 5, createdon: new Date(), userid: 1, amount: 10, unit: 'ml', isrecipe: false, section: 'breakfast'};
+      const entryToAdd: Entry = {id: 5, createdon: new Date(), userid: 1, entryid: 1, amount: 10, unit: 'ml', isrecipe: false, section: 'breakfast'};
       entries.addData(entryToAdd);
       expect(entries.breakfast.some((entry) => {
         return entry.id === 5 ? true : false;
@@ -40,8 +40,8 @@ describe('class SectionEntries', () => {
     });
     it('should add multiple entries to matching section(s)', () => {
       const entriesToAdd: Entry[] = [
-        {id: 6, createdon: new Date(), userid: 1, amount: 10, unit: 'ml', isrecipe: false, section: 'breakfast'},
-        {id: 7, createdon: new Date(), userid: 1, amount: 10, unit: 'ml', isrecipe: false, section: 'lunch'},
+        {id: 6, createdon: new Date(), userid: 1, entryid: 1, amount: 10, unit: 'ml', isrecipe: false, section: 'breakfast'},
+        {id: 7, createdon: new Date(), userid: 1, entryid: 1, amount: 10, unit: 'ml', isrecipe: false, section: 'lunch'},
       ];
       entries.addData(entriesToAdd);
       expect(entries.breakfast.some((entry) => {

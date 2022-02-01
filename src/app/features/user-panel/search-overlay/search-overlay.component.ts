@@ -1,14 +1,10 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Item } from 'src/app/interfaces/item';
-import { Entry } from 'src/app/interfaces/entry';
-import { Units } from 'src/app/types/units';
+import { Units, Sections } from 'src/app/types/types';
+import { Entry, Item, User } from 'src/app/interfaces/interfaces';
 
 import { DataService } from 'src/app/services/data.service';
-import { Sections } from 'src/app/types/sections';
-import { AuthService } from 'src/app/services/auth.service';
 import { StateMachineService } from 'src/app/services/state-machine.service';
-import { User } from 'src/app/interfaces/user';
 
 import { topIn, leftIn } from 'src/app/animations/animations';
 
@@ -51,7 +47,6 @@ export class SearchOverlayComponent implements OnInit {
 
   constructor(
     private data: DataService,
-    private auth: AuthService,
     private state: StateMachineService,
   ) { }
 

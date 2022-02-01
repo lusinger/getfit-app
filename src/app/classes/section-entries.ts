@@ -1,5 +1,5 @@
-import { Entry } from "../interfaces/entry";
-import { Sections } from "../types/sections";
+import { Entry } from "../interfaces/interfaces";
+import { Sections } from "../types/types";
 
 export class SectionEntries{
   breakfast: Entry[];

@@ -1,9 +1,8 @@
 import { Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
-import { AuthResponse } from 'src/app/interfaces/auth-response';
-import { Entry } from 'src/app/interfaces/entry';
 import { DataService } from 'src/app/services/data.service';
 import { StateMachineService } from 'src/app/services/state-machine.service';
-import { Sections } from 'src/app/types/sections';
+import { AuthResponse, Entry } from 'src/app/interfaces/interfaces';
+import { Sections } from 'src/app/types/types';
 
 @Component({
   selector: 'getfit-tracking-section',

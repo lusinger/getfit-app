@@ -1,4 +1,4 @@
-import { Directive, Input, Output, EventEmitter, HostListener, OnInit } from '@angular/core';
+import { Directive, Input, HostListener, OnInit } from '@angular/core';
 
 interface Options{
   min: number;

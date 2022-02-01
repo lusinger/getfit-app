@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { State } from 'src/app/types/state';
+import { State } from 'src/app/types/types';
 
 @Component({
   selector: 'getfit-dropdown',

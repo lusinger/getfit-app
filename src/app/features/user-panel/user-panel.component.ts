@@ -3,10 +3,9 @@ import { AuthService } from 'src/app/services/auth.service';
 import { DataService } from 'src/app/services/data.service';
 import { StateMachineService } from 'src/app/services/state-machine.service';
 
-import {Entry} from '../../interfaces/entry';
-import { Sections } from 'src/app/types/sections';
 import { SectionEntries } from 'src/app/classes/section-entries';
-import { AuthResponse } from 'src/app/interfaces/auth-response';
+import { AuthResponse, Entry } from 'src/app/interfaces/interfaces';
+import { Sections } from 'src/app/types/types';
 
 @Component({
   selector: 'getfit-user-panel',

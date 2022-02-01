@@ -1,7 +1,7 @@
 import { DebugElement, ElementRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { Entry } from 'src/app/interfaces/entry';
+import { Entry } from 'src/app/interfaces/interfaces';
 import { EntryContentPipe } from 'src/app/pipes/entry-content.pipe';
 
 import { SectionItemComponent } from './section-item.component';

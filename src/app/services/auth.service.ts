@@ -2,12 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, throwError, catchError, retry } from 'rxjs';
 
-import { LoginRequest } from '../interfaces/login-request';
-import { RegisterRequest } from '../interfaces/register-request';
-import { AuthResponse } from '../interfaces/auth-response';
-
 import { environment } from 'src/environments/environment';
-import { User } from '../interfaces/user';
+import {User, AuthResponse, RegisterRequest, LoginRequest} from '../interfaces/interfaces';
 
 interface ResetQuery{
   mail?: string;
