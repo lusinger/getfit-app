@@ -4,7 +4,7 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
   selector: 'getfit-add-item',
   templateUrl: './add-item.component.html',
   styleUrls: ['./add-item.component.sass'],
-  host: {"(click)": "onClicked($event)"}
+  host: {"(click)": "openSearch()"}
 })
 export class AddItemComponent implements OnInit {
   @Output() openingSearch = new EventEmitter();
@@ -14,7 +14,7 @@ export class AddItemComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  onClicked($event: any): void{
+  openSearch(): void{
     this.openingSearch.emit();
   }
 }
