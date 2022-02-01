@@ -8,15 +8,17 @@ export class ScrollLockDirective implements OnInit{
   constructor(private element: ElementRef) { }
 
   ngOnInit(): void {
-      window.scrollTo(0, 0);
+    window.scrollTo(0, 0);
   }
 
   @HostListener('window:scroll', ['$event'])
-  updateWindow(event: any): void{
+  updateWindow($event: any): void{
     const clientHeight = this.element.nativeElement.clientHeight;
-    const innerHeight = event.target.defaultView.innerHeight
+    const innerHeight = $event.target.defaultView.innerHeight
     if(window.scrollY >= clientHeight - innerHeight){
       window.scrollTo(0, clientHeight - innerHeight);
+    }else{
+      window.scrollTo(window.scrollY, 0);
     }
   }
 

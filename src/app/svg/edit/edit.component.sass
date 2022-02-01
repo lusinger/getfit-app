@@ -1,0 +1,20 @@
+@import '../../../sass/_variables'
+
+:host
+  cursor: pointer
+  svg
+    path
+      transition: all 0.35s ease-in-out
+  svg.light
+    path
+      fill: $accent
+  svg.dark
+    path
+      fill: $darkest-medium
+:host:hover
+  svg.light
+    path
+      fill: $lightest
+  svg.dark
+    path
+      fill: $accent

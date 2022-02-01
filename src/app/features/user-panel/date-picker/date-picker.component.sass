@@ -59,14 +59,14 @@
         display: flex
         flex-flow: column
         align-items: center
-        .calendar-header
+        .header
           width: fit-content
           height: auto
           display: grid
           grid-template-columns: repeat(7, 1fr)
           grid-template-rows: repeat(1, 1fr)
           grid-gap: 5px
-          .header-field
+          .field
             width: $rem*2
             height: $rem*2
             display: flex
@@ -75,14 +75,14 @@
             p
               color: $lightest
               user-select: none
-        .calendar-body
+        .body
           width: fit-content
           height: fit-content
           display: grid
           grid-template-columns: repeat(7, 1fr)
           grid-template-rows: repeat(6, 1fr)
           grid-gap: 5px
-          .calendar-field
+          .field
             position: relative
             user-select: none
             cursor: pointer
@@ -93,7 +93,7 @@
             transition: all 0.35s ease-in-out
             p
               color: $lightest
-          .calendar-field::after
+          .field::after
             content: ''
             position: absolute
             width: 8px
@@ -104,45 +104,32 @@
             background: transparent
             transform: scale(0)
             transition: all 0.35s ease-in-out
-          .calendar-field:hover
+          .field:hover
             border-bottom-right-radius: 8px
-          .calendar-field:hover::after
+          .field:hover::after
             background: $lightest
             transform: scale(1)
-
-          .calendar-field.active
+          .field.active
             border: 1px solid $accent
             border-bottom-right-radius: 8px
             p
               color: $accent
-          .calendar-field.active::after
+          .field.active::after
             transform: scale(1)
             background: $accent
-
-          .calendar-field.inactive
+          .field.inactive
             border: 1px solid $lightest-medium
             p
               color: $lightest-medium
-          .calendar-field.inactive:hover::after
+          .field.inactive:hover::after
             background: $lightest-medium
-
-      
-      .date-picker-footer
+      .footer
         width: 100%
         display: flex
         flex-flow: row
         justify-content: center
         align-items: center
         border-bottom: 2px solid $lightest-medium
-        .close-toggler
-          cursor: pointer
-          margin: $rem $rem*0.5 $rem*0.5 $rem*0.5
-          line
-            stroke: $lightest-medium
-            transition: all 0.35s ease-in-out
-        .close-toggler:hover
-          line
-            stroke: $accent
 
 @media (min-width: $query-small)
   .date-picker-overlay

@@ -4,13 +4,13 @@ import { Units } from "../types/units";
 import { Sections } from "../types/sections";
 
 export interface Entry {
-  id?: number;
+  id: number;
   createdon: Date;
-  userid?: number;
-  entryid?: number;
+  userid: number;
+  entryid: number;
   amount: number;
   unit: Units;
   isrecipe: boolean;
   section: Sections;
-  content?: Item | Recipe;
+  content: Item | Recipe;
 }

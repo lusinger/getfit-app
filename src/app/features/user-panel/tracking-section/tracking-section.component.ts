@@ -31,6 +31,9 @@ export class TrackingSectionComponent implements OnInit{
     this.state.entries.subscribe((entries) => {
       this.entries = this.loadEntries(entries);
     });
+    /* this.state.sectionCalories.subscribe((data) => {
+
+    }); */
   }
 
   loadEntries(entries: Entry[]): Entry[]{
@@ -77,6 +80,7 @@ export class TrackingSectionComponent implements OnInit{
     for(const entry of entries){
       totalCalories += this.getCalories(entry);
     }
+    this.state.setSectionCalories(totalCalories, this.section);
     return totalCalories;
   }
 
@@ -98,12 +102,6 @@ export class TrackingSectionComponent implements OnInit{
       case 'EL':
         if(entry.content !== undefined && 'itemname' in entry.content){
           calorieCount = entry.amount * entry.content.perel;
-        }else{
-        }
-        break;
-      case 'Pers':
-        if(entry.content !== undefined && 'recipename' in entry.content){
-          
         }else{
         }
         break;
