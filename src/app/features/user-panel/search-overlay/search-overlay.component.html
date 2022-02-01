@@ -1,4 +1,4 @@
-<div appScrollLock *ngIf="overlayState !== 'closed'" class="search-overlay-wrapper" @toggleOverlay>
+<div appScrollLock *ngIf="overlayState !== 'closed'" class="search-overlay-wrapper" @topIn>
   <div class="search-overlay-container">
     <div *ngIf="overlayState !== 'edit'"class="search-overlay-header">
       <h3 class="title-line-1">Add<span>{{searchValue}}</span>to</h3>
@@ -60,7 +60,7 @@
         </div>
       </form>
       <ul *ngIf="addedEntries.length > 0" class="added-item-container mt1">
-        <li @addedItem *ngFor="let entry of addedEntries" class="added-item">
+        <li @leftIn *ngFor="let entry of addedEntries" class="added-item">
           <div class="result-content">
             <div class="result-data">
               <p class="result-name">{{entry.amount}}{{entry.unit}} {{getItemName(entry)}}</p>

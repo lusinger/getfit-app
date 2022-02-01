@@ -11,32 +11,13 @@ import { AuthService } from 'src/app/services/auth.service';
 import { StateMachineService } from 'src/app/services/state-machine.service';
 import { User } from 'src/app/interfaces/user';
 
+import { topIn, leftIn } from 'src/app/animations/animations';
+
 @Component({
   selector: 'getfit-search-overlay',
   templateUrl: './search-overlay.component.html',
   styleUrls: ['./search-overlay.component.sass'],
-  animations: [
-    trigger('addedItem', [
-      transition(':enter', [
-        style({opacity: 0, transform: 'translateX(-100%)'}),
-        animate(300, style({opacity: 1, transform: 'translateX(0)'})),
-      ]),
-      transition(':leave', [
-        style({opacity: 1, transform: 'translateX(0)'}),
-        animate(300, style({opacity: 0, transform: 'translateX(-100%)'})),
-      ]),
-    ]),
-    trigger('toggleOverlay', [
-      transition(':enter', [
-        style({transform: 'translateY(-100vh)'}),
-        animate(300, style({transform: 'translateY(0vh)'})),
-      ]),
-      transition(':leave', [
-        style({transform: 'translateY(0vh)'}),
-        animate(300, style({transform: 'translateY(-100vh)'})),
-      ]),
-    ])
-  ]
+  animations: [leftIn, topIn,]
 })
 export class SearchOverlayComponent implements OnInit {
   entryToEdit: Entry = {} as Entry;
