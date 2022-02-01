@@ -18,11 +18,11 @@ import { topIn, leftIn } from 'src/app/animations/animations';
   animations: [leftIn, topIn,]
 })
 export class SearchOverlayComponent implements OnInit {
-  entryToEdit: Entry = {} as Entry;
+  entryToEdit: {prev: Entry, new: Entry} = {} as {prev: Entry, new: Entry};
 
   editForm = new FormGroup({
     amount: new FormControl('', [Validators.required, ]),
-    unit: new FormControl(this.entryToEdit.unit, [Validators.required, ]),
+    unit: new FormControl('g', [Validators.required, ]),
   });
   
   searchForm = new FormGroup({
@@ -31,7 +31,7 @@ export class SearchOverlayComponent implements OnInit {
 
   detailForm = new FormGroup({
     amount: new FormControl('', [Validators.required]),
-    unit: new FormControl('g', [Validators.required]),
+    unit: new FormControl('', [Validators.required]),
   });
 
   @Output() closeOverlay = new EventEmitter<'open' | 'closed'>();
@@ -41,13 +41,11 @@ export class SearchOverlayComponent implements OnInit {
   selectedDate: Date = {} as Date;
   overlaySection: Sections = 'undefined';
   formState: 'search' | 'details' | 'edit' = 'search';
+  errorMessage: string = '';
 
-  searchValue: string | ' ' = ' ';
+  searchString: string | ' ' = ' ';
   searchResults: Item[] = [];
-  cachedResults: Item[] = [];
-  selectedItem: Item = {} as Item;
   addedEntries: Entry[] = [];
-  selectedUnit: {[key: string]: number | string} = {} as {[key: string]: number | string};
 
   constructor(
     private data: DataService,
@@ -66,52 +64,64 @@ export class SearchOverlayComponent implements OnInit {
       this.selectedDate = date;
     });
     this.state.entryToEdit.subscribe((entry) => {
-      this.entryToEdit = entry;
+      this.detailForm.get('unit')?.setValue(entry.unit);
+      this.entryToEdit.prev = this.entryToEdit.new;
+      this.entryToEdit.new = entry;
     })
   }
 
-  onInputChange($event: any): void{
-    this.searchValue = $event.target.value;
-    this.data.getItems(this.searchValue, 0, 10).subscribe({
+  onInputChange($event: Event): void{
+    this.searchString = ($event.target as HTMLInputElement).value;
+    this.data.getItems(this.searchString, 0, 10).subscribe({
       next: (response) => {
-        this.searchResults = response;
+        if(response.statusCode === 200){
+          this.searchResults = response.payload as Item[];
+        }
+      },
+      error: (err) => {
+        if(err.error.statusCode === 404){
+          this.searchResults = [];
+          this.errorMessage = err.error.message;
+          console.log('no entries found')
+        }
       }
     });
   }
 
   addDetails(item: Item): void{
-    this.selectedItem = item;
-    this.searchValue = item.itemname;
+    this.searchResults = this.searchResults.filter((data) => {
+      return data?.id === item?.id ? true : false;
+    });
+    this.searchString = item.itemname;
     this.formState = 'details';
   }
 
   addEntry(): void{
-    const entry: Entry = {createdon: this.selectedDate, userid: this.loadedUser.id, amount: this.detailForm.value.amount, unit: this.selectedUnit['value'] as string, entryid: this.selectedItem?.id, isrecipe: false, section: this.overlaySection, content: this.selectedItem};
+    const item: Item = this.searchResults[0];
+    const entry: Entry = {id: this.addedEntries.length, createdon: this.selectedDate, userid: this.loadedUser.id, amount: this.detailForm.value.amount, unit: this.detailForm.value.unit, entryid: item.id, isrecipe: false, section: this.overlaySection, content: item};
     this.addedEntries.push(entry);
-    this.selectedItem && this.cachedResults.push(this.selectedItem);
-    this.searchValue = '';
+    this.searchString = '';
     this.searchForm.reset();
     this.formState = 'search';
   }
 
   removeItem(item: Entry): void{
     this.addedEntries = this.addedEntries.filter(entry => {
-      return entry.createdon.toISOString() === item.createdon.toISOString() ? false : true; 
-    })
+      return item.id === entry.id ? false : true;
+    });
   }
 
   closeSearch(): void{
     this.overlayState = 'closed';
-    this.searchValue = ' ';
+    this.formState = 'search';
+    this.searchString = '';
     this.searchResults = [];
-    this.cachedResults = [];
-    this.selectedItem = {} as Item;
     this.addedEntries = [];
     this.closeOverlay.emit('closed');
   }
 
   onChangingOption($event: {[key: string]: number | string}): void{
-    this.selectedUnit = $event;
+    this.detailForm.value.unit = $event['value'];
   }
 
   onAddToSection(): void{
@@ -123,51 +133,40 @@ export class SearchOverlayComponent implements OnInit {
     });
   }
 
-  getItemName(entry: Entry): string | null{
-    if(this.cachedResults){
-      const itemValue = this.cachedResults.filter((item) => {
-        if(item.id === entry.entryid){
-          return true;
-        }else{
-          return false;
-        }
-      });
-      return itemValue[0].itemname;
+  getItemName(entry: Entry): string{
+    if(entry.content!){
+      if('itemname' in entry?.content){
+        return entry.content.itemname;
+      }else{
+        return entry.content.recipename;
+      }
     }else{
-      return null;
-    }
-  }
-
-  getItem(entry: Entry): Item{
-    if(this.cachedResults){
-      const itemValue = this.cachedResults.filter((item) => {
-        if(item.id === entry.entryid){
-          return true;
-        }else{
-          return false;
-        }
-      });
-      return itemValue[0];
-    }else{
-      const defaultItem: Item = {itemname: 'default', protein: 0, fat: 0, carb: 0, perel: 0, perg: 0, perml: 0};
-      return defaultItem;
+      return '';
     }
   }
 
   onEditSubmit(): void{
-    /* this.data.updateEntry(this.entryToEdit).subscribe({
+    this.data.updateEntry(this.entryToEdit.new).subscribe({
       next: (response) => {
-        console.log(response);
+        this.entriesAdded.emit();
+        this.closeSearch();
       }
-    }) */
+    })
+  }
+
+  onEditChangeUnit($event: {[key: string]: number | string}){
+    const newEntry: Entry = {...this.entryToEdit.new};
+    newEntry.unit = $event['value'] as string;
+    this.state.setEntryToEdit(newEntry);
   }
 
   onAmountChanged($event: any): void{
-    if($event.target.value !== ''){
-      this.entryToEdit.amount = parseFloat($event.target.value);
-      this.state.setEntryToEdit(this.entryToEdit);
+    if(!isNaN(parseFloat($event.target.value))){
+      const newEntry: Entry = {...this.entryToEdit.new};
+      newEntry.amount = $event.target.value;
+      this.state.setEntryToEdit(newEntry);
     }else{
-      this.entryToEdit.amount = 1;
+      'invalid'
     }
   }
 }
