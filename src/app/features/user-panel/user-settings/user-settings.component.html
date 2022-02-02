@@ -2,14 +2,14 @@
   <div class="header">
       <section class="header-image">
         <img src="assets/user.jpeg">
-        <svg-edit [style]="'light'"></svg-edit>
-        <label>
+        <!-- <svg-edit [style]="'light'"></svg-edit> -->
+        <!-- <label>
           <input (change)="fileSelected($event)" type="file" accept="image/png, image/jpeg">
-        </label>
+        </label> -->
       </section>  
       <section class="user-info">
-        <p>{{userData ? 'calories per day: ' + userData.calorieGoal + 'kcal' : ''}}</p>
-        <p>{{userData ? 'created on: ' + userData.createdOn : '' | date: "MM/dd/yy"}}</p>
+        <p class="accent">@{{userData.userName}}</p>
+        <p class="accent mt1">created on: {{userData.createdOn | date: 'dd-MM-yyyy'}}</p>
       </section>
   </div>
   <form class="form-container" [formGroup]="settingsForm">
