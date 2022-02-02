@@ -1,0 +1,137 @@
+@import '../../../../sass/_variables'
+
+:host
+  width: 100%
+  height: auto
+  .date-picker-wrapper
+    width: 100%
+    height: 80px
+    display: flex
+    justify-content: space-between
+    align-items: center
+    border-bottom: 2px solid $darkest-medium
+    margin-bottom: $rem
+    .toggler, .toggler-title
+      user-select: none
+      cursor: pointer
+      transition: all 0.35s ease-in-out
+    .toggler:hover, .toggler-title:hover
+      color: $accent
+
+  .date-picker-overlay
+    position: absolute
+    background: $darkest
+    top: 0
+    left: 0
+    min-width: 100vw
+    min-height: 100vh
+    padding: $rem*2 $rem
+    display: flex
+    flex-flow: row
+    justify-content: center
+    z-index: 99
+    .date-picker-wrapper
+      width: 100%
+      height: auto
+      display: flex
+      flex-flow: column
+      align-items: center
+      .date-picker-header
+        width: 100%
+        display: flex
+        flex-flow: row
+        padding: $rem*0.5 0
+        justify-content: space-between
+        border-bottom: 2px solid $lightest-medium
+        margin-bottom: $rem
+        .toggler, .toggler-title
+          color: $lightest
+          user-select: none
+          cursor: pointer
+          transition: all 0.35s ease-in-out
+        .toggler:hover, .toggler-title:hover
+          color: $accent
+    
+      .date-picker-calendar
+        width: 100%
+        height: auto
+        flex-grow: 1
+        display: flex
+        flex-flow: column
+        align-items: center
+        .header
+          width: fit-content
+          height: auto
+          display: grid
+          grid-template-columns: repeat(7, 1fr)
+          grid-template-rows: repeat(1, 1fr)
+          grid-gap: 5px
+          .field
+            width: $rem*2
+            height: $rem*2
+            display: flex
+            justify-content: center
+            align-items: center
+            p
+              color: $lightest
+              user-select: none
+        .body
+          width: fit-content
+          height: fit-content
+          display: grid
+          grid-template-columns: repeat(7, 1fr)
+          grid-template-rows: repeat(6, 1fr)
+          grid-gap: 5px
+          .field
+            position: relative
+            user-select: none
+            cursor: pointer
+            width: $rem*2
+            height: $rem*2
+            padding: 3px
+            border: 1px solid $lightest
+            transition: all 0.35s ease-in-out
+            p
+              color: $lightest
+          .field::after
+            content: ''
+            position: absolute
+            width: 8px
+            height: 8px
+            bottom: 4px
+            right: 4px
+            border-radius: 50%
+            background: transparent
+            transform: scale(0)
+            transition: all 0.35s ease-in-out
+          .field:hover
+            border-bottom-right-radius: 8px
+          .field:hover::after
+            background: $lightest
+            transform: scale(1)
+          .field.active
+            border: 1px solid $accent
+            border-bottom-right-radius: 8px
+            p
+              color: $accent
+          .field.active::after
+            transform: scale(1)
+            background: $accent
+          .field.inactive
+            border: 1px solid $lightest-medium
+            p
+              color: $lightest-medium
+          .field.inactive:hover::after
+            background: $lightest-medium
+      .footer
+        width: 100%
+        display: flex
+        flex-flow: row
+        justify-content: center
+        align-items: center
+        border-bottom: 2px solid $lightest-medium
+
+@media (min-width: $query-small)
+  .date-picker-overlay
+    .date-picker-wrapper
+      max-width: 600px

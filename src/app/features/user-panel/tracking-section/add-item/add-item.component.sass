@@ -1,0 +1,21 @@
+@import '../../../../../sass/_variables'
+
+:host
+  width: 100%
+  height: 40px
+  display: flex
+  flex-flow: row
+  align-items: center
+  cursor: pointer
+  user-select: none
+  .add
+    font-size: $rem*2
+    color: $darkest-medium
+    transition: all 0.35s ease-in-out
+  .text
+    font-size: $rem
+    color: $darkest-medium
+    transition: all 0.35s ease-in-out
+:host:hover
+  p
+    color: $accent

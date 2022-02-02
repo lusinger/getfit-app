@@ -1,0 +1,30 @@
+@import '../../../sass/_variables'
+
+:host
+  width: 100%
+  height: auto
+  display: flex
+  justify-content: center
+
+.login-container
+  display: flex
+  flex-flow: column
+  flex-grow: 1
+  width: 100%
+  height: auto
+  padding: $rem*2 $rem
+  h1
+    min-height: $rem*4
+  form
+    .error-message
+      color: $accent
+      font-style: italic
+  .login-footer
+    display: flex
+    flex-flow: row
+    justify-content: space-between
+    width: 100%
+
+@media (min-width: $query-small)
+  .login-container
+    max-width: 600px

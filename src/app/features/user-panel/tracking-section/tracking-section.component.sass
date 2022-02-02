@@ -1,0 +1,62 @@
+@import '../../../../sass/_variables'
+
+:host
+  width: 100%
+  height: auto
+  .tracking-section-container
+    position: relative
+    width: 100%
+    height: auto
+    background: white
+    box-shadow: $shadow
+    margin-bottom: $rem
+    padding: $rem*2 $rem*0.5 $rem*0.5 $rem*0.5
+    transition: all 0.35s ease-in-out
+    .section-header
+      display: flex
+      align-items: center
+      justify-content: space-between
+      width: 100%
+      height: 50px
+      .header-title
+        width: 100%
+        display: flex
+        justify-content: space-between
+        align-items: center
+        padding-right: $rem
+        .header-calories
+          color: $darkest-medium
+          font-style: italic
+          font-size: $rem*1
+      .toggler
+        transition: all 0.35s ease-in-out
+        transform: rotate(0deg)
+        cursor: pointer
+    .section-content
+      display: flex
+      flex-flow: column
+      width: 100%
+      transition-delay: 1s
+      transition: all 0.35s ease-in-out
+    .section-content *
+      opacity: 0
+      transform: scaleY(0)
+      transition-delay: 0.35s
+      transition: all 0.35s ease-in-out
+  .tracking-section-container::after
+    content: ''
+    position: absolute
+    width: 100%
+  .tracking-section-container.show
+    .section-header
+      .toggler
+        transform: rotate(-180deg)
+    .section-content
+    .section-content *
+      transform: scaleY(1)
+      opacity: 1
+
+@media (min-width: $query-small)
+:host
+  .tracking-section-container
+    max-width: 600px

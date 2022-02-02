@@ -1,0 +1,9 @@
+<getfit-header></getfit-header>
+<div class="user-panel-container">
+  <getfit-date-picker></getfit-date-picker>
+  <getfit-tracking-section [section]="'breakfast'" (openingEdit)="onOpenEdit($event)" (openingSearch)="onOpenSearchOverlay()"></getfit-tracking-section>
+  <getfit-tracking-section [section]="'lunch'" (openingEdit)="onOpenEdit($event)" (openingSearch)="onOpenSearchOverlay()"></getfit-tracking-section>
+  <getfit-tracking-section [section]="'dinner'" (openingEdit)="onOpenEdit($event)" (openingSearch)="onOpenSearchOverlay()"></getfit-tracking-section>
+  <getfit-tracking-section [section]="'snack'" (openingEdit)="onOpenEdit($event)" (openingSearch)="onOpenSearchOverlay()"></getfit-tracking-section>
+</div>
+<getfit-search-overlay [overlayState]="searchState" (closeOverlay)="toggleOverlay($event)" (entriesAdded)="onEntriesAdded()"></getfit-search-overlay>
