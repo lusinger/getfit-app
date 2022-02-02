@@ -2,13 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
-
 import { checkPassword } from 'src/app/validators/check-password';
+import { leftIn } from 'src/app/animations/animations';
 
 @Component({
   selector: 'getfit-reset',
   templateUrl: './reset.component.html',
-  styleUrls: ['./reset.component.sass']
+  styleUrls: ['./reset.component.sass'],
+  animations: [leftIn]
 })
 export class ResetComponent implements OnInit {
   resetForm = new FormGroup({
@@ -21,9 +22,8 @@ export class ResetComponent implements OnInit {
   }, [checkPassword('password', 'retype'), ]);
 
   formTitle: string = 'getfit';
-  errorMessage: string = '';
-
-  showResetForm: boolean = false;
+  errorMessage: any = '';
+  resetState: 'mail' | 'password' | 'message' = 'mail';
 
   constructor(private router: Router, private auth: AuthService, private active: ActivatedRoute) { }
 
@@ -37,8 +37,8 @@ export class ResetComponent implements OnInit {
       });
       this.auth.resetPassword({access: query}).subscribe({
         next: (response) => {
-          if(response.payload){
-            this.showResetForm = response.payload.allowReset;
+          if(response.payload.allowReset){
+            this.resetState = 'password';
           }
         }
       });
@@ -52,8 +52,10 @@ export class ResetComponent implements OnInit {
   onMailSubmit(): void{
     this.auth.resetPassword({mail: this.resetForm.value.mail}).subscribe({
       next: (response) => {
-        if(response.payload){
-          this.showResetForm = response.payload.allowReset;
+        if(response.statusCode === 200){
+          this.resetState = 'message';
+          console.log(response.payload);
+          this.errorMessage = response.payload;
         }
       }
     });
@@ -68,9 +70,11 @@ export class ResetComponent implements OnInit {
             this.passwordForm.reset();
             this.navigateTo('login'); 
             break;
-          case 409:
-            this.errorMessage = response.message;
-            break;
+        }
+      },
+      error: (err) => {
+        if(err.error.statusCode === 409){
+          this.errorMessage = err.error.message;
         }
       }
     });

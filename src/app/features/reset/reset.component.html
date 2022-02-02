@@ -1,6 +1,17 @@
 <div class="reset-container">
   <h1 getfitTypewriter initialText={{formTitle}} targetText="reset" class="reset-title light" (textChanged)="onTextChanged($event)">{{formTitle}}</h1>
-  <form *ngIf="!showResetForm" [formGroup]="resetForm" class="reset-form" (ngSubmit)="onMailSubmit()">
+  <div @leftIn *ngIf="resetState === 'message'" class="message-sent mt1">
+    <h4>Hello dear user</h4>
+    <p class="mt1">
+      If a user with the mail adress
+      "{{errorMessage.mail}}" exists
+      in our Database you will get a 
+      mail from us soon.
+
+      Have a nice day...
+    </p>
+  </div>
+  <form *ngIf="resetState === 'mail'" [formGroup]="resetForm" class="reset-form" (ngSubmit)="onMailSubmit()">
     <label class="input-field light mt1">
       <input formControlName="mail" type="email" placeholder="email">
       <span>email</span>
@@ -8,7 +19,7 @@
     <p class="error-message mt1">{{errorMessage}}</p>
     <button [disabled]="!resetForm.valid" class="light mt1" type="submit">reset</button>
   </form>
-  <form *ngIf="showResetForm" [formGroup]="passwordForm" class="password-form" (ngSubmit)="onPasswordSubmit()">
+  <form *ngIf="resetState === 'password'" [formGroup]="passwordForm" class="password-form" (ngSubmit)="onPasswordSubmit()">
     <label class="input-field light mt1">
       <input formControlName="password" type="password" placeholder="new password">
       <span>new password</span>
