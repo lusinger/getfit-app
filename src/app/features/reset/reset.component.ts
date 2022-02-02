@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
-
 import { checkPassword } from 'src/app/validators/check-password';
 
 @Component({
@@ -22,8 +21,7 @@ export class ResetComponent implements OnInit {
 
   formTitle: string = 'getfit';
   errorMessage: string = '';
-
-  showResetForm: boolean = false;
+  resetState: 'mail' | 'password' | 'message' = 'mail';
 
   constructor(private router: Router, private auth: AuthService, private active: ActivatedRoute) { }
 
@@ -37,8 +35,8 @@ export class ResetComponent implements OnInit {
       });
       this.auth.resetPassword({access: query}).subscribe({
         next: (response) => {
-          if(response.payload){
-            this.showResetForm = response.payload.allowReset;
+          if(response.payload.allowReset){
+            this.resetState = 'password';
           }
         }
       });
@@ -52,8 +50,9 @@ export class ResetComponent implements OnInit {
   onMailSubmit(): void{
     this.auth.resetPassword({mail: this.resetForm.value.mail}).subscribe({
       next: (response) => {
-        if(response.payload){
-          this.showResetForm = response.payload.allowReset;
+        if(response.statusCode === 200){
+          this.resetState = 'message';
+          this.errorMessage = response.message;
         }
       }
     });
@@ -68,9 +67,11 @@ export class ResetComponent implements OnInit {
             this.passwordForm.reset();
             this.navigateTo('login'); 
             break;
-          case 409:
-            this.errorMessage = response.message;
-            break;
+        }
+      },
+      error: (err) => {
+        if(err.error.statusCode === 409){
+          this.errorMessage = err.error.message;
         }
       }
     });
