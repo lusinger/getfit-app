@@ -3,11 +3,13 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { checkPassword } from 'src/app/validators/check-password';
+import { leftIn } from 'src/app/animations/animations';
 
 @Component({
   selector: 'getfit-reset',
   templateUrl: './reset.component.html',
-  styleUrls: ['./reset.component.sass']
+  styleUrls: ['./reset.component.sass'],
+  animations: [leftIn]
 })
 export class ResetComponent implements OnInit {
   resetForm = new FormGroup({
@@ -20,7 +22,7 @@ export class ResetComponent implements OnInit {
   }, [checkPassword('password', 'retype'), ]);
 
   formTitle: string = 'getfit';
-  errorMessage: string = '';
+  errorMessage: any = '';
   resetState: 'mail' | 'password' | 'message' = 'mail';
 
   constructor(private router: Router, private auth: AuthService, private active: ActivatedRoute) { }
@@ -52,7 +54,8 @@ export class ResetComponent implements OnInit {
       next: (response) => {
         if(response.statusCode === 200){
           this.resetState = 'message';
-          this.errorMessage = response.message;
+          console.log(response.payload);
+          this.errorMessage = response.payload;
         }
       }
     });

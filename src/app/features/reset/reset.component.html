@@ -1,7 +1,15 @@
 <div class="reset-container">
   <h1 getfitTypewriter initialText={{formTitle}} targetText="reset" class="reset-title light" (textChanged)="onTextChanged($event)">{{formTitle}}</h1>
-  <div *ngIf="resetState === 'message'" class="message-sent mt1">
-    <p class="error-message">{{errorMessage}}</p>
+  <div @leftIn *ngIf="resetState === 'message'" class="message-sent mt1">
+    <h4>Hello dear user</h4>
+    <p class="mt1">
+      If a user with the mail adress
+      "{{errorMessage.mail}}" exists
+      in our Database you will get a 
+      mail from us soon.
+
+      Have a nice day...
+    </p>
   </div>
   <form *ngIf="resetState === 'mail'" [formGroup]="resetForm" class="reset-form" (ngSubmit)="onMailSubmit()">
     <label class="input-field light mt1">
