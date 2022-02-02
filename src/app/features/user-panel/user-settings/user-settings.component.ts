@@ -115,11 +115,12 @@ export class UserSettingsComponent implements OnInit {
   }
 
   updateUser(): void{
-    this.auth.updateUser({data: this.settingsForm.value, id: this.userData.id}).subscribe({
+    /* this.auth.updateUser({data: this.settingsForm.value, id: this.userData.id}).subscribe({
       next: (response) => {
         console.log(response);
+        //this.state.setLoadedUser(response.payload);
       }
-    });
+    }); */
   }
 
   toggleSection(index: number): void{
