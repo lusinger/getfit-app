@@ -85,7 +85,7 @@
         </label>
       </div>
     </section>
-    <button class="light mt1" type="submit" (click)="updateUser()">Update</button>
+    <button [disabled]="true" class="light mt1" type="submit" (click)="updateUser()">Update</button>
     <p (click)="logout()" class="accent mt1">logout</p>
     <p (click)="toggleConfirmation()" class="accent mt1">delete</p>
   </form>
