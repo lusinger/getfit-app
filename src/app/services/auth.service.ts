@@ -25,7 +25,7 @@ export class AuthService {
   refreshToken(mail: string): Observable<AuthResponse>{
     const params = new HttpParams()
       .set('mail', mail);
-    return this.http.get<AuthResponse>(`${environment.serverUrl}/refresh/token`, {
+    return this.http.get<AuthResponse>(`${environment.serverUrl}/auth/refresh/token`, {
       headers: this.defaultHeader,
       params: params,
       observe: 'body',
@@ -39,7 +39,7 @@ export class AuthService {
       .set('user', loginData.user)
       .set('password', loginData.password);
     
-    return this.http.get<AuthResponse>(`${environment.serverUrl}/login`, {
+    return this.http.get<AuthResponse>(`${environment.serverUrl}/auth/login`, {
       headers: this.defaultHeader, 
       params: params,
       observe: 'body',
@@ -49,7 +49,7 @@ export class AuthService {
   }
 
   loadUser(): Observable<AuthResponse>{
-    return this.http.get<AuthResponse>(`${environment.serverUrl}/user`, {
+    return this.http.get<AuthResponse>(`${environment.serverUrl}/api/user`, {
       headers: this.defaultHeader,
       observe: 'body',
       responseType: 'json',
@@ -61,7 +61,7 @@ export class AuthService {
     const params = new HttpParams()
       .set('id', id);
 
-    return this.http.delete<AuthResponse>(`${environment.serverUrl}/delete/user`, {
+    return this.http.delete<AuthResponse>(`${environment.serverUrl}/api/user/delete`, {
       headers: this.defaultHeader,
       params: params,
       observe: 'body',
@@ -70,17 +70,17 @@ export class AuthService {
     });
   }
 
-  updateUser(user: {data: any, id: number}): Observable<AuthResponse>{
-    return this.http.put<AuthResponse>(`${environment.serverUrl}/update/user`, user, {
+  /* updateUser(user: {data: any, id: number}): Observable<AuthResponse>{
+    return this.http.put<AuthResponse>(`${environment.serverUrl}/api/user/update`, user, {
       headers: this.defaultHeader,
       observe: 'body',
       responseType: 'json',
       withCredentials: true,
     })
-  }
+  } */
 
   register(registerData: RegisterRequest): Observable<AuthResponse>{
-    return this.http.post<AuthResponse>(`${environment.serverUrl}/register`, registerData, {
+    return this.http.post<AuthResponse>(`${environment.serverUrl}/auth/register`, registerData, {
       headers: this.defaultHeader,
       observe: 'body',
       responseType: 'json'
@@ -88,7 +88,7 @@ export class AuthService {
   }
 
   resetPassword(query: ResetQuery): Observable<AuthResponse>{
-    return this.http.put<AuthResponse>(`${environment.serverUrl}/reset`, query, {
+    return this.http.put<AuthResponse>(`${environment.serverUrl}/auth/reset`, query, {
       headers: this.defaultHeader,
       observe: 'body',
       responseType: 'json',
@@ -97,7 +97,7 @@ export class AuthService {
   }
 
   logout(): Observable<AuthResponse>{
-    return this.http.get<AuthResponse>(`${environment.serverUrl}/logout`, {
+    return this.http.get<AuthResponse>(`${environment.serverUrl}/auth/logout`, {
       headers: this.defaultHeader,
       observe: 'body',
       responseType: 'json',

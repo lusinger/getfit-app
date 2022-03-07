@@ -18,7 +18,7 @@ export class DataService {
   ) { }
 
   getItem = (id: number): Observable<Item> => {
-    return this.http.get<Item>(`${environment.serverUrl}/item:${id}`, {
+    return this.http.get<Item>(`${environment.serverUrl}/api/item:${id}`, {
       headers: this.defaultHeader,
       observe: 'body',
       responseType: 'json',
@@ -44,7 +44,7 @@ export class DataService {
         .set('end', end);
     }
 
-    return this.http.get<AuthResponse>(`${environment.serverUrl}/items`, {
+    return this.http.get<AuthResponse>(`${environment.serverUrl}/api/item/items`, {
       headers: this.defaultHeader,
       params: params,
       observe: 'body',
@@ -57,7 +57,7 @@ export class DataService {
     const params = new HttpParams()
       .set('id', id);
 
-    return this.http.get<Entry>(`${environment.serverUrl}/entry.${id}`, {
+    return this.http.get<Entry>(`${environment.serverUrl}/api/entry/:${id}`, {
       headers: this.defaultHeader,
       params: params,
       observe: 'body',
@@ -75,7 +75,7 @@ export class DataService {
       .set('month', month)
       .set('date', day);
 
-    return this.http.get<Entry[]>(`${environment.serverUrl}/entries`, {
+    return this.http.get<Entry[]>(`${environment.serverUrl}/api/entry/entries`, {
       headers: this.defaultHeader,
       params: params,
       observe: 'body',
@@ -97,7 +97,7 @@ export class DataService {
   }
 
   updateEntry = (entry: Entry): Observable<AuthResponse> => {
-    return this.http.put<AuthResponse>(`${environment.serverUrl}/update/entry`, entry, {
+    return this.http.put<AuthResponse>(`${environment.serverUrl}/api/entry/update`, entry, {
       headers: this.defaultHeader,
       observe: 'body',
       responseType: 'json',
@@ -109,7 +109,7 @@ export class DataService {
     const params = new HttpParams()
       .set('id', id);
 
-    return this.http.delete<AuthResponse>(`${environment.serverUrl}/delete/entry`, {
+    return this.http.delete<AuthResponse>(`${environment.serverUrl}/api/entry/delete`, {
       headers: this.defaultHeader,
       params: params,
       observe: 'body',
@@ -117,9 +117,18 @@ export class DataService {
       withCredentials: true,
     }).pipe(catchError(this.handleUpdateEntryErrors));
   }
+
+  addEntries = (entries: Entry[]): Observable<AuthResponse> => {
+    return this.http.post<AuthResponse>(`${environment.serverUrl}/api/entry/create`, entries, {
+      headers: this.defaultHeader,
+      observe: 'body',
+      responseType: 'json',
+      withCredentials: true,
+    });
+  }
 //#endregion
 
-  addImage = (file: FormData): Observable<AuthResponse> => {
+  /* addImage = (file: FormData): Observable<AuthResponse> => {
     const header = new HttpHeaders({
       'Content-Type': 'image/jpeg'
     });
@@ -132,14 +141,6 @@ export class DataService {
     });
   }
 
-  addEntries = (entries: Entry[]): Observable<AuthResponse> => {
-    return this.http.post<AuthResponse>(`${environment.serverUrl}/create/entries`, entries, {
-      headers: this.defaultHeader,
-      observe: 'body',
-      responseType: 'json',
-      withCredentials: true,
-    });
-  }
 
   addRecipe = (data: {entries: Entry[], recipe: Recipe}): Observable<AuthResponse> => {
     return this.http.post<AuthResponse>(`${environment.serverUrl}/create/recipe`, data, {
@@ -148,6 +149,6 @@ export class DataService {
       responseType: 'json',
       withCredentials: true,
     })
-  }
+  } */
 
 }
