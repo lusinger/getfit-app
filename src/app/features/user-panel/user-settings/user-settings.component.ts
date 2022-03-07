@@ -148,12 +148,12 @@ export class UserSettingsComponent implements OnInit {
     }
   }
 
-  onSendImage(): void{
+  /* onSendImage(): void{
     if(this.profilePicture !== null){
       this.data.addImage(this.fd).subscribe({
         next: (response) => {
         }
       })
     }
-  }
+  } */
 }
