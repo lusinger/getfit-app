@@ -128,7 +128,7 @@ export class DataService {
   }
 //#endregion
 
-  addImage = (file: FormData): Observable<AuthResponse> => {
+  /* addImage = (file: FormData): Observable<AuthResponse> => {
     const header = new HttpHeaders({
       'Content-Type': 'image/jpeg'
     });
@@ -149,6 +149,6 @@ export class DataService {
       responseType: 'json',
       withCredentials: true,
     })
-  }
+  } */
 
 }
